@@ -16,7 +16,7 @@ class IsEditor
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->is_editor == 2) {
+        if (auth()->user()->user_type == 2) {
             return $next($request);
         }
 

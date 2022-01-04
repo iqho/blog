@@ -16,7 +16,7 @@ class IsAuthor
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->is_author == 3) {
+        if (auth()->user()->user_type == 3) {
             return $next($request);
         }
 

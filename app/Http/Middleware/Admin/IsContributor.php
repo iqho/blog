@@ -16,7 +16,7 @@ class IsContributor
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->is_contributor == 4) {
+        if (auth()->user()->user_type == 4) {
             return $next($request);
         }
 

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,11 +19,22 @@ Route::get('/', function () {
 });
 
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['is_admin']], function () {
-    return view('dashboard');
+// Route Group for Admin
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth:sanctum', 'verified', 'is_admin']], function () {
+    Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
+
+    Route::get('/post', function () {
+        return 'Got it';
+    });
 });
 
 
-// Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-//     return view('dashboard');
-// })->name('dashboard');
+
+// General Users / Subcribers
+Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth:sanctum', 'verified']], function () {
+    Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
+
+    Route::get('/post', function () {
+        return 'Got it';
+    });
+});
