@@ -26,11 +26,11 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <h1>Display All User Using Livewire</h1>
-                @foreach ($users as $user)
-                   <ul>
+                <ul>  
+                    @foreach ($users as $user)
                        <li>{{ $user->username }}</li>
-                    </ul> 
-                @endforeach
+                    @endforeach
+                </ul>
                 <x-jet-welcome />
             </div>
         </div>
