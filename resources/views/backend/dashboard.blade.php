@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-backend-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
 
@@ -8,18 +8,6 @@
             {{ __('Admin Dashboard') }}
             @else
             {{ __('User Dashboard') }}
-            @endif
-
-            @if($isAdmin == 1)
-               <h1>Admin Iqbal</h1>
-            @elseif ($isEditor == 2)
-            <h1>Editor Iqbal</h1>
-            @elseif ($isAuthor == 3)
-            <h1>Author Iqbal</h1>
-            @elseif ($isContributor == 4)
-            <h1>Contributor Iqbal</h1>
-            @else
-            <h1>User Iqbal</h1>
             @endif
 
             @can('isAdmin')
@@ -42,4 +30,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-backend-layout>

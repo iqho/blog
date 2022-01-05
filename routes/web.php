@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Livewire\ShowPost;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,9 +24,11 @@ Route::get('/', function () {
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth:sanctum', 'verified', 'is_admin']], function () {
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
 
-    Route::get('/post', function () {
-        return 'Got it';
-    });
+    Route::get('/post', ShowPost::class)->name('post');
+
+    // Route::get('/post', function () {
+    //     return 'Got it';
+    // });
 });
 
 
