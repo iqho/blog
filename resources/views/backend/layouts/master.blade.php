@@ -46,12 +46,12 @@
     <!-- END: Custom CSS-->
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    {{-- <link rel="stylesheet" href="{{ mix('css/app.css') }}"> --}}
 
     @livewireStyles
 
     <!-- Scripts -->
-    <script src="{{ mix('js/app.js') }}" defer></script>
+    {{-- <script src="{{ mix('js/app.js') }}" defer></script> --}}
 </head>
 <!-- END: Head-->
 
@@ -174,29 +174,11 @@
             </div>
             <div class="content-body">
                 <!-- Kick start -->
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Kick start your next project 🚀</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-text">
-                            <p>
-                                Getting start with your project custom requirements using a ready template which is quite difficult and time
-                                taking process, Vuexy Admin provides useful features to kick start your project development with no efforts !
-                            </p>
-                            <ul>
-                                <li>
-                                    Vuexy Admin provides you getting start pages with different layouts, use the layout as per your custom
-                                    requirements and just change the branding, menu &amp; content.
-                                </li>
-                                <li>
-                                    Every components in Vuexy Admin are decoupled, it means use use only components you actually need! Remove
-                                    unnecessary and extra code easily just by excluding the path to specific SCSS, JS file.
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                
+                <main>
+                {{ $slot }}
+                </main>
+
                 <!--/ Kick start -->
 
                 <!-- Page layout -->
@@ -245,19 +227,13 @@
     @livewireScripts
 
     <!-- BEGIN: Vendor JS-->
-    <script src="{{ asset('backend/vendors/js/vendors.min.js') }}"></script>
-    <!-- BEGIN Vendor JS-->
-
-    <!-- BEGIN: Page Vendor JS-->
+    <script src="{{ asset('backend/assets/vendors/js/vendors.min.js') }}"></script>
     <!-- END: Page Vendor JS-->
 
     <!-- BEGIN: Theme JS-->
-    <script src="{{ asset('assets/js/core/app-menu.js') }}"></script>
-    <script src="{{ asset('assets/js/core/app.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/core/app-menu.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/core/app.js') }}"></script>
     <!-- END: Theme JS-->
-
-    <!-- BEGIN: Page JS-->
-    <!-- END: Page JS-->
 
     <script>
         $(window).on('load', function() {
