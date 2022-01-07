@@ -35,7 +35,10 @@
                     <a class="dropdown-item" href="#"><i class="me-50" data-feather="settings"></i> Settings</a>
                     <a class="dropdown-item" href="#"><i class="me-50" data-feather="credit-card"></i> Pricing</a>
                     <a class="dropdown-item" href="#"><i class="me-50" data-feather="help-circle"></i> FAQ</a>
-                    <a class="dropdown-item" href="#"><i class="me-50" data-feather="power"></i> Logout</a>
+                    <a class="dropdown-item" href="javascript:void" onclick="$('#logout-form').submit();"><i class="me-50" data-feather="power"></i> Logout</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
                 </div>
             </li>
         </ul>

@@ -38,10 +38,16 @@
 
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/style.css') }}">
-    @yield('page-css')
+    @stack('page-css')
     <!-- END: Custom CSS-->
 
+<!-- Styles -->
+    {{-- <link rel="stylesheet" href="{{ mix('css/app.css') }}"> --}}
+    
     @livewireStyles
+    
+    <!-- Scripts -->
+    {{-- <script src="{{ mix('js/app.js') }}" defer></script> --}}
 
 </head>
 <!-- END: Head-->
@@ -100,7 +106,9 @@
     <!-- BEGIN: Theme JS-->
     <script src="{{ asset('backend/assets/js/core/app-menu.js') }}"></script>
     <script src="{{ asset('backend/assets/js/core/app.js') }}"></script>
-    @yield('page-js')
+    
+    @stack('page-js')
+
     <!-- END: Theme JS-->
 
     <script>
@@ -113,8 +121,6 @@
             }
         })
     </script>
-
-
 
 </body>
 <!-- END: Body-->
