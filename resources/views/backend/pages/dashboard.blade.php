@@ -11,7 +11,7 @@
         </div>
         <div class="card-body">
             <div class="card-text">
-                <livewire:all-users />
+                <livewire:backend.all-users />
                 {{-- {{ Auth::user()->name }}
 
                 @if(Auth::check() && Auth::user()->user_type == "1")

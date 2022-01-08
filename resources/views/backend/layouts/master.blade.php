@@ -15,29 +15,30 @@
     <title>@yield('title') | M Blog</title>
 
     {{-- <link rel="apple-touch-icon" href="{{ asset('app-assets/images/ico/apple-icon-120.png')}}"> --}}
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('/backend/assets/images/ico/favicon.ico')}}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('/backend/assets/images/ico/favicon.ico')}}"/>
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet"/>
 
     <!-- BEGIN: Vendor CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/vendors/css/vendors.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/vendors/css/vendors.min.css') }}"/>
     <!-- END: Vendor CSS-->
 
     <!-- BEGIN: Theme CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/bootstrap.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/bootstrap-extended.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/colors.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/components.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/themes/dark-layout.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/themes/semi-dark-layout.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/bootstrap.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/bootstrap-extended.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/colors.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/components.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/themes/dark-layout.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/themes/semi-dark-layout.css') }}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
 
     <!-- BEGIN: Page CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/core/menu/menu-types/vertical-menu.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/core/menu/menu-types/vertical-menu.css') }}"/>
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/style.css') }}"/>
     @stack('page-css')
     <!-- END: Custom CSS-->
 
