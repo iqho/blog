@@ -7,10 +7,9 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use App\Actions\Fortify\PasswordValidationRules;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\Request;
 
 class AllUsers extends Component
 {
@@ -21,18 +20,35 @@ class AllUsers extends Component
     public $searchTerm;
     public $currentPage = 1;
 
+    public $isExits = 'd-none';
+    public $isAvailable = 'd-none';
+
     public $name, $username, $email, $password, $phone_no, $user_type, $bio, $social_media, $user_id;
-    
+
     public function render()
         {
-            $query = '%' . $this->searchTerm . '%';
 
-            return view('livewire.backend.all-users', [
-                'users' => User::latest()->where(function ($sub_query) {
-                    $sub_query->where('name', 'like', '%' . $this->searchTerm . '%')
-                        ->orWhere('email', 'like', '%' . $this->searchTerm . '%');
-                })->paginate(10)
-            ]);
+            $data['users'] = User::latest()->where(function ($sub_query) {
+                $sub_query->where('name', 'like', '%' . $this->searchTerm . '%')
+                    ->orWhere('email', 'like', '%' . $this->searchTerm . '%');
+            })->paginate(10);
+           // $data['checkuser'] = User::where('username', '=', $this->username)->exists();
+            // if($this->username === ""){
+            //      $isExits = 'd-none';
+            //      $isAvailable = 'd-none';
+            // }
+            // else{
+                if( User::where('username', '=', $this->username)->exists()){
+                        $this->isExits = 'd-block text-danger';
+                        $this->isAvailable = 'd-none';
+                    }
+                else{
+                    $this->isAvailable = 'd-block text-success';
+                    $this->isExits = 'd-none';
+                }
+                //}
+
+            return view('livewire.backend.all-users', compact('data'));
         }
 
     public function setPage($url)
@@ -56,56 +72,56 @@ class AllUsers extends Component
         session()->flash('message', 'User Status Successfully Updated !');
         }
 
-        private function resetInputFields(){
-            $this->name = '';
-            $this->username = '';
-            $this->email = '';
-            $this->password = '';
-            $this->phone_no = '';
-            $this->bio = '';
-            $this->social_media = '';
+    private function resetInputFields(){
+        $this->name = '';
+        $this->username = '';
+        $this->email = '';
+        $this->password = '';
+        $this->phone_no = '';
+        $this->bio = '';
+        $this->social_media = '';
+    }
+
+    public function storeUser()
+        {
+            $validatedDate = $this->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'username' => ['required', 'string', 'min:3', 'max:100', 'unique:users'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required'],
+                'user_type' => ['required'],
+            ]);
+            $this->password = Hash::make($this->password);
+            User::create([
+                'name' => $this->name,
+                'username' => $this->username,
+                'email' => $this->email,
+                'password' => $this->password,
+                'phone_no' => $this->phone_no,
+                'bio' => $this->bio,
+                'social_media' => $this->social_media,
+                'user_type' => $this->user_type
+            ], $validatedDate);
+            //User::create($validatedDate);
+            session()->flash('message', 'Users Created Successfully.');
+            $this->resetInputFields();
+            $this->emit('userStore'); // Close model to using to jquery
         }
 
-        public function storeUser()
-            {
-                $validatedDate = $this->validate([
-                    'name' => ['required', 'string', 'max:255'],
-                    'username' => ['required', 'string', 'min:3', 'max:100', 'unique:users'],
-                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                    'password' => ['required'],
-                    'user_type' => ['required'],
-                ]);
-                $this->password = Hash::make($this->password);
-                User::create([
-                    'name' => $this->name, 
-                    'username' => $this->username, 
-                    'email' => $this->email,  
-                    'password' => $this->password, 
-                    'phone_no' => $this->phone_no, 
-                    'bio' => $this->bio,
-                    'social_media' => $this->social_media, 
-                    'user_type' => $this->user_type 
-                ], $validatedDate);
-                //User::create($validatedDate);
-                session()->flash('message', 'Users Created Successfully.');
-                $this->resetInputFields();
-                $this->emit('userStore'); // Close model to using to jquery
-            }
+    public function edit($id)
+        {
+            $user = User::where('id',$id)->first();
+            $this->user_id = $id;
+            $this->name = $user->name;;
+            $this->username = $user->username;
+            $this->email = $user->email;
+            $this->phone_no = $user->phone_no;
+            $this->bio = $user->bio;
+            $this->social_media = $user->social_media;
+            $this->user_type = $user->user_type;
+        }
 
-        public function edit($id)
-            {
-                $user = User::where('id',$id)->first();
-                $this->user_id = $id;
-                $this->name = $user->name;;
-                $this->username = $user->username;
-                $this->email = $user->email;
-                $this->phone_no = $user->phone_no;
-                $this->bio = $user->bio;
-                $this->social_media = $user->social_media;
-                $this->user_type = $user->user_type;                
-            }
-
-        public function updateUser()
+    public function updateUser()
         {
             $validatedDate = $this->validate([
                 'name' => ['required', 'string', 'max:255'],
@@ -115,7 +131,7 @@ class AllUsers extends Component
                 'social_media' => ['nullable', 'string', 'max:255'],
                 'bio' => ['nullable', 'string', 'max:255'],
                 ]);
-            
+
             if ($this->user_id) {
             $user = User::find($this->user_id);
             //$user->update($request->filled('password') ? $request->all() : $request->except(['password']));
@@ -141,7 +157,7 @@ class AllUsers extends Component
                     'bio' => $this->bio,
                     'social_media' => $this->social_media,
                     'user_type' => $this->user_type
-                ], $validatedDate); 
+                ], $validatedDate);
                 }
 
             session()->flash('message', 'Users Upated Successfully.');
@@ -150,12 +166,11 @@ class AllUsers extends Component
              }
         }
 
-        public function delete($id)
-            {
-                if($id){
+    public function delete($id)
+        {
+            if($id){
                     User::where('id',$id)->delete();
                     session()->flash('message', 'Users Deleted Successfully.');
-                }
             }
-
+        }
 }

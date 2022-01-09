@@ -16,8 +16,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
         @endif
-        
-      
+
       <table class="table table-striped border border-bottom-1 mb-1" style="width:100%">
         <thead>
           <tr>
@@ -33,8 +32,8 @@
           </tr>
         </thead>
         <tbody>
-          @if($users->count() > 0)
-          @foreach ($users as $user)
+          @if($data['users']->count() > 0)
+          @foreach ($data['users'] as $user)
           <tr>
             <td>{{ $user->name }}</td>
             <td>{{ $user->username }}</td>
@@ -67,7 +66,7 @@
               <a href="#" data-bs-toggle="modal" data-id="1" data-bs-target="#updateUserModal" wire:click="edit({{ $user->id }})"><i class="fas fa-edit"></i></a> | <a href="#" onclick="confirm('Confirm Delete This User ?') || event.stopImmediatePropagation()" wire:click.prevent="delete({{ $user->id }})"><i class="fas fa-trash-alt" style="color:red"></i></a>
             </td>
           </tr>
-          @endforeach     
+          @endforeach
           @else
           <tr>
           <td colspan="9" class="text-center"><h1 class="text-danger">No Search Results Found !</h1></td>
@@ -75,7 +74,7 @@
           @endif
         </tbody>
       </table>
-      {{ $users->onEachSide(2)->links('backend.includes.pagination-custom') }}
+      {{ $data['users']->onEachSide(2)->links('backend.includes.pagination-custom') }}
 
     </div>
   </div>
