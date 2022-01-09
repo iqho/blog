@@ -1,7 +1,8 @@
 <?php
 
-use App\Providers\RouteServiceProvider;
 use Laravel\Fortify\Features;
+use Illuminate\Support\Facades\Auth;
+use App\Providers\RouteServiceProvider;
 
 return [
 
@@ -61,7 +62,25 @@ return [
     |
     */
 
-    'home' => RouteServiceProvider::HOME,
+    //'home' => RouteServiceProvider::HOME,
+    'home' => function () {
+        $user_type = Auth::user()->user_type;
+           if ($user_type == 1) {
+                return RouteServiceProvider::ADMIN;
+            }
+            elseif ($user_type == 2) {
+                return RouteServiceProvider::EDITOR;
+            }
+           elseif ($user_type == 3) {
+                return RouteServiceProvider::AUTHOR;
+            }
+           elseif ($user_type == 4) {
+                return RouteServiceProvider::CONTRIBUTOR;
+            }
+            else {
+                return RouteServiceProvider::HOME;
+            }
+    },
 
     /*
     |--------------------------------------------------------------------------

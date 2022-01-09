@@ -33,10 +33,18 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('isAdmin', function($user) {
             return $user->user_type == '1';
          });
-
-
-
-
+        Gate::define('isEditor', function($user) {
+            return $user->user_type == '2';
+         });
+        Gate::define('isAuthor', function($user) {
+            return $user->user_type == '3';
+         });
+        Gate::define('isContributor', function($user) {
+            return $user->user_type == '4';
+         });
+        Gate::define('isSubscribers', function($user) {
+            return $user->user_type == '0';
+         });
 
     }
 }

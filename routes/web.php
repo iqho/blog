@@ -23,12 +23,22 @@ Route::get('/', function () {
 // Route Group for Admin
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth:sanctum', 'verified', 'is_admin']], function () {
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
-
     Route::get('/all-users', AllUsers::class)->name('all-users');
+});
 
-    // Route::get('/post', function () {
-    //     return 'Got it';
-    // });
+// Route Group for Editor
+Route::group(['prefix' => 'editor', 'as' => 'editor.', 'middleware' => ['auth:sanctum', 'verified', 'is_editor']], function () {
+    Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
+});
+
+// Route Group for Author
+Route::group(['prefix' => 'author', 'as' => 'author.', 'middleware' => ['auth:sanctum', 'verified', 'is_author']], function () {
+    Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
+});
+
+// Route Group for Contributor
+Route::group(['prefix' => 'contributor', 'as' => 'contributor.', 'middleware' => ['auth:sanctum', 'verified', 'is_contributor']], function () {
+    Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
 });
 
 
@@ -36,8 +46,4 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth:sanc
 // General Users / Subcribers
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
-
-    Route::get('/post', function () {
-        return 'Got it';
-    });
 });
