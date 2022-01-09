@@ -4,12 +4,12 @@ namespace App\Http\Livewire\Backend;
 
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Support\Str;
 use Livewire\WithPagination;
+use Illuminate\Validation\Rule;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Hash;
 use App\Actions\Fortify\PasswordValidationRules;
-use Illuminate\Validation\Rule;
-use Illuminate\Http\Request;
 
 class AllUsers extends Component
 {
@@ -20,35 +20,25 @@ class AllUsers extends Component
     public $searchTerm;
     public $currentPage = 1;
 
-    public $isExits = 'd-none';
-    public $isAvailable = 'd-none';
-
     public $name, $username, $email, $password, $phone_no, $user_type, $bio, $social_media, $user_id;
 
     public function render()
         {
 
-            $data['users'] = User::latest()->where(function ($sub_query) {
+        $data['users'] = User::latest()->where(function ($sub_query) {
                 $sub_query->where('name', 'like', '%' . $this->searchTerm . '%')
                     ->orWhere('email', 'like', '%' . $this->searchTerm . '%');
             })->paginate(10);
-           // $data['checkuser'] = User::where('username', '=', $this->username)->exists();
-            // if($this->username === ""){
-            //      $isExits = 'd-none';
-            //      $isAvailable = 'd-none';
-            // }
-            // else{
-                if( User::where('username', '=', $this->username)->exists()){
-                        $this->isExits = 'd-block text-danger';
-                        $this->isAvailable = 'd-none';
-                    }
-                else{
-                    $this->isAvailable = 'd-block text-success';
-                    $this->isExits = 'd-none';
-                }
-                //}
 
-            return view('livewire.backend.all-users', compact('data'));
+         $data['checkEmpty'] = Str::length($this->username);
+         $data['checkUser'] = User::where('username', '=', $this->username)->exists();
+
+         $data['checkEmailEmpty'] = Str::length($this->email);
+         $regex = "/^[_\.0-9a-zA-Z-]+@([0-9a-zA-Z][0-9a-zA-Z-]+\.)+[a-zA-Z]{2,6}$/i";
+         $data['checkValidEmail'] = preg_match($regex, $this->email) ? 1 : 0;
+         $data['checkEmail'] = User::where('email', '=', $this->email)->exists();
+        
+        return view('livewire.backend.all-users', compact('data'));
         }
 
     public function setPage($url)

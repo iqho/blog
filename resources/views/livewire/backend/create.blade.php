@@ -16,14 +16,35 @@
                     <div>
                         <label for="username" class="col-form-label">Username(*):</label>
                         <input type="text" class="form-control" id="username" wire:model="username">
-                        @error('username') <span class="text-danger error">{{ $message }}</span>@enderror
-                        <span id="isav" style="display:none">User Available</span>
-
+                        @error('username') <span class="text-danger error">{{ $message }}</span>@enderror                                       
+                        @if ($data['checkUser'] > 0)
+                        <span class="text-danger">Username Not Available</span>
+                        @else
+                        @if ($data['checkEmpty'] == 0)
+                        @else
+                        <span class="text-success">Username Available</span>        
+                        @endif
+                        @endif
                     </div>
                     <div>
                         <label for="email" class="col-form-label">*Email(*):</label>
-                        <input type="text" class="form-control" id="email" wire:model="email">
+                        <input type="email" class="form-control" id="email" wire:model="email">
                         @error('email') <span class="text-danger error">{{ $message }}</span>@enderror
+                        @if ($data['checkValidEmail'] > 0)
+                        @if ($data['checkEmail'] > 0)
+                        <span class="text-danger">Already Registered using This Email Address</span>
+                        @else
+                        @if ($data['checkEmailEmpty'] == 0)
+                        @else
+                        <span class="text-success">Email Address is Usable</span>
+                        @endif
+                        @endif
+                        @else
+                        @if ($data['checkEmailEmpty'] == 0)
+                        @else
+                        <span class="text-danger">Invalid Email Address</span>
+                        @endif
+                        @endif
                     </div>
                     <div>
                         <label for="userPassword" class="col-form-label">Password(*):</label>
@@ -65,16 +86,3 @@
         </div>
     </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script>
-    $(document).ready(function() {
-  $("#username").keyup(function() {
-
-    if ($("#username").val().length > 0) {
-        $('#isav').show();
-    } else {
-        $('#isav').hide();
-    }
-  });
-});
-</script>
