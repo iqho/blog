@@ -5,7 +5,7 @@
 <div class="card">
   <div class="card-header">
     <div class="col-md-7 text-center"><h1>List of All Users</h1></div>
-    <div class="col-md-2 text-center"><a href="#" class="btn btn-primary" data-bs-toggle="modal" data-id="1" data-bs-target="#addUserModal">Add New User</a></div>
+    <div class="col-md-2 text-center"><a href="#" class="btn btn-primary" onclick="resetFunction()" data-bs-toggle="modal" data-id="1" data-bs-target="#addUserModal">Add New User</a></div>
     <div class="col-md-3 justify-content-end"> <input type="text" class="form-control" placeholder="Search Users" wire:model="searchTerm" /></div>
   </div>
   <div class="card-body">
@@ -61,9 +61,9 @@
                 @endif
             </button>
             </td>
-            <td>{{ $user->created_at }}</td>
+            <td align="center" style="min-width: 150px">{{ date('d-M-Y h:i a', strtotime($user->created_at)); }}</td>
             <td>
-              <a href="#" data-bs-toggle="modal" data-id="1" data-bs-target="#updateUserModal" wire:click="edit({{ $user->id }})"><i class="fas fa-edit"></i></a> | <a href="#" onclick="confirm('Confirm Delete This User ?') || event.stopImmediatePropagation()" wire:click.prevent="delete({{ $user->id }})"><i class="fas fa-trash-alt" style="color:red"></i></a>
+              <a href="#" data-bs-toggle="modal" data-id="1" data-bs-target="#updateUserModal" wire:click="edit({{ $user->id }})"><i class="fas fa-edit fa-lg"></i></a> | <a href="#" onclick="confirm('Confirm Delete This User ?') || event.stopImmediatePropagation()" wire:click.prevent="delete({{ $user->id }})"><i class="fas fa-trash-alt fa-lg" style="color:red"></i></a>
             </td>
           </tr>
           @endforeach

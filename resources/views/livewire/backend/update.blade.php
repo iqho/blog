@@ -4,28 +4,28 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title" id="exampleModalLabel">Update User Derails</h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" wire:click.prevent="cancel()" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="updateform">
                     <div>
-                        <label for="name" class="col-form-label">Full Name(*):</label>
-                        <input type="text" class="form-control" id="name" wire:model="name">
+                        <label for="name" class="col-form-label">Full Name(<span class="text-danger">*</span>):</label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" wire:model="name">
                         @error('name') <span class="text-danger error">{{ $message }}</span>@enderror
                     </div>
                     <div>
-                        <label for="userName" class="col-form-label">Username(*):</label>
-                        <input type="text" class="form-control" id="userName" wire:model="username">
+                        <label for="userName" class="col-form-label">Username(<span class="text-danger">*</span>):</label>
+                        <input type="text" class="form-control @error('username') is-invalid @enderror" id="userName" wire:model="username">
                         @error('username') <span class="text-danger error">{{ $message }}</span>@enderror
                     </div>
                     <div>
-                        <label for="email" class="col-form-label">*Email(*):</label>
-                        <input type="text" class="form-control" id="email" wire:model="email">
+                        <label for="email" class="col-form-label">Email(<span class="text-danger">*</span>):</label>
+                        <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" wire:model="email">
                         @error('email') <span class="text-danger error">{{ $message }}</span>@enderror
                     </div>
                     <div>
                         <label for="userPassword" class="col-form-label">Password(*):</label>
-                        <input type="text" style="-webkit-text-security: circle;" class="form-control" id="userPassword"
+                        <input type="text" style="-webkit-text-security: circle;" class="form-control @error('password') is-invalid @enderror" id="userPassword"
                             wire:model="password">
                         @error('password') <span class="text-danger error">{{ $message }}</span>@enderror
                     </div>
@@ -41,7 +41,7 @@
                     </div>
                     <div>
                         <label for="UserType" class="col-form-label">*User Type:</label>
-                        <select class="form-select" aria-label="UserType" wire:model="user_type">
+                        <select class="form-select @error('user_type') is-invalid @enderror" aria-label="UserType" wire:model="user_type">
                             <option value="0">Subscriber</option>
                             <option value="1">Admin</option>
                             <option value="2">Editor</option>

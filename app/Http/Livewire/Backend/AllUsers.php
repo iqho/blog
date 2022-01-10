@@ -27,7 +27,8 @@ class AllUsers extends Component
 
         $data['users'] = User::latest()->where(function ($sub_query) {
                 $sub_query->where('name', 'like', '%' . $this->searchTerm . '%')
-                    ->orWhere('email', 'like', '%' . $this->searchTerm . '%');
+                    ->orWhere('email', 'like', '%' . $this->searchTerm . '%')
+                    ->orWhere('phone_no', 'like', '%' . $this->searchTerm . '%');
             })->paginate(10);
 
          $data['checkEmpty'] = Str::length($this->username);
@@ -70,6 +71,7 @@ class AllUsers extends Component
         $this->phone_no = '';
         $this->bio = '';
         $this->social_media = '';
+        $this->user_type = '';
     }
 
     public function storeUser()
@@ -93,7 +95,7 @@ class AllUsers extends Component
                 'user_type' => $this->user_type
             ], $validatedDate);
             //User::create($validatedDate);
-            session()->flash('message', 'Users Created Successfully.');
+            session()->flash('message', 'User Created Successfully.');
             $this->resetInputFields();
             $this->emit('userStore'); // Close model to using to jquery
         }
@@ -110,6 +112,10 @@ class AllUsers extends Component
             $this->social_media = $user->social_media;
             $this->user_type = $user->user_type;
         }
+    public function cancel()
+    {
+       $this->resetInputFields();
+    }
 
     public function updateUser()
         {
@@ -149,9 +155,9 @@ class AllUsers extends Component
                     'user_type' => $this->user_type
                 ], $validatedDate);
                 }
-
-            session()->flash('message', 'Users Upated Successfully.');
+                
             $this->resetInputFields();
+            session()->flash('message', 'User Upated Successfully.');
             $this->emit('userUpdate'); // Close model to using to jquery
              }
         }
@@ -159,8 +165,8 @@ class AllUsers extends Component
     public function delete($id)
         {
             if($id){
-                    User::where('id',$id)->delete();
-                    session()->flash('message', 'Users Deleted Successfully.');
+            User::where('id',$id)->delete();
+            session()->flash('message', 'User Deleted Successfully.');
             }
         }
 }
