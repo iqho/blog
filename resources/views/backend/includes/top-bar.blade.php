@@ -33,13 +33,13 @@
                         </span>
                     </div>
                     <span class="avatar">
-                        <img class="round" src="{{ asset('backend/assets/images/portrait/small/avatar-s-11.jpg') }}"
+                        <img class="round" src="{{ Auth::user()->profile_photo_url }}"
                             alt="avatar" height="40" width="40">
                         <span class="avatar-status-online"></span>
                     </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
-                    <a class="dropdown-item" href="#"><i class="me-50" data-feather="user"></i> Profile</a>
+                    <a class="dropdown-item" href="{{ route('profile.show') }}"><i class="me-50" data-feather="user"></i> Profile</a>
                     <a class="dropdown-item" href="#"><i class="me-50" data-feather="mail"></i> Inbox</a>
                     <a class="dropdown-item" href="#"><i class="me-50" data-feather="check-square"></i> Task</a>
                     <a class="dropdown-item" href="#"><i class="me-50" data-feather="message-square"></i> Chats</a>

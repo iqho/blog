@@ -27,9 +27,10 @@ class AllUsers extends Component
 
         $data['users'] = User::latest()->where(function ($sub_query) {
                 $sub_query->where('name', 'like', '%' . $this->searchTerm . '%')
+                    ->orWhere('username', 'like', '%' . $this->searchTerm . '%')
                     ->orWhere('email', 'like', '%' . $this->searchTerm . '%')
                     ->orWhere('phone_no', 'like', '%' . $this->searchTerm . '%');
-            })->paginate(10);
+            })->paginate(20);
 
          $data['checkEmpty'] = Str::length($this->username);
          $data['checkUser'] = User::where('username', '=', $this->username)->exists();
@@ -38,7 +39,7 @@ class AllUsers extends Component
          $regex = "/^[_\.0-9a-zA-Z-]+@([0-9a-zA-Z][0-9a-zA-Z-]+\.)+[a-zA-Z]{2,6}$/i";
          $data['checkValidEmail'] = preg_match($regex, $this->email) ? 1 : 0;
          $data['checkEmail'] = User::where('email', '=', $this->email)->exists();
-        
+
         return view('livewire.backend.all-users', compact('data'));
         }
 
@@ -155,7 +156,7 @@ class AllUsers extends Component
                     'user_type' => $this->user_type
                 ], $validatedDate);
                 }
-                
+
             $this->resetInputFields();
             session()->flash('message', 'User Upated Successfully.');
             $this->emit('userUpdate'); // Close model to using to jquery

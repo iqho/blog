@@ -1,11 +1,24 @@
-@section('title','Show All Users')
 <div>
+<style type="text/css">
+tr td{
+    padding: 8px;
+}
+.btn{
+    padding: 10px;
+    margin: 0px; important!
+}
+.text-truncate:hover{
+    overflow: visible;
+    white-space: normal;
+}
+</style>
+@section('title','Show All Users')
 @include('livewire.backend.create')
 @include('livewire.backend.update')
 <div class="card">
   <div class="card-header">
     <div class="col-md-7 text-center"><h1>List of All Users</h1></div>
-    <div class="col-md-2 text-center"><a href="#" class="btn btn-primary" onclick="resetFunction()" data-bs-toggle="modal" data-id="1" data-bs-target="#addUserModal">Add New User</a></div>
+    <div class="col-md-2 text-center"><a href="#" class="btn btn-primary" onclick="resetFunction()" data-bs-toggle="modal" data-id="1" data-bs-target="#addUserModal" style="padding: 14px">Add New User</a></div>
     <div class="col-md-3 justify-content-end"> <input type="text" class="form-control" placeholder="Search Users" wire:model="searchTerm" /></div>
   </div>
   <div class="card-body">
@@ -16,16 +29,16 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
         @endif
-
-      <table class="table table-striped border border-bottom-1 mb-1" style="width:100%">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover border border-bottom-1 mb-1" style="width:100%">
         <thead>
           <tr>
+            <th >SL</th>
             <th>Name</th>
-            <th>Username</th>
+            <th>User Name</th>
             <th>Email</th>
             <th>User Type</th>
-            <th>Phone Number</th>
-            <th>Bio</th>
+            <th>Phone</th>
             <th>Status</th>
             <th>Created_at</th>
             <th>Action</th>
@@ -33,11 +46,15 @@
         </thead>
         <tbody>
           @if($data['users']->count() > 0)
-          @foreach ($data['users'] as $user)
+          @php $i=$data['users']->total(); @endphp
+          @foreach ($data['users'] as $key => $user)
           <tr>
-            <td>{{ $user->name }}</td>
+            {{-- <td>{{ $data['users']->firstItem() + $key }}</td> --}}
+            {{-- <td>{{ ($data['users']->currentPage() - 1) * $data['users']->perPage() + $loop->iteration }}</td> --}}
+            <td>{{ $i-- }}</td>
+            <td style="text-overflow: ellipsis;">{{ $user->name }}</td>
             <td>{{ $user->username }}</td>
-            <td>{{ $user->email }}</td>
+            <td class="text-truncate" style="max-width: 175px;">{{ $user->email }}</td>
             <td>
               @if ($user->user_type == 1)
               <button class="btn btn-danger">Admin</button>
@@ -52,7 +69,6 @@
               @endif
             </td>
             <td>{{ $user->phone_no }}</td>
-            <td>{{ $user->bio }}</td>
             <td>
                @if ($user->status ==1)
                <button wire:click="updateStatus({{ $user->id }})" class="btn btn-success">Active</button>
@@ -61,8 +77,9 @@
                 @endif
             </button>
             </td>
-            <td align="center" style="min-width: 150px">{{ date('d-M-Y h:i a', strtotime($user->created_at)); }}</td>
-            <td>
+            <td style="max-width: 100px; text-align:center">{{ date('d-M-Y h:i a', strtotime($user->created_at)); }}</td>
+            {{-- <td>{{ $product->created_at->format('d-m-Y') }}</td> --}}
+            <td style="text-align: center; max-width:50px;">
               <a href="#" data-bs-toggle="modal" data-id="1" data-bs-target="#updateUserModal" wire:click="edit({{ $user->id }})"><i class="fas fa-edit fa-lg"></i></a> | <a href="#" onclick="confirm('Confirm Delete This User ?') || event.stopImmediatePropagation()" wire:click.prevent="delete({{ $user->id }})"><i class="fas fa-trash-alt fa-lg" style="color:red"></i></a>
             </td>
           </tr>
@@ -74,9 +91,8 @@
           @endif
         </tbody>
       </table>
-      {{ $data['users']->onEachSide(2)->links('backend.includes.pagination-custom') }}
-
     </div>
+      {{ $data['users']->onEachSide(2)->links('backend.includes.pagination-custom') }}
   </div>
 </div>
 @push('page-js')
