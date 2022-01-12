@@ -44,9 +44,9 @@
 
 <!-- Styles -->
     {{-- <link rel="stylesheet" href="{{ mix('css/app.css') }}"> --}}
-    
+
     @livewireStyles
-    
+
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
 
@@ -107,7 +107,7 @@
     <!-- BEGIN: Theme JS-->
     <script src="{{ asset('backend/assets/js/core/app-menu.js') }}"></script>
     <script src="{{ asset('backend/assets/js/core/app.js') }}"></script>
-    
+
     @stack('page-js')
 
     <!-- END: Theme JS-->
@@ -127,3 +127,4 @@
 <!-- END: Body-->
 
 </html>
+
