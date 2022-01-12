@@ -39,14 +39,19 @@
                     </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
-                    <a class="dropdown-item" href="{{ route('profile.show') }}"><i class="me-50" data-feather="user"></i> Profile</a>
-                    <a class="dropdown-item" href="#"><i class="me-50" data-feather="mail"></i> Inbox</a>
-                    <a class="dropdown-item" href="#"><i class="me-50" data-feather="check-square"></i> Task</a>
-                    <a class="dropdown-item" href="#"><i class="me-50" data-feather="message-square"></i> Chats</a>
+                    @can('isAdmin')
+                    <a class="dropdown-item" href="{{ route('admin.profile') }}"><i class="me-50" data-feather="user"></i> Profile</a>
+                    @elsecan('isEditor')
+                    <a class="dropdown-item" href="{{ route('editor.profile') }}"><i class="me-50" data-feather="user"></i> Profile</a>
+                    @elsecan('isAuthor')
+                    <a class="dropdown-item" href="{{ route('author.profile') }}"><i class="me-50" data-feather="user"></i> Profile</a>
+                    @elsecan('isContributor')
+                    <a class="dropdown-item" href="{{ route('contributor.profile') }}"><i class="me-50" data-feather="user"></i> Profile</a>
+                    @else
+                    <a class="dropdown-item" href="{{ route('user.profile') }}"><i class="me-50" data-feather="user"></i> Profile</a>
+                    @endcan
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#"><i class="me-50" data-feather="settings"></i> Settings</a>
-                    <a class="dropdown-item" href="#"><i class="me-50" data-feather="credit-card"></i> Pricing</a>
-                    <a class="dropdown-item" href="#"><i class="me-50" data-feather="help-circle"></i> FAQ</a>
                     <a class="dropdown-item" href="javascript:void" onclick="$('#logout-form').submit();"><i class="me-50" data-feather="power"></i> Logout</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf

@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Livewire\Backend\AllUsers;
 use Illuminate\Support\Facades\Route;
+use App\Http\Livewire\Backend\AllUsers;
 use App\Http\Controllers\DashboardController;
+use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,21 +25,25 @@ Route::get('/', function () {
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth:sanctum', 'verified', 'is_admin']], function () {
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
     Route::get('/all-users', AllUsers::class)->name('all-users');
+    Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
 });
 
 // Route Group for Editor
 Route::group(['prefix' => 'editor', 'as' => 'editor.', 'middleware' => ['auth:sanctum', 'verified', 'is_editor']], function () {
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
+    Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
 });
 
 // Route Group for Author
 Route::group(['prefix' => 'author', 'as' => 'author.', 'middleware' => ['auth:sanctum', 'verified', 'is_author']], function () {
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
+    Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
 });
 
 // Route Group for Contributor
 Route::group(['prefix' => 'contributor', 'as' => 'contributor.', 'middleware' => ['auth:sanctum', 'verified', 'is_contributor']], function () {
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
+    Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
 });
 
 
@@ -46,4 +51,5 @@ Route::group(['prefix' => 'contributor', 'as' => 'contributor.', 'middleware' =>
 // General Users / Subcribers
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
+    Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
 });

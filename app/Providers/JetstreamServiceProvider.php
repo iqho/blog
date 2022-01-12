@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\User;
+use Livewire\Livewire;
 use Illuminate\Http\Request;
 use Laravel\Fortify\Fortify;
 use Laravel\Jetstream\Jetstream;
@@ -15,6 +16,7 @@ use App\Actions\Jetstream\AddTeamMember;
 use App\Actions\Jetstream\UpdateTeamName;
 use App\Actions\Jetstream\InviteTeamMember;
 use App\Actions\Jetstream\RemoveTeamMember;
+use App\Http\Livewire\Backend\UpdateProfileInformationForm;
 
 class JetstreamServiceProvider extends ServiceProvider
 {
@@ -44,6 +46,9 @@ class JetstreamServiceProvider extends ServiceProvider
         Jetstream::removeTeamMembersUsing(RemoveTeamMember::class);
         Jetstream::deleteTeamsUsing(DeleteTeam::class);
         Jetstream::deleteUsersUsing(DeleteUser::class);
+
+        Livewire::component('profile.update-profile-information-form', UpdateProfileInformationForm::class);
+
 
         Fortify::authenticateUsing(function (Request $request) {
             $user = User::where('email', $request->login)
