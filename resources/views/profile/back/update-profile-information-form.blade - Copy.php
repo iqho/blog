@@ -153,5 +153,5 @@
             {{ __('Save Profile Information') }}
         </button>
     </x-slot>
-
+    
 </x-jet-form-section>

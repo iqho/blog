@@ -33,8 +33,16 @@
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            <li class="active nav-item"><a class="d-flex align-items-center" href="{{ url('/admin/dashboard') }}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Home">Home</span></a>
+            <li class="@if(Route::is('admin.dashboard') ) active @endif nav-item"><a class="d-flex align-items-center" href="{{ url('/admin/dashboard') }}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Home">Home</span></a>
             </li>
+
+            <li class="@if(Route::is('admin.all-users') ) active @endif nav-item">
+                <a class="d-flex align-items-center" href="{{ route('admin.all-users') }}">
+                    <i class="fas fa-user-tie"></i>
+                    <span class="menu-item text-truncate" data-i18n="Collapsed Menu">All Users</span>
+                </a>
+            </li>
+
             <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Pages</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
                 <ul class="menu-content">
                     <li><a class="d-flex align-items-center" href="{{ route('admin.all-users') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">All Users</span></a>

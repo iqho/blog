@@ -20,6 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
 
 // Route Group for Admin
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth:sanctum', 'verified', 'is_admin']], function () {

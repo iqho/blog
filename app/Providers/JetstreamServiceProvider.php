@@ -16,7 +16,7 @@ use App\Actions\Jetstream\AddTeamMember;
 use App\Actions\Jetstream\UpdateTeamName;
 use App\Actions\Jetstream\InviteTeamMember;
 use App\Actions\Jetstream\RemoveTeamMember;
-use App\Http\Livewire\Backend\UpdateProfileInformationForm;
+//use App\Http\Livewire\Backend\UpdateProfileInformationForm;
 
 class JetstreamServiceProvider extends ServiceProvider
 {
@@ -47,7 +47,7 @@ class JetstreamServiceProvider extends ServiceProvider
         Jetstream::deleteTeamsUsing(DeleteTeam::class);
         Jetstream::deleteUsersUsing(DeleteUser::class);
 
-        Livewire::component('profile.update-profile-information-form', UpdateProfileInformationForm::class);
+      //  Livewire::component('profile.update-profile-information-form', UpdateProfileInformationForm::class);
 
 
         Fortify::authenticateUsing(function (Request $request) {
