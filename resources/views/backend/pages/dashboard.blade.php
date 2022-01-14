@@ -11,28 +11,24 @@
         </div>
         <div class="card-body">
             <div class="card-text">
-                <livewire:backend.all-users />
-                {{-- {{ Auth::user()->name }}
 
-                @if(Auth::check() && Auth::user()->user_type == "1")
+                {{-- @if(Auth::check() && Auth::user()->user_type == "1")
                 {{ __('Admin Dashboard') }}
                 @else
                 {{ __('User Dashboard') }}
-                @endif
-                
+                @endif --}}
+
                 @can('isAdmin')
-                <div class="btn btn-success btn-lg">
-                    You have Admin Access
-                </div>
+                <livewire:backend.all-users />
+                @elsecan('isEditor')
+                Editor
+                @elsecan('isAuthor')
+                Author
+                @elsecan('isContributor')
+                Contributor
                 @else
-                <div class="btn btn-info btn-lg">
-                    You have User Access
-                </div>
-                @endcan --}}
-
-
-
-
+                Subscribers
+                @endcan
 
 
             </div>
@@ -44,3 +40,4 @@
     {{-- Javascript Code link Place Here --}}
     @endsection
 </x-backend-layout>
+
