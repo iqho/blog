@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Backend\AllUsers;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Livewire\Backend\Category\AllCategory;
 use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 
 /*
@@ -27,6 +29,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth:sanc
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
     Route::get('/all-users', AllUsers::class)->name('all-users');
     Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
+
+    // Category
+    Route::get('/category', AllCategory::class)->name('Category');
+    Route::any('category/create', [CategoryController::class, 'createCategory'])->name('createCategory');
 });
 
 // Route Group for Editor
