@@ -17,7 +17,7 @@ class AllCategory extends Component
     public $searchTerm;
     public $currentPage = 1;
 
-    public $name, $slug, $image, $parent_id, $imageurl, $newImageName;
+    public $name, $slug, $image, $parent_id, $imageurl, $newImageName, $checkSlug;
 
     public function render()
         {
@@ -28,7 +28,7 @@ class AllCategory extends Component
         $data['catOption'] = Category::where('parent_id', null)->orderBy('id', 'desc')->get();
 
          $data['checkEmpty'] = Str::length($this->slug);
-         $data['checkSlug'] = Category::where('slug', '=', $this->slug)->exists();
+         $data['checkSlug'] = Category::where('slug', '=', Str::slug($this->name))->exists();
 
         return view('livewire.backend.category.all-category', compact('data'));
         }
@@ -67,22 +67,28 @@ class AllCategory extends Component
         {
             $validatedDate = $this->validate([
                 'name' => ['required', 'string', 'max:255'],
-                'slug' => ['required', 'string', 'max:255', 'unique:categories'],
+                //'slug' => ['required', 'string', 'max:255', 'unique:categories'],
                 'image' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
                 'parent_id' => 'nullable|numeric'
             ]);
 
-            if(!empty($this->image)){
-                $newImageName = $this->slug.".".$this->image->extension();
-                $image = $this->image->storeAs('category-image', $newImageName, 'public');
-                $imageurl = url('storage').'/'.$image;
-            }
-            else{
-                $imageurl = "";
-            }
+
+        $slug = Str::slug($this->name);
+        $count = Category::where('slug', 'LIKE', "{$slug}%")->count();
+        $newCount = $count > 0 ? ++$count : '';
+        $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
+
+        if (!empty($this->image)) {
+            $newImageName = $myslug.".".$this->image->extension();
+            $image = $this->image->storeAs('category-image', $newImageName, 'public');
+            $imageurl = url('storage') . '/' . $image;
+        } else {
+            $imageurl = "";
+        }
+
             Category::create([
                 'name' => $this->name,
-                'slug' => Str::slug($this->name),
+                'slug' => $myslug,
                 'image' => $imageurl,
                 'created_by' => auth()->id(),
                 'parent_id' => $this->parent_id ? $this->parent_id : NULL,
