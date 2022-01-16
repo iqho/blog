@@ -44,6 +44,13 @@
                     </a>
                 </li>
 
+                <li class="@if(Route::is('admin.category') ) active @endif nav-item">
+                    <a class="d-flex align-items-center" href="{{ route('admin.category') }}">
+                        <i class="fas fa-user-tie"></i>
+                        <span class="menu-item text-truncate" data-i18n="Collapsed Menu">All Category</span>
+                    </a>
+                </li>
+
             @elsecan('isEditor')
                 <li class="@if(Route::is('editor.dashboard') ) active @endif nav-item"><a class="d-flex align-items-center" href="{{ route('editor.dashboard') }}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Home">Home</span></a>
                 </li>

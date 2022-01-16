@@ -8,7 +8,6 @@ use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use App\Models\Admin\Category;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Storage;
 
 class AllCategory extends Component
 {
@@ -18,7 +17,7 @@ class AllCategory extends Component
     public $searchTerm;
     public $currentPage = 1;
 
-    public $name, $slug, $image, $parent_id, $imageurl;
+    public $name, $slug, $image, $parent_id, $imageurl, $newImageName;
 
     public function render()
         {
@@ -26,6 +25,7 @@ class AllCategory extends Component
         $data['categories'] = Category::withTrashed()->where('parent_id', null)->where(function ($sub_query) {
                 $sub_query->where('name', 'like', '%' . $this->searchTerm . '%');
             })->orderBy('id', 'desc')->paginate(10);
+        $data['catOption'] = Category::where('parent_id', null)->orderBy('id', 'desc')->get();
 
          $data['checkEmpty'] = Str::length($this->slug);
          $data['checkSlug'] = Category::where('slug', '=', $this->slug)->exists();
@@ -56,8 +56,11 @@ class AllCategory extends Component
     private function resetInputFields(){
         $this->name = '';
         $this->slug = '';
-        $this->image = '';
+        $this->image = null;
+        $this->image = [];
+        $this->reset('image');
         $this->parent_id = '';
+        $this->resetErrorBag();
     }
 
     public function storeCategory()
@@ -66,10 +69,12 @@ class AllCategory extends Component
                 'name' => ['required', 'string', 'max:255'],
                 'slug' => ['required', 'string', 'max:255', 'unique:categories'],
                 'image' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
-                'parent_id' => 'nullable|integer',
+                'parent_id' => 'nullable|numeric'
             ]);
+
             if(!empty($this->image)){
-                $image = $this->image->store('category-image', 'public');
+                $newImageName = $this->slug.".".$this->image->extension();
+                $image = $this->image->storeAs('category-image', $newImageName, 'public');
                 $imageurl = url('storage').'/'.$image;
             }
             else{
@@ -77,15 +82,16 @@ class AllCategory extends Component
             }
             Category::create([
                 'name' => $this->name,
-                'slug' => $this->slug,
+                'slug' => Str::slug($this->name),
                 'image' => $imageurl,
                 'created_by' => auth()->id(),
-                'parent_id' => $this->parent_id,
+                'parent_id' => $this->parent_id ? $this->parent_id : NULL,
             ], $validatedDate);
             session()->flash('message', 'Category Created Successfully.');
             $this->resetInputFields();
             $this->emit('storeCategory');
         }
+
 
     public function edit($id)
         {

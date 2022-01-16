@@ -105,10 +105,27 @@
     <script type="text/javascript">
       window.livewire.on('storeCategory', () => {
             $('#addCategoryModal').modal('hide');
+            document.getElementById("image").value = null;
         });
       window.livewire.on('categoryUpdate', () => {
         $('#updateCategoryModal').modal('hide');
         });
+
+        function checkImageExtention() {
+          var fileInput = document.getElementById('image');
+          var filePath = document.getElementById('image').value;
+          var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+          if(!allowedExtensions.exec(filePath)){
+            if(!document.getElementById("error-msg").childNodes.length){
+                var gendererror = document.createElement("span");
+                gendererror.innerHTML = "Supported Image Extention Only .jpeg/.jpg/.png/.gif";
+                document.getElementById("error-msg").appendChild(gendererror);
+            }
+              //alert('Please upload file having extensions .jpeg/.jpg/.png/.gif only.');
+              fileInput.value = '';
+              return false;
+          }
+         }
     </script>
     @endpush
     </div>

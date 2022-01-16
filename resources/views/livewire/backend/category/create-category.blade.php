@@ -11,11 +11,12 @@
                     <div>
                         <label for="name" class="col-form-label">Category Name (<span class="text-danger">*</span>):</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" wire:model="name" value="{{old('name')}}" required>
+                        {{ $name }}
                         @error('name') <span class="text-danger error">{{ $message }}</span>@enderror
                     </div>
                     <div>
                         <label for="slug" class="col-form-label">Category Slug (<span class="text-danger">*</span>):</label>
-                        <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" wire:model="slug" value="{{old('slug')}}" required>
+                        <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" wire:model="slug" value="{{ $name }}" required>
                         @error('slug') <span class="text-danger error">{{ $message }}</span>@enderror
                         @if ($data['checkSlug'] > 0)
                         <span class="text-danger">Category Slug Not Available</span>
@@ -26,19 +27,24 @@
                         @endif
                         @endif
                     </div>
-                    <div>
+                    <div class="col-12">
                         <label for="image" class="col-form-label">Category Image ( Optional ):</label>
-                        <input type="file" class="form-control" name="image" id="image" wire:model="image">
+                        <input type="file" class="form-control" name="image" id="image" accept="image/*"  wire:model="image" onchange="return checkImageExtention()">
                         @error('image') <span class="text-danger error">{{ $message }}</span>@enderror
+                        <div wire:loading wire:target="image" class="text-success">Uploading...</div>
+                        <div id="error-msg" class="text-danger"></div>
+                        @if($image)
+                        <div class="col-12 text-center w-100"><img src="{{ $image->temporaryUrl() }}" style="width: 100px; height:80px;"></div>
+                        @endif
                     </div>
 
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="Parent_id" class="col-form-label">Select Parent Category (<span class="text-danger">*</span>):</label>
-                            <select type="text" class="form-control" wire:model="parent_id">
+                            <select type="text" class="form-control" name="parent_id" wire:model="parent_id">
                                 <option value="">None</option>
-                                @if($data['categories'])
-                                    @foreach($data['categories'] as $category)
+                                @if($data['catOption'])
+                                    @foreach($data['catOption'] as $category)
                                         <?php $dash=''; ?>
                                         <option value="{{$category->id}}">{{$category->name}}</option>
                                         @if(count($category->subcategory))

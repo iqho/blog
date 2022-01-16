@@ -31,7 +31,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth:sanc
     Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
 
     // Category
-    Route::get('/category', AllCategory::class)->name('Category');
+    Route::get('/category', AllCategory::class)->name('category');
     Route::any('category/create', [CategoryController::class, 'createCategory'])->name('createCategory');
 });
 
