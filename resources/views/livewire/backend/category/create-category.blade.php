@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title" id="exampleModalLabel">Add New Category</h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" wire:click.prevent="cancel()" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
@@ -35,8 +35,8 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="Parent_id" class="col-form-label">Select Parent Category (<span class="text-danger">*</span>):</label>
-                            <select type="text" name="parent_id" class="form-control" wire:model="parent_id">
-                                <option value="" selected>None</option>
+                            <select type="text" class="form-control" wire:model="parent_id">
+                                <option value="">None</option>
                                 @if($data['categories'])
                                     @foreach($data['categories'] as $category)
                                         <?php $dash=''; ?>
@@ -47,6 +47,7 @@
                                     @endforeach
                                 @endif
                             </select>
+                            @error('parent_id') <span class="text-danger error">{{ $message }}</span>@enderror
                         </div>
                     </div>
                 </form>

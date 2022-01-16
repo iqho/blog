@@ -84,7 +84,7 @@ class AllCategory extends Component
             ], $validatedDate);
             session()->flash('message', 'Category Created Successfully.');
             $this->resetInputFields();
-            $this->emit('categoryStore');
+            $this->emit('storeCategory');
         }
 
     public function edit($id)

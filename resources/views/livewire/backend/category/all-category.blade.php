@@ -18,7 +18,7 @@
     <div class="card">
       <div class="card-header">
         <div class="col-md-7 text-center"><h1>List of All Category</h1></div>
-        <div class="col-md-2 text-center"><a href="#" class="btn btn-primary" onclick="resetFunction()" data-bs-toggle="modal" data-id="1" data-bs-target="#addCategoryModal" style="padding: 14px">Add New Category</a></div>
+        <div class="col-md-2 text-center"><a href="#" class="btn btn-primary" data-bs-toggle="modal" data-id="1" data-bs-target="#addCategoryModal" style="padding: 14px">Add New Category</a></div>
         <div class="col-md-3 justify-content-end"> <input type="text" class="form-control" placeholder="Search Users" wire:model="searchTerm" /></div>
       </div>
       <div class="card-body">
@@ -103,7 +103,7 @@
     </div>
     @push('page-js')
     <script type="text/javascript">
-      window.livewire.on('categoryStore', () => {
+      window.livewire.on('storeCategory', () => {
             $('#addCategoryModal').modal('hide');
         });
       window.livewire.on('categoryUpdate', () => {
