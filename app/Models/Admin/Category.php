@@ -12,6 +12,8 @@ class Category extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $dates = ['deleted_at'];
+
     protected $fillable = ['name', 'slug', 'parent_id', 'image', 'status', 'created_by'];
 
     public function subcategory()

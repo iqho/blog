@@ -72,7 +72,6 @@
                     @else
                     <button wire:click="updateStatus({{ $category->id }})" class="btn btn-danger">Inactive</button>
                     @endif
-                    </button>
                 </td>
                 <td>
                     @if(!empty($category->user->name))

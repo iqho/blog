@@ -24,7 +24,9 @@ class AllCategory extends Component
             $data['categories'] = Category::withTrashed()->where('parent_id', null)->where(function ($sub_query) {
                     $sub_query->where('name', 'like', '%' . $this->searchTerm . '%');
                 })->orderBy('id', 'desc')->paginate(10);
+
             $data['catOption'] = Category::where('parent_id', null)->orderBy('id', 'desc')->get();
+
 
             $data['checkEmpty'] = Str::length($this->slug);
             $data['checkSlug'] = Category::where('slug', '=', Str::slug($this->slug))->exists();
@@ -66,7 +68,7 @@ class AllCategory extends Component
     public function generateSlug()
         {
             $slug = Str::slug($this->name);
-            $count = Category::where('slug', '=', $slug)->count();
+            $count = Category::where('slug', 'LIKE', "{$slug}%")->count();
             $newCount = $count > 0 ? ++$count : '';
             $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
             return $this->slug = $myslug;
@@ -76,13 +78,13 @@ class AllCategory extends Component
         {
             $validatedDate = $this->validate([
                 'name' => ['required', 'string', 'max:255'],
-                'slug' => ['required', 'string', 'max:255'],
+                'slug' => ['required', 'string', 'min:2', 'max:255'],
                 'image' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
                 'parent_id' => 'nullable|numeric'
             ]);
 
         $slug = Str::slug($this->slug);
-        $count = Category::where('slug', '=', $slug)->count();
+        $count = Category::where('slug', 'LIKE', "{$slug}%")->count();
         $newCount = $count > 0 ? ++$count : '';
         $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
 
@@ -125,19 +127,24 @@ class AllCategory extends Component
         {
             $validatedDate = $this->validate([
                 'name' => ['required', 'string', 'max:255'],
-                'slug' => ['required', 'string', 'max:255'],
+                'slug' => ['required', 'string', 'min:2', 'max:255'],
                 'image' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
                 'parent_id' => 'nullable|numeric'
                 ]);
 
             if ($this->category_id) {
-                
+
                 $category = Category::find($this->category_id);
 
-                $slug = Str::slug($this->slug);
-                $count = Category::where('slug', '=', $slug)->count();
-                $newCount = $count > 0 ? ++$count : '';
-                $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
+                if( $this->slug != $category->slug ) {
+                    $slug = Str::slug($this->slug);
+                    $count = Category::where('slug', 'LIKE', "{$slug}%")->count();
+                    $newCount = $count > 0 ? ++$count : '';
+                    $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
+                }
+                else{
+                    $myslug = $this->slug;
+                }
 
                 if (!empty($this->image3)) {
                 $newImageName = $myslug.".".$this->image3->extension();
@@ -170,9 +177,19 @@ class AllCategory extends Component
 
     public function delete($id)
         {
-            // if($id){
-            // User::where('id',$id)->delete();
-            // session()->flash('message', 'User Deleted Successfully.');
-            // }
+            $category = Category::findOrFail($id);
+            if(count($category->subcategory))
+            {
+                $subcategories = $category->subcategory;
+                foreach($subcategories as $cat)
+                {
+                    $cat = Category::findOrFail($cat->id);
+                    $cat->parent_id = null;
+                    $cat->save();
+                }
+            }
+            $category->delete();
+            //return redirect()->back()->with('delete', 'Category has been deleted successfully.');
+            session()->flash('message', 'Category Move to Trashed Successfully.');
         }
 }

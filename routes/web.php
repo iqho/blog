@@ -5,6 +5,7 @@ use App\Http\Livewire\Backend\AllUsers;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Livewire\Backend\Category\AllCategory;
+use App\Http\Livewire\Backend\Category\TrashedCategory;
 use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 
 /*
@@ -32,8 +33,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth:sanc
 
     // Category
     Route::get('/category', AllCategory::class)->name('category');
-    
-    Route::any('category/create', [CategoryController::class, 'createCategory'])->name('createCategory');
+    Route::get('/category/trashed-category', TrashedCategory::class)->name('trashedCategory');
+
+    Route::any('/category/create', [CategoryController::class, 'createCategory'])->name('createCategory');
 
 });
 

@@ -11,7 +11,7 @@
                 @csrf
                     <div class="col-12">
                         <label for="name" class="col-form-label">Category Name (<span class="text-danger">*</span>):</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" wire:model="name" value="{{old('name')}}" wire:keyup="generateSlug()" required>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" wire:model="name" value="{{old('name')}}" wire:keyup="generateSlug()" required autocomplete="off">
                         @error('name') <span class="text-danger error">{{ $message }}</span>@enderror
                     </div>
                     <div class="col-12">
