@@ -12,8 +12,22 @@
                         <label for="name" class="col-form-label">Category Name (<span class="text-danger">*</span>):</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" wire:model="name" value="{{old('name')}}" required>
                         @error('name') <span class="text-danger error">{{ $message }}</span>@enderror
-                        @if ($data['checkSlug'] > 0)
+                        {{-- @if ($data['checkSlug'] > 0)
                         <span class="text-danger">Dublicate Category Name</span>
+                        @endif --}}
+                    </div>
+                    <div>
+                        <label for="slug" class="col-form-label">Category Slug (<span class="text-danger">*</span>):</label>
+                        <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" wire:model="slug"
+                            value="{{old('slug')}}" required>
+                        @error('slug') <span class="text-danger error">{{ $message }}</span>@enderror
+                        @if ($data['checkSlug'] > 0)
+                        <span class="text-danger">Category Slug Not Available</span>
+                        @else
+                        @if ($data['checkEmpty'] == 0)
+                        @else
+                        <span class="text-success">Category Slug Available</span>
+                        @endif
                         @endif
                     </div>
                     <div class="col-12">

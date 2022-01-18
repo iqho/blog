@@ -3,8 +3,8 @@
 namespace App\Models\Admin;
 
 use App\Models\User;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -12,6 +12,7 @@ class Category extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use Sluggable;
 
     protected $fillable = ['name', 'slug', 'parent_id', 'image', 'status', 'created_by'];
 
@@ -29,5 +30,14 @@ class Category extends Model
     {
         //return $this->belongsTo(User::class, 'created_by', 'id');
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
     }
 }

@@ -33,6 +33,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth:sanc
     // Category
     Route::get('/category', AllCategory::class)->name('category');
     Route::any('category/create', [CategoryController::class, 'createCategory'])->name('createCategory');
+
+    Route::get('/check_slug', [AllCategory::class, 'check'])->name('check');
+    
+    // Route::get('/check_slug', function () {
+    //     $slug = SlugService::createSlug(Category::class, 'slug', request('name'));
+    //     return response()->json(['slug' => $slug]);
+    // })->name('check_slug');
 });
 
 // Route Group for Editor
