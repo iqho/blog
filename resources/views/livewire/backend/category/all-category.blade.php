@@ -87,7 +87,7 @@
                 </td>
               </tr>
               @if(count($category->subcategory))
-              @include('livewire.backend.category.sub-category-list',['subcategories' => $category->subcategory])
+              @include('livewire.backend.category.sub-category-list', ['subcategories' => $category->subcategory])
               @endif
               @endforeach
               @else
@@ -102,20 +102,6 @@
       </div>
     </div>
     @push('page-js')
-    {{-- jQuery Script --}}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    {{-- Check Slug --}}
-    <script>
-      $('#name').change(function(e) {
-           $.get('{{ route('admin.check') }}', 
-           { 'name': $(this).val() }, 
-           function( data ) {
-               $('#slug').val(data.slug);
-           }
-           );
-        });
-    </script>
     <script type="text/javascript">
       window.livewire.on('storeCategory', () => {
             $('#addCategoryModal').modal('hide');
@@ -134,6 +120,22 @@
                 var gendererror = document.createElement("span");
                 gendererror.innerHTML = "Supported Image Extention Only .jpeg/.jpg/.png/.gif";
                 document.getElementById("error-msg").appendChild(gendererror);
+            }
+              //alert('Please upload file having extensions .jpeg/.jpg/.png/.gif only.');
+              fileInput.value = '';
+              return false;
+          }
+         }
+
+         function checkImageExtention3() {
+          var fileInput = document.getElementById('image3');
+          var filePath = document.getElementById('image3').value;
+          var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+          if(!allowedExtensions.exec(filePath)){
+            if(!document.getElementById("error-msg").childNodes.length){
+                var gendererror = document.createElement("span");
+                gendererror.innerHTML = "Supported Image Extention Only .jpeg/.jpg/.png/.gif";
+                document.getElementById("error-msg3").appendChild(gendererror);
             }
               //alert('Please upload file having extensions .jpeg/.jpg/.png/.gif only.');
               fileInput.value = '';

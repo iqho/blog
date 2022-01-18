@@ -1,0 +1,80 @@
+<img id="blah" alt="your image" width="100" height="100" />
+<input type="file" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0]).">
+
+<input type=file oninput="pic.src=window.URL.createObjectURL(this.files[0])">
+<img id="pic" />
+
+----------------------------------------------------------------------------------------
+$(document).ready(function(){
+    $('#image').change(function(){
+        $("#frames").html('');
+        for (var i = 0; i < $(this)[0].files.length; i++) {
+            $("#frames").append('<img src="'+window.URL.createObjectURL(this.files[i])+'" width="100px" height="100px"/>');
+        }
+    });
+});
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <input type="file" id="image" name="image[]" multiple /><br/>
+    <div id="frames"></div>
+</body>
+----------------------------------------------------------------------------------------
+ function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#ShowImage')
+                    .attr('src', e.target.result)
+                    .width(150)
+                    .height(200);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+<input type='file' onchange="readURL(this);" /> 
+<img id="ShowImage" src="#" />
+
+----------------------------------------------------------------------------------------
+<img id="blah" alt="your image" width="100" height="100" />
+<input type="file" name="photo" id="fileinput" />
+<script>
+$('#fileinput').change(function() {
+var url = window.URL.createObjectURL(this.files[0]);
+ $('#blah').attr('src',url);
+});
+</script>
+----------------------------------------------------------------------------
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var i;
+            for (i = 0; i < input.files.length; ++i) {
+              var reader = new FileReader();
+              reader.onload = function (e) {
+                  $('#form1').append('<img height="80" width="85" src="'+e.target.result+'">');
+              }
+              reader.readAsDataURL(input.files[i]);
+            }
+        }
+    }
+    
+    $("#imgInp").change(function(){
+        readURL(this);
+    });
+<form id="form1" runat="server">
+        <input type='file' id="imgInp" />
+    </form>
+-------------------------------------------------------------------------------
+                        <script type="text/javascript">
+                            var loadImg=function(event){
+                                $('#frame').attr('src', URL.createObjectURL(event.target.files[0])).width(80).height(75);
+                            };
+                          </script>
+                          <input type="file" accept="image/" onchange="loadImg(event)">
+                          <br/>
+                          <img id="frame"/>

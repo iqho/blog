@@ -32,6 +32,6 @@
           </td>
     </tr>
     @if(count($subcategory->subcategory))
-        @include('livewire.backend.category.sub-category-list',['subcategories' => $subcategory->subcategory])
+        @include('livewire.backend.category.sub-category-list', ['subcategories' => $subcategory->subcategory])
     @endif
 @endforeach

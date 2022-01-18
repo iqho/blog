@@ -67,7 +67,7 @@ class AllCategory extends Component
         {
             $validatedDate = $this->validate([
                 'name' => ['required', 'string', 'max:255'],
-                //'slug' => ['required', 'string', 'max:255', 'unique:categories'],
+                'slug' => ['required', 'string', 'max:255', 'unique:categories'],
                 'image' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
                 'parent_id' => 'nullable|numeric'
             ]);

@@ -8,8 +8,6 @@ use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use App\Models\Admin\Category;
 use Illuminate\Pagination\Paginator;
-use Cviebrock\EloquentSluggable\Services\SlugService;
-use Illuminate\Http\Request;
 
 class AllCategory extends Component
 {
@@ -19,20 +17,19 @@ class AllCategory extends Component
     public $searchTerm;
     public $currentPage = 1;
 
-    public $name, $slug, $image, $parent_id, $imageurl, $newImageName, $checkSlug;
+    public $name, $slug, $image, $image2, $image3, $parent_id, $imageurl, $newImageName;
 
     public function render()
         {
+            $data['categories'] = Category::withTrashed()->where('parent_id', null)->where(function ($sub_query) {
+                    $sub_query->where('name', 'like', '%' . $this->searchTerm . '%');
+                })->orderBy('id', 'desc')->paginate(10);
+            $data['catOption'] = Category::where('parent_id', null)->orderBy('id', 'desc')->get();
 
-        $data['categories'] = Category::withTrashed()->where('parent_id', null)->where(function ($sub_query) {
-                $sub_query->where('name', 'like', '%' . $this->searchTerm . '%');
-            })->orderBy('id', 'desc')->paginate(10);
-        $data['catOption'] = Category::where('parent_id', null)->orderBy('id', 'desc')->get();
+            $data['checkEmpty'] = Str::length($this->slug);
+            $data['checkSlug'] = Category::where('slug', '=', Str::slug($this->slug))->exists();
 
-         $data['checkEmpty'] = Str::length($this->slug);
-         $data['checkSlug'] = Category::where('slug', '=', $this->slug)->exists();
-
-        return view('livewire.backend.category.all-category', compact('data'));
+            return view('livewire.backend.category.all-category', compact('data'));
         }
 
     public function setPage($url)
@@ -43,46 +40,54 @@ class AllCategory extends Component
             });
         }
 
-    public function updateStatus($id){
-
-        $categories = Category::findOrFail($id);
-        if($categories->status == 1){
-            $categories->status = 0;
-        } else {
-            $categories->status = 1;
+    public function updateStatus($id)
+        {
+            $categories = Category::findOrFail($id);
+            if($categories->status == 1){
+                $categories->status = 0;
+            } else {
+                $categories->status = 1;
+            }
+            $categories->save();
+            session()->flash('message', 'Category Status Successfully Updated !');
         }
-        $categories->save();
-        session()->flash('message', 'Category Status Successfully Updated !');
+
+    private function resetInputFields()
+        {
+            $this->name = '';
+            $this->slug = '';
+            $this->reset('image');
+            $this->reset('image2');
+            $this->reset('image3');
+            $this->parent_id = '';
+            $this->resetErrorBag();
         }
 
-    private function resetInputFields(){
-        $this->name = '';
-        $this->slug = '';
-        $this->image = null;
-        $this->image = [];
-        $this->reset('image');
-        $this->parent_id = '';
-        $this->resetErrorBag();
-    }
-
-    public function check(Request $request)
-    {
-        $slug = SlugService::createSlug(Category::class, 'slug', $request('name'));
-        return response()->json(['slug' => $slug]);
-    }
+    public function generateSlug()
+        {
+            $slug = Str::slug($this->name);
+            $count = Category::where('slug', '=', $slug)->count();
+            $newCount = $count > 0 ? ++$count : '';
+            $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
+            return $this->slug = $myslug;
+        }
 
     public function storeCategory()
         {
             $validatedDate = $this->validate([
                 'name' => ['required', 'string', 'max:255'],
-                'slug' => ['required', 'string', 'max:255', 'unique:categories'],
+                'slug' => ['required', 'string', 'max:255'],
                 'image' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
                 'parent_id' => 'nullable|numeric'
             ]);
 
+        $slug = Str::slug($this->slug);
+        $count = Category::where('slug', '=', $slug)->count();
+        $newCount = $count > 0 ? ++$count : '';
+        $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
 
         if (!empty($this->image)) {
-            $newImageName = $this->slug.".".$this->image->extension();
+            $newImageName = $myslug.".".$this->image->extension();
             $image = $this->image->storeAs('category-image', $newImageName, 'public');
             $imageurl = url('storage') . '/' . $image;
         } else {
@@ -91,8 +96,7 @@ class AllCategory extends Component
 
             Category::create([
                 'name' => $this->name,
-                'slug' => $this->slug,
-                //'slug' => SlugService::createSlug(Category::class, 'slug', $this->name),
+                'slug' => $myslug,
                 'image' => $imageurl,
                 'created_by' => auth()->id(),
                 'parent_id' => $this->parent_id ? $this->parent_id : NULL,
@@ -100,69 +104,68 @@ class AllCategory extends Component
             session()->flash('message', 'Category Created Successfully.');
             $this->resetInputFields();
             $this->emit('storeCategory');
-        }
 
+        }
 
     public function edit($id)
         {
-            // $user = User::where('id',$id)->first();
-            // $this->user_id = $id;
-            // $this->name = $user->name;;
-            // $this->username = $user->username;
-            // $this->email = $user->email;
-            // $this->phone_no = $user->phone_no;
-            // $this->bio = $user->bio;
-            // $this->social_media = $user->social_media;
-            // $this->user_type = $user->user_type;
+            $category = Category::where('id', $id)->first();
+            $this->category_id = $id;
+            $this->name = $category->name;;
+            $this->slug = $category->slug;
+            $this->image2 = $category->image;
+            $this->parent_id = $category->parent_id;
         }
     public function cancel()
     {
        $this->resetInputFields();
     }
 
-    public function updateUser()
+    public function updateCategory()
         {
-            // $validatedDate = $this->validate([
-            //     'name' => ['required', 'string', 'max:255'],
-            //     'username' => ['required', 'min:3', 'max:255', Rule::unique('users')->ignore($this->user_id)],
-            //     'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($this->user_id)],
-            //     'phone_no' => ['nullable', 'string', 'max:255'],
-            //     'social_media' => ['nullable', 'string', 'max:255'],
-            //     'bio' => ['nullable', 'string', 'max:255'],
-            //     ]);
+            $validatedDate = $this->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'slug' => ['required', 'string', 'max:255'],
+                'image' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
+                'parent_id' => 'nullable|numeric'
+                ]);
 
-            // if ($this->user_id) {
-            // $user = User::find($this->user_id);
-            // //$user->update($request->filled('password') ? $request->all() : $request->except(['password']));
-            //     if(!empty($this->password)){
-            //     $new_password = Hash::make($this->password);
-            //     $user->update([
-            //         'name' => $this->name,
-            //         'username' => $this->username,
-            //         'email' => $this->email,
-            //         'password' => $new_password,
-            //         'phone_no' => $this->phone_no,
-            //         'bio' => $this->bio,
-            //         'social_media' => $this->social_media,
-            //         'user_type' => $this->user_type
-            //     ], $validatedDate);
-            //     }
-            //     else{
-            //     $user->update([
-            //         'name' => $this->name,
-            //         'username' => $this->username,
-            //         'email' => $this->email,
-            //         'phone_no' => $this->phone_no,
-            //         'bio' => $this->bio,
-            //         'social_media' => $this->social_media,
-            //         'user_type' => $this->user_type
-            //     ], $validatedDate);
-            //     }
+            if ($this->category_id) {
+                
+                $category = Category::find($this->category_id);
 
-            // $this->resetInputFields();
-            // session()->flash('message', 'User Upated Successfully.');
-            // $this->emit('userUpdate'); // Close model to using to jquery
-            //  }
+                $slug = Str::slug($this->slug);
+                $count = Category::where('slug', '=', $slug)->count();
+                $newCount = $count > 0 ? ++$count : '';
+                $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
+
+                if (!empty($this->image3)) {
+                $newImageName = $myslug.".".$this->image3->extension();
+                $image3 = $this->image3->storeAs('category-image', $newImageName, 'public');
+                $imageurl = url('storage') . '/' . $image3;
+
+                $category->update([
+                    'name' => $this->name,
+                    'slug' => $myslug,
+                    'image' => $imageurl,
+                    'created_by' => auth()->id(),
+                    'parent_id' => $this->parent_id ? $this->parent_id : NULL,
+                ], $validatedDate);
+                }
+                else{
+                $category->update([
+                    'name' => $this->name,
+                    'slug' => $myslug,
+                    'created_by' => auth()->id(),
+                    'parent_id' => $this->parent_id ? $this->parent_id : NULL,
+                ], $validatedDate);
+                }
+
+            $this->resetInputFields();
+            session()->flash('message', 'Category Upated Successfully.');
+            $this->emit('categoryUpdate'); // Close model to using to jquery
+             }
+
         }
 
     public function delete($id)
