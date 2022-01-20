@@ -21,6 +21,7 @@ class CreateCategoriesTable extends Migration
             $table->string('image')->nullable();
             $table->tinyInteger('status')->default('1');
             $table->string('created_by');
+            $table->integer('category_order')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

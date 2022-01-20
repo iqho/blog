@@ -2,10 +2,11 @@
 
 namespace App\Http\Livewire\Backend\Category;
 
-use App\Models\Admin\Category;
-use Illuminate\Pagination\Paginator;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Models\Admin\Category;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\File;
 
 class TrashedCategory extends Component
 {
@@ -22,7 +23,7 @@ class TrashedCategory extends Component
             $sub_query->where('name', 'like', '%' . $this->searchTerm . '%');
         })->orderBy('id', 'desc')->paginate(10);
 
-        $data['catall'] = Category::all();
+        //$data['catall'] = Category::withTrashed()->get();
 
         return view('livewire.backend.category.trashed-category', compact('data'));
     }
@@ -37,12 +38,12 @@ class TrashedCategory extends Component
 
     public function restore($id)
     {
-        Category::withTrashed()->find($id)->restore();
+        Category::onlyTrashed()->find($id)->restore();
         session()->flash('message', 'Category Restore Successfully.');
     }
+
     public function delete($id)
     {
-        //Product::onlyTrashed()->find(2)->forceDelete();
         $category = Category::onlyTrashed()->findOrFail($id);
         if(count($category->subcategory))
         {
@@ -54,8 +55,9 @@ class TrashedCategory extends Component
                 $cat->save();
             }
         }
+
+        File::delete([public_path('storage/category-image/'. $category->image)]);
         $category->forceDelete();
-        //return redirect()->back()->with('delete', 'Category has been deleted successfully.');
         session()->flash('message', 'Category Deleted Successfully.');
     }
 }

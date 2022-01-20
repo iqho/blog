@@ -28,7 +28,6 @@
                     </div>
                 @endif
                 <div class="table-responsive">
-                    {{ $data['catall']->count() }}
                     <table class="table table-striped table-hover border border-bottom-1 mb-1" style="width:100%">
                         <thead>
                         <tr>
@@ -62,14 +61,14 @@
                                     </td>
                                     <td style="padding: 0px; text-align:center">
                                         @if ($category->image)
-                                            <img src="{{ $category->image }}" alt="{{ $category->name }}" style="width: 40px; height:35px">
+                                            <img src="{{ asset('storage/category-image/'.$category->image) }}" alt="{{ $category->name }}" style="width: 40px; height:35px">
                                         @endif
                                     </td>
                                     <td>
                                         @if ($category->status == 1)
-                                            <button class="btn btn-success">Active</button>
+                                            <button class="btn btn-relief-success">Active</button>
                                         @else
-                                            <button class="btn btn-danger">Inactive</button>
+                                            <button class="btn btn-relief-danger">Inactive</button>
                                         @endif
                                            </td>
                                     <td>
@@ -80,8 +79,13 @@
                                         @endif
                                     </td>
                                     <td style="max-width: 100px; text-align:center">{{ date('d-M-Y h:i a', strtotime($category->created_at)); }}</td>
-                                    <td style="text-align: center; max-width:50px;">
-                                        <a href="#" data-bs-toggle="modal" data-id="1" data-bs-target="#updateCategoryModal" wire:click="restore({{ $category->id }})" onclick="confirm('Confirm Restore This Category ?') || event.stopImmediatePropagation()"><i class="fas fa-edit fa-lg"></i></a> | <a href="#" onclick="confirm('Confirm Delete This Category ?') || event.stopImmediatePropagation()" wire:click.prevent="delete({{ $category->id }})"><i class="fas fa-trash-alt fa-lg" style="color:red"></i></a>
+                                    <td style="text-align: center;">
+                                        <button type="button" wire:click="restore({{ $category->id }})" onclick="confirm('Confirm ! You Want to Restore This Category ?') || event.stopImmediatePropagation()" class="btn btn-relief-success waves-effect waves-float waves-light" style="margin: 2px">
+                                            <i class="fas fa-sync fa-lg" alt="{{ __('Restore') }}" style="margin-right: 3px"></i> <span>{{ __('Restore') }}</span>
+                                        </button>
+                                        <button type="button" onclick="confirm('Confirm ! You Want to Delete This Category Parmanently?') || event.stopImmediatePropagation()" wire:click.prevent="delete({{ $category->id }})" class="btn btn-relief-danger waves-effect waves-float waves-light" style="margin: 2px">
+                                            <i class="fas fa-trash-alt fa-lg" style="margin-right: 3px"></i> <span>P. Delete</span>
+                                        </button>
                                     </td>
                                 </tr>
                                 @if(count($category->subcategory))

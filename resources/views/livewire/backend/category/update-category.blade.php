@@ -36,7 +36,7 @@
                         <div class="row">
                         @if($image2)
                         <div class="col-6 text-center w-50">
-                            Current Image: <br><img src="{{ $image2 }}" style="width: 100px; height:80px;">
+                            Current Image: <br><img src="{{ asset('storage/category-image/'.$image2) }}" style="width: 100px; height:80px;">
                         </div>
                         @else
                         @endif

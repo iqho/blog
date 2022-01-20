@@ -8,6 +8,7 @@ use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use App\Models\Admin\Category;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\File;
 
 class AllCategory extends Component
 {
@@ -21,7 +22,7 @@ class AllCategory extends Component
 
     public function render()
         {
-            $data['categories'] = Category::withTrashed()->where('parent_id', null)->where(function ($sub_query) {
+            $data['categories'] = Category::where('parent_id', null)->where(function ($sub_query) {
                     $sub_query->where('name', 'like', '%' . $this->searchTerm . '%');
                 })->orderBy('id', 'desc')->paginate(10);
 
@@ -90,16 +91,16 @@ class AllCategory extends Component
 
         if (!empty($this->image)) {
             $newImageName = $myslug.".".$this->image->extension();
-            $image = $this->image->storeAs('category-image', $newImageName, 'public');
-            $imageurl = url('storage') . '/' . $image;
+            $this->image->storeAs('category-image', $newImageName, 'public');
+            //$imageurl = url('storage') . '/' . $image;
         } else {
-            $imageurl = "";
+            $newImageName = "";
         }
 
             Category::create([
                 'name' => $this->name,
                 'slug' => $myslug,
-                'image' => $imageurl,
+                'image' => $newImageName,
                 'created_by' => auth()->id(),
                 'parent_id' => $this->parent_id ? $this->parent_id : NULL,
             ], $validatedDate);
@@ -141,20 +142,33 @@ class AllCategory extends Component
                     $count = Category::where('slug', 'LIKE', "{$slug}%")->count();
                     $newCount = $count > 0 ? ++$count : '';
                     $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
+
+                    if($category->image != null && empty($this->image3)){
+                    // This Section for Only when slug change with image name change otherwise keep old slug name image
+                    $path_info = pathinfo(public_path('storage/category-image/'. $category->image));
+                    $getExt = $path_info['extension'];
+                    $newImgName = $myslug.".".$getExt;
+                    $currentPath = (public_path('storage/category-image/'. $category->image));
+                    $newPath = (public_path('storage/category-image/'. $newImgName));
+                    File::move($currentPath, $newPath); // If Change Slug than change also image name too
+                    }
                 }
                 else{
                     $myslug = $this->slug;
                 }
 
                 if (!empty($this->image3)) {
+
+                File::delete([public_path('storage/category-image/'. $category->image)]); // Delete Old Image and Store New Image
+
                 $newImageName = $myslug.".".$this->image3->extension();
-                $image3 = $this->image3->storeAs('category-image', $newImageName, 'public');
-                $imageurl = url('storage') . '/' . $image3;
+                $this->image3->storeAs('category-image', $newImageName, 'public');
+                //$image = url('storage') . '/' . $image3;
 
                 $category->update([
                     'name' => $this->name,
                     'slug' => $myslug,
-                    'image' => $imageurl,
+                    'image' => $newImageName,
                     'created_by' => auth()->id(),
                     'parent_id' => $this->parent_id ? $this->parent_id : NULL,
                 ], $validatedDate);
@@ -169,7 +183,7 @@ class AllCategory extends Component
                 }
 
             $this->resetInputFields();
-            session()->flash('message', 'Category Upated Successfully.');
+            session()->flash('message', 'Category Updated Successfully.');
             $this->emit('categoryUpdate'); // Close model to using to jquery
              }
 
