@@ -22,6 +22,7 @@ class CreateCommentsTable extends Migration
             $table->tinyInteger('comment_status')->default(0);
             $table->ipAddress('commentor_ip')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

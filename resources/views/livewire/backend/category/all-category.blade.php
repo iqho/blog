@@ -91,7 +91,7 @@
               @endforeach
               @else
               <tr>
-              <td colspan="9" class="text-center"><h1 class="text-danger">No Search Results Found !</h1></td>
+              <td colspan="9" class="text-center"><h1 class="text-danger">No Data Found !</h1></td>
               </tr>
               @endif
             </tbody>

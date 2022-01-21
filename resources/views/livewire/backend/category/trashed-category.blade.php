@@ -34,7 +34,6 @@
                             <th >SL</th>
                             <th>Name</th>
                             <th>Slug</th>
-                            <th>Parent</th>
                             <th>Image</th>
                             <th>Status</th>
                             <th>Created_by</th>
@@ -45,20 +44,13 @@
                         <tbody>
                         @if($data['categories']->count() > 0)
                             <?php $_SESSION['i'] = 0; ?>
-                            @foreach ($data['categories'] as $key => $category)
+                            @foreach ($data['categories'] as $category)
                                 <?php $dash=''; ?>
                                 <?php $_SESSION['i']=$_SESSION['i']+1; ?>
                                 <tr>
                                     <td>{{ $_SESSION['i'] }}</td>
                                     <td>{{ $category->name }}</td>
                                     <td>{{ $category->slug }}</td>
-                                    <td>
-                                        @if(isset($category->parent_id))
-                                            {{$category->subcategory->name}}
-                                        @else
-                                            None
-                                        @endif
-                                    </td>
                                     <td style="padding: 0px; text-align:center">
                                         @if ($category->image)
                                             <img src="{{ asset('storage/category-image/'.$category->image) }}" alt="{{ $category->name }}" style="width: 40px; height:35px">
@@ -94,7 +86,7 @@
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="9" class="text-center"><h1 class="text-danger">No Search Results Found !</h1></td>
+                                <td colspan="9" class="text-center"><h1 class="text-danger">No Data Found !</h1></td>
                             </tr>
                         @endif
                         </tbody>

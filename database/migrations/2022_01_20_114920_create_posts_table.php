@@ -19,7 +19,8 @@ class CreatePostsTable extends Migration
             $table->string('slug')->unique();
             $table->string('sort_des');
             $table->longText('content');
-            $table->string('image')->nullable();
+            $table->string('tags')->nullable();
+            $table->string('featured_image')->nullable()->default('default_featured_image.jpg');
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

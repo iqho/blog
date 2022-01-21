@@ -19,7 +19,7 @@ class TrashedCategory extends Component
     public function render()
     {
 
-        $data['categories'] = Category::onlyTrashed()->where('parent_id', null)->where(function ($sub_query) {
+        $data['categories'] = Category::onlyTrashed()->where(function ($sub_query) {
             $sub_query->where('name', 'like', '%' . $this->searchTerm . '%');
         })->orderBy('id', 'desc')->paginate(10);
 

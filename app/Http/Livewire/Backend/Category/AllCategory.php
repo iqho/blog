@@ -3,12 +3,14 @@
 namespace App\Http\Livewire\Backend\Category;
 
 use Livewire\Component;
+use App\Models\Admin\Post;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use App\Models\Admin\Category;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Redirect;
 
 class AllCategory extends Component
 {
@@ -191,6 +193,12 @@ class AllCategory extends Component
 
     public function delete($id)
         {
+            $posts = Post::where('category_id', $id)->count();
+            if($posts > 0){
+                return Redirect::to(route('admin.category'))->with('message', 'Category Have $posts Post. Please Move to Another Category Than Delete this Category');
+           }
+           else{
+
             $category = Category::findOrFail($id);
             if(count($category->subcategory))
             {
@@ -202,7 +210,10 @@ class AllCategory extends Component
                     $cat->save();
                 }
             }
+            // Post::whereCategoryId($id)->update(['category_id' => 1]);
             $category->delete();
+           }
+
             //return redirect()->back()->with('delete', 'Category has been deleted successfully.');
             session()->flash('message', 'Category Move to Trashed Successfully.');
         }
