@@ -1,11 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Livewire\Backend\AllUsers;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Livewire\Backend\Category\AllCategory;
-use App\Http\Livewire\Backend\Category\TrashedCategory;
 use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 
 /*
@@ -25,20 +21,6 @@ Route::get('/', function () {
 
 //Route::view('profile2', 'profile.show2');
 
-// Route Group for Admin
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth:sanctum', 'verified', 'is_admin']], function () {
-    Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
-    Route::get('/all-users', AllUsers::class)->name('all-users');
-    Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
-
-    // Category
-    Route::get('/category', AllCategory::class)->name('category');
-    Route::get('/category/trashed-category', TrashedCategory::class)->name('trashedCategory');
-
-    Route::any('/category/create', [CategoryController::class, 'createCategory'])->name('createCategory');
-
-});
-
 // Route Group for Editor
 Route::group(['prefix' => 'editor', 'as' => 'editor.', 'middleware' => ['auth:sanctum', 'verified', 'is_editor']], function () {
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
@@ -56,7 +38,6 @@ Route::group(['prefix' => 'contributor', 'as' => 'contributor.', 'middleware' =>
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
     Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
 });
-
 
 
 // General Users / Subcribers

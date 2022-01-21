@@ -1,0 +1,70 @@
+When web.php Route we Define this way....
+
+// Route Group for Admin
+
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth:sanctum', 'verified', 'is_admin']], function () {
+    Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
+    Route::get('/all-users', AllUsers::class)->name('all-users');
+    Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
+
+    // Category
+    Route::get('/category', AllCategory::class)->name('category');
+    Route::get('/category/trashed-category', TrashedCategory::class)->name('trashedCategory');
+
+    Route::any('/category/create', [CategoryController::class, 'createCategory'])->name('createCategory');
+
+});
+
+But if you want to create separate admin.php Route File like web.php than create a new file in route folder
+Exam: admin.php
+Now Register this new route file to App/Provider/RouteServiceProvider.php
+Like bellow:
+
+    public function boot()
+    {
+        $this->configureRateLimiting();
+
+        $this->routes(function () {
+            Route::prefix('api')
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api.php'));
+
+            Route::middleware('web')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/web.php'));
+//.........................................................................................................................................
+            Route::middleware('web', 'is_admin') // Middleware admin added............
+                ->prefix('admin') // Prefix admin Addedd.........................
+                ->as('admin.') // name Prefix Added..........................
+                ->namespace($this->namespace)
+                ->group(base_path('routes/admin.php')); // File name Addedd here
+// ...............................................................................................................................................
+        });
+    }
+
+Than go to admin.php and like bellow
+
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+use App\Http\Livewire\Backend\AllUsers;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Livewire\Backend\Category\AllCategory;
+use App\Http\Livewire\Backend\Category\TrashedCategory;
+
+
+Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
+Route::get('/all-users', AllUsers::class)->name('all-users');
+Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
+
+// Category
+Route::get('/category', AllCategory::class)->name('category');
+Route::get('/category/trashed-category', TrashedCategory::class)->name('trashedCategory');
+
+Route::any('/category/create', [CategoryController::class, 'createCategory'])->name('createCategory');
+
+
+No need to user middleware group here. All group are setup in RouteServiceProvider

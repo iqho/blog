@@ -19,6 +19,7 @@ class CreateCategoriesTable extends Migration
             $table->string('slug')->unique();
             $table->integer('parent_id')->nullable();
             $table->string('image')->nullable();
+            $table->string('meta_description')->nullable();
             $table->tinyInteger('status')->default('1');
             $table->string('created_by');
             $table->integer('category_order')->default(1);

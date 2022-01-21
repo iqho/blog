@@ -60,4 +60,6 @@ class TrashedCategory extends Component
         $category->forceDelete();
         session()->flash('message', 'Category Deleted Successfully.');
     }
+    
+    
 }

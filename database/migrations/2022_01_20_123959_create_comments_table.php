@@ -20,7 +20,7 @@ class CreateCommentsTable extends Migration
             $table->bigInteger('parent_id');
             $table->longText('comment_body');
             $table->tinyInteger('comment_status')->default(0);
-            $table->ipAddress('commentor_ip')->nullable();
+            $table->ipAddress('commenter_ip')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

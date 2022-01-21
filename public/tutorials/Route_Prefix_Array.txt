@@ -1,0 +1,13 @@
+$subjects = [
+    'chemistry', 'geography', 'math'
+];
+
+foreach ($subjects as $subject) {
+    Route::prefix($subject)->group(function () use ($subject) {
+        Route::get('news', 'NewsController@index')->name("{$subject}_news_index");
+        Route::get('article', 'ArticleController@index')->name("{$subject}_article_index");
+    });
+}
+
+-------------------------------------------------------------------------------------------------------------
+Route::get('/news/{group}', 'NewsController@index')->name('news_index')->where('group', 'math|geography|chemistry');
