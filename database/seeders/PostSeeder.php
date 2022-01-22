@@ -1,23 +1,26 @@
 <?php
 
-namespace Database\Factories\Admin;
+namespace Database\Seeders;
 
 use Carbon\Carbon;
+use Faker\Factory;
 use App\Models\Admin\Post;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class PostFactory extends Factory
+class PostSeeder extends Seeder
 {
-
-    protected $model = Post::class;
-
-    public function definition()
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
     {
+        $faker = Factory::create();
 
-        $title = $this->faker->sentence();
-
-
+        $title = $faker->sentence();
         $slug = Str::slug($title, '-');
 
         $count = Post::where('slug', 'LIKE', "{$slug}%")->count();
@@ -29,12 +32,12 @@ class PostFactory extends Factory
        // $slug = Str::slug($title, '-');
         $date = Carbon::parse(now())->format('Y-m-d H:i:s');
 
-        return [
+        DB::table("posts")->insert([
             'title' => $title,
             'slug' => $myslug,
-            'short_description' => $this->faker->sentence(),
-            'description' => $this->faker->paragraph(),
-            'meta_description' => $this->faker->sentence(),
+            'short_description' => $faker->sentence(),
+            'description' => $faker->paragraph(),
+            'meta_description' => $faker->sentence(),
             'featured_image' => null,
             'category_id' => 1,
             'user_id' => 1,
@@ -45,6 +48,6 @@ class PostFactory extends Factory
             'post_order' => 1,
             //'published_at' => $this->faker->dateTimeThisMonth()->format('Y-m-d H:i:s'),
             'published_at' => $date,
-        ];
+        ]);
     }
 }

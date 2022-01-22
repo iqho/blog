@@ -1,27 +1,26 @@
 <?php
 
-namespace Database\Factories\Admin;
+namespace Database\Seeders;
 
-use App\Models\Admin\Page;
 use Carbon\Carbon;
+use Faker\Factory;
+use App\Models\Admin\Page;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class PageFactory extends Factory
+class PageSeeder extends Seeder
 {
     /**
-     * Define the model's default state.
+     * Run the database seeds.
      *
-     * @return array
+     * @return void
      */
-
-    protected $model = Page::class;
-
-    public function definition()
+    public function run()
     {
+        $faker = Factory::create();
 
-        $title = $this->faker->sentence();
-
+        $title = $faker->sentence();
         $slug = Str::slug($title);
         $count = Page::where('slug', 'LIKE', "{$slug}%")->count();
         $newCount = $count > 0 ? ++$count : '';
@@ -29,11 +28,11 @@ class PageFactory extends Factory
 
         $date = Carbon::parse(now())->format('Y-m-d H:i:s');
 
-        return [
+        DB::table("pages")->insert([
             'title' => $title,
             'slug' => $myslug,
-            'description' => $this->faker->paragraph(),
-            'meta_description' => $this->faker->sentence(),
+            'description' => $faker->paragraph,
+            'meta_description' => $faker->sentence,
             'tags' => null,
             'featured_image' => null,
             'user_id' => 1,
@@ -43,6 +42,6 @@ class PageFactory extends Factory
             'views' => 1,
             'page_order' => 1,
             'published_at' => $date,
-        ];
+        ]);
     }
 }

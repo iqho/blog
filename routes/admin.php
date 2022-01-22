@@ -7,11 +7,17 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Livewire\Backend\Category\AllCategory;
 use App\Http\Livewire\Backend\Category\TrashedCategory;
-
+use App\Http\Livewire\Backend\Post\AllPost;
+use App\Http\Livewire\Backend\Post\TrashedPost;
 
 Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
 Route::get('/all-users', AllUsers::class)->name('all-users');
 Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
+
+// Post
+Route::get('/all-post', AllPost::class)->name('all-post');
+Route::get('/post/trashed-post', TrashedPost::class)->name('trashedPost');
+
 
 // Category
 Route::get('/category', AllCategory::class)->name('category');

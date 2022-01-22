@@ -1,40 +1,41 @@
 <?php
 
-namespace Database\Factories\Admin;
+namespace Database\Seeders;
 
-use App\Models\Admin\Category;
+use Faker\Factory;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Admin\Category;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class CategoryFactory extends Factory
+class CategorySeeder extends Seeder
 {
     /**
-     * Define the model's default state.
+     * Run the database seeds.
      *
-     * @return array
+     * @return void
      */
-
-    protected $model = Category::class;
-
-    public function definition()
+    public function run()
     {
+        $faker = Factory::create();
 
-        $title = $this->faker->word();
+        $title = $faker->word();
 
         $slug = Str::slug($title);
         $count = Category::where('slug', 'LIKE', "{$slug}%")->count();
         $newCount = $count > 0 ? ++$count : '';
         $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
 
-        return [
+        DB::table("categories")->insert([
             'name' => $title,
             'slug' => $myslug,
             'parent_id' => NULL,
             'image' => NULL,
-            'meta_description' => $this->faker->sentence(),
+            'meta_description' => $faker->sentence(),
             'status' => 1,
             'created_by' => 1,
             'category_order' => 1,
-        ];
+        ]);
+
     }
 }
