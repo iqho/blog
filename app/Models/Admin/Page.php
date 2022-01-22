@@ -2,28 +2,19 @@
 
 namespace App\Models\Admin;
 
-use App\Models\User;
-use App\Models\Admin\Post;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Tag extends Model
+class Page extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['title', 'slug', 'meta_description', 'tag_order'];
-
+    protected $fillable = ['title', 'slug', 'description', 'meta_description', 'tags', 'featured_image', 'user_id', 'publish_status', 'is_sticky', 'allow_comments', 'views', 'page_order', 'published_at'];
 
     public function users()
     {
         return $this->belongsTo(User::class);
     }
-
-    public function posts()
-    {
-        return $this->belongsToMany(Post::class);
-    }
-
 }

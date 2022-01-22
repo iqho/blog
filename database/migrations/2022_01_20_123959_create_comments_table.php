@@ -21,6 +21,7 @@ class CreateCommentsTable extends Migration
             $table->longText('comment_body');
             $table->tinyInteger('comment_status')->default(0);
             $table->ipAddress('commenter_ip')->nullable();
+            $table->tinyInteger('is_sticky')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
