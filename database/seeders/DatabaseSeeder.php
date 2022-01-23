@@ -20,18 +20,19 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        Post::factory(10)->create();
-        Page::factory(10)->create();
-        Tag::factory(10)->create();
-        Category::factory(10)->create();
+
         User::factory(10)->create();
+        Category::factory(10)->create();
+        Post::factory(10)->create();
+        Tag::factory(10)->create();
+        Page::factory(10)->create();
 
         $this->call([
-            PostSeeder::class,
+            UserSeeder::class,
             CategorySeeder::class,
+            PostSeeder::class,
             TagSeeder::class,
-            PageSeeder::class,
-            UserSeeder::class
+            PageSeeder::class
         ]);
     }
 }
