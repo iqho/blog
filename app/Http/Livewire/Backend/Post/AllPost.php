@@ -9,7 +9,8 @@ class AllPost extends Component
 {
     public function render()
     {
-        return view('livewire.backend.post.all-post');
+        $data['posts'] = Post::with('category')->get();
+        return view('livewire.backend.post.all-post', compact('data'));
     }
 
     public function store()

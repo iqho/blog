@@ -19,6 +19,11 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/vendors/css/vendors.min.css') }}"/>
     <!-- END: Vendor CSS-->
 
+    <!-- BEGIN: DataTable CSS-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/datatable/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/datatable/responsive.bootstrap5.min.css') }}">
+    <!-- END: Vendor CSS-->
+
     <!-- BEGIN: Theme CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/bootstrap.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/bootstrap-extended.css') }}"/>
