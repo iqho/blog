@@ -19,7 +19,7 @@ class CategorySeeder extends Seeder
     {
         $faker = Factory::create();
 
-        $title = $faker->word();
+        $title = $faker->sentence();
 
         $slug = Str::slug($title);
         $count = Category::where('slug', 'LIKE', "{$slug}%")->count();

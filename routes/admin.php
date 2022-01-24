@@ -10,6 +10,7 @@ use App\Http\Livewire\Backend\Post\TrashedPost;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Livewire\Backend\Category\AllCategory;
 use App\Http\Livewire\Backend\Category\TrashedCategory;
+use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 
 Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
 Route::get('/all-users', AllUsers::class)->name('all-users');

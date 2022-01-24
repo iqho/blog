@@ -19,7 +19,7 @@ class CategoryFactory extends Factory
     public function definition()
     {
 
-        $title = $this->faker->word();
+        $title = $this->faker->sentence();
 
         $slug = Str::slug($title);
         $count = Category::where('slug', 'LIKE', "{$slug}%")->count();

@@ -10,9 +10,9 @@ class SinglePost extends Component
 
     public $post;
     
-    public function mount(Post $slug)
+    public function mount($slug)
     {
-        return $this->post = $slug;
+        return $this->post = Post::withTrashed()->where('slug', $slug)->first();
     }
 
     public function render()
