@@ -9,15 +9,20 @@ use Illuminate\Support\Facades\File;
 class AllPost extends Component
 {
 
+    public function create(){
+        return view('livewire.backend.post.create');
+    }
     public function store()
         {
-            $post = Post::create([
+            //dd('Ok');
+            return redirect(route('admin.all-post'));
+           // $post = Post::create([
                 //'title' => $request->get('title'),
                 //'body'  => $request->get('body')
-            ]);
+           // ]);
 
-            if($post)
-            {
+           // if($post)
+           // {
                // $tagNames = explode(',',$request->get('tags'));
                 // $tagIds = [];
                 // foreach($tagNames as $tagName)
@@ -33,7 +38,7 @@ class AllPost extends Component
 
                 // }
                 // $post->tags()->sync($tagIds);
-            }
+            //}
         }
 
 

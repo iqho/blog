@@ -8,7 +8,7 @@
         <td>{{$subcategory->parent->name}}</td>
         <td style="padding: 0px; text-align:center">
             @if ($subcategory->image)
-            <img src="{{ asset('storage/category-image/'.$subcategory->image) }}" alt="{{ $subcategory->name }}" style="width: 40px; height:35px">
+            <img src="{{ asset('storage/category-images/'.$subcategory->image) }}" alt="{{ $subcategory->name }}" style="width: 40px; height:35px">
             @endif
         </td>
         <td>

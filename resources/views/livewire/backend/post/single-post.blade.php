@@ -7,18 +7,18 @@
       <div class="card-body">
         <div class="row g-0">
             <div class="col-md-9 shadow rounded">
-                <h2 class="col-12 p-1 m-0">{{ $post->title }}</h2> 
+                <h2 class="col-12 p-1 m-0">{{ $post->title }}</h2>
                 <hr style="margin: 0px; color:rebeccapurple"/>
-                <div class="col-12 p-1 pt-0" style="text-align: justify;"><span class="col-12 m-0 h4">Short Description : </span><br>{{ $post->short_description }}</div>
+                <div class="col-12 p-1 pt-1" style="text-align: justify;"><span class="col-12 m-0 h4">Short Description : </span><br>{{ $post->short_description }}</div>
                 <div class="col-12 p-1 pt-0" style="text-align: justify;"><span class="col-12 m-0 h4">Description : </span><br>{{ $post->description }}</div>
                 <div class="col-12 p-1 pt-0" style="text-align: justify;"><span class="col-12 m-0 h4">Meta Description : </span><br>{{ $post->meta_description }}</div>
 
                 <div class="col-12 p-1 pt-0" style="text-align: justify;">
-                    <span class="col-12 m-0 h6">Views : {{ $post->views }}</span> | 
-                    <span class="col-12 m-0 h6">Order : {{ $post->post_order }}</span> | 
-                    <span class="col-12 m-0 h6">Published at : {{ date('d-M-Y h:i a', strtotime($post->published_at)); }}</span> | 
-                    <span class="col-12 m-0 h6">Created at : {{ date('d-M-Y h:i a', strtotime($post->created_at)); }}</span> | 
-                    <span class="col-12 m-0 h6">Updated at : {{ date('d-M-Y h:i a', strtotime($post->updated_at)); }}</span> | 
+                    <span class="col-12 m-0 h6">Views : {{ $post->views }}</span> |
+                    <span class="col-12 m-0 h6">Order : {{ $post->post_order }}</span> |
+                    <span class="col-12 m-0 h6">Published at : {{ date('d-M-Y h:i a', strtotime($post->published_at)); }}</span> |
+                    <span class="col-12 m-0 h6">Created at : {{ date('d-M-Y h:i a', strtotime($post->created_at)); }}</span> |
+                    <span class="col-12 m-0 h6">Updated at : {{ date('d-M-Y h:i a', strtotime($post->updated_at)); }}</span> |
                     <span class="col-12 m-0 h6">Deleted at : {{ date('d-M-Y h:i a', strtotime($post->deleted_at)); }}</span>
                 </div>
              </div>
@@ -47,7 +47,7 @@
                         Publish
                       @else
                       Draft
-                      @endif  
+                      @endif
                     </div>
                   </div>
 
@@ -83,12 +83,12 @@
                       @endif
                     </div>
                   </div>
-
-                  <div class="card border-success mb-1">
-                    <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">Feature Image</h4>
-                    <div class="card-body text-success" style="padding: 8px"><img class="img-fluid" style="height:300px" src="{{ asset('storage/post-image/'.$post->featured_image) }}" alt=""> </div>
-                  </div>
-
+                    @if ($post->featured_image)
+                        <div class="card border-success mb-1">
+                            <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">Feature Image</h4>
+                            <div class="card-body text-success" style="padding: 8px"><img class="img-fluid" style="height:300px; max-height:200px" src="{{ asset('storage/post-images/'.$post->featured_image) }}" alt=""> </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

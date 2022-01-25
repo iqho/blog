@@ -20,6 +20,9 @@ Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
 Route::get('/all-post', AllPost::class)->name('all-post');
 Route::get('/posts/{slug}', SinglePost::class)->name('single-post');
 
+Route::get('/post/create', [AllPost::class, 'create'])->name('post-create');
+Route::post('/post/store', [AllPost::class, 'store'])->name('post-store');
+
 Route::get('/post/trashed-post', TrashedPost::class)->name('trashedPost');
 
 

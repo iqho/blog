@@ -45,12 +45,12 @@
                 </li>
 
 
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Posts</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fa fa-clone"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Posts</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
                     <ul class="menu-content">
 
                         <li class="@if(Route::is('admin.all-post') ) active @endif nav-item">
                             <a class="d-flex align-items-center" href="{{ route('admin.all-post') }}">
-                                <i class="fas fa-user-tie"></i>
+                                <i class="far fa-sticky-note"></i>
                                 <span class="menu-item text-truncate" data-i18n="Collapsed Menu">All Post</span>
                             </a>
                         </li>
@@ -61,18 +61,18 @@
                         {{-- <a href="#">{{$cat->title}}</a> --}}
                         {{-- {{ request()->slug }} --}}
                         {{-- @endforeach
-                        @endif --}} 
+                        @endif --}}
                         @if (request()->slug)
                         <li class="@if(Route::is('admin.single-post', request()->slug ) ) active @endif nav-item">
                             <a class="d-flex align-items-center" href="#">
-                                <i class="fas fa-user-tie"></i>
+                                <i class="fas fa-book-open"></i>
                                 <span class="menu-item text-truncate" data-i18n="Collapsed Menu">Single Post</span>
                             </a>
                         </li>
                         @endif
                         <li class="@if(Route::is('admin.trashedPost') ) active @endif nav-item">
                             <a class="d-flex align-items-center" href="{{ route('admin.trashedPost') }}">
-                                <i class="fas fa-user-tie"></i>
+                                <i class="fas fa-trash-alt"></i>
                                 <span class="menu-item text-truncate" data-i18n="Collapsed Menu">Trashed Post</span>
                             </a>
                         </li>
@@ -81,19 +81,19 @@
                 </li>
 
 
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Categories</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fa fa-list-alt"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Categories</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
                     <ul class="menu-content">
 
                         <li class="@if(Route::is('admin.category') ) active @endif nav-item">
                             <a class="d-flex align-items-center" href="{{ route('admin.category') }}">
-                                <i class="fas fa-user-tie"></i>
+                                <i class="fa fa-list-alt"></i>
                                 <span class="menu-item text-truncate" data-i18n="Collapsed Menu">All Category</span>
                             </a>
                         </li>
 
                         <li class="@if(Route::is('admin.trashedCategory') ) active @endif nav-item">
                             <a class="d-flex align-items-center" href="{{ route('admin.trashedCategory') }}">
-                                <i class="fas fa-user-tie"></i>
+                                <i class="fas fa-trash-alt"></i>
                                 <span class="menu-item text-truncate" data-i18n="Collapsed Menu">Trashed Category</span>
                             </a>
                         </li>

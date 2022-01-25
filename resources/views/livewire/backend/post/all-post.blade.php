@@ -6,7 +6,11 @@
             <div class="col-12">
                 <div class="card p-1">
                     <div class="card-header border-bottom">
-                        <h1 class="card-title" style="font-size: 28px">Display All Post</h1>
+                        <div class="row w-100">
+                            <div class="col-6"><h1 class="card-title" style="font-size: 28px">Display All Post</h1></div>
+                            <div class="col-6"><a class="btn btn-primary" href="{{ route('admin.post-create') }}">Create New Post</a></div>
+                        </div>
+
                     </div>
                     <div class="card-datatable table-responsive">
                         @if (session()->has('message'))
@@ -35,7 +39,7 @@
                                         <td>{{ $post->slug }}</td>
                                         <td style="padding: 0px; text-align:center">
                                             @if ($post->featured_image)
-                                            <img src="{{ asset('storage/post-image/'.$post->featured_image) }}" alt="{{ $post->title }}"
+                                            <img src="{{ asset('storage/post-images/'.$post->featured_image) }}" alt="{{ $post->title }}"
                                                 style="width: 40px; height:35px">
                                             @endif
                                         </td>
@@ -53,7 +57,7 @@
                                                         onclick="confirm('Confirm Delete This Category ?') || event.stopImmediatePropagation()"
                                                         wire:click.prevent="moveToTrashed({{ $post->id }})">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-archive me-50 font-small-4"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>Move to Trash</a>
-                                                    
+
                                                         <a href="#" class="dropdown-item" onclick="confirm('Confirm Delete This Post Parmanently ?') || event.stopImmediatePropagation()" wire:click.prevent="parmanentDelete({{ $post->id }})">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 me-50 font-small-4"><polyline points="3 6 5 6 21 6"></polyline>
                                                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line>
