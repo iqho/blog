@@ -1,29 +1,95 @@
 <div>
-@section('title','Show All Users')
+@section('title', $post->title)
     <div class="card">
       <div class="card-header">
         <div class="col-md-12 text-left"><h1>Post Details</h1></div>
       </div>
       <div class="card-body">
-        <div class="card-text">
-            <div class="row">
-                <div class="col-3">Title</div><div class="col-9">{{ $post->title }}</div>
-                <div class="col-3">Slug</div><div class="col-9">{{ $post->slug }}</div>
-                <div class="col-3">Feature Image</div><div class="col-9">
-                @if ($post->featured_image)
-                  <img src="{{ asset('storage/post-image/'.$post->featured_image) }}" alt="{{ $post->title }}" style="width: 80px; height:75px">
-                @endif  
+        <div class="row g-0">
+            <div class="col-md-9 shadow rounded">
+                <h2 class="col-12 p-1 m-0">{{ $post->title }}</h2> 
+                <hr style="margin: 0px; color:rebeccapurple"/>
+                <div class="col-12 p-1 pt-0" style="text-align: justify;"><span class="col-12 m-0 h4">Short Description : </span><br>{{ $post->short_description }}</div>
+                <div class="col-12 p-1 pt-0" style="text-align: justify;"><span class="col-12 m-0 h4">Description : </span><br>{{ $post->description }}</div>
+                <div class="col-12 p-1 pt-0" style="text-align: justify;"><span class="col-12 m-0 h4">Meta Description : </span><br>{{ $post->meta_description }}</div>
+
+                <div class="col-12 p-1 pt-0" style="text-align: justify;">
+                    <span class="col-12 m-0 h6">Views : {{ $post->views }}</span> | 
+                    <span class="col-12 m-0 h6">Order : {{ $post->post_order }}</span> | 
+                    <span class="col-12 m-0 h6">Published at : {{ date('d-M-Y h:i a', strtotime($post->published_at)); }}</span> | 
+                    <span class="col-12 m-0 h6">Created at : {{ date('d-M-Y h:i a', strtotime($post->created_at)); }}</span> | 
+                    <span class="col-12 m-0 h6">Updated at : {{ date('d-M-Y h:i a', strtotime($post->updated_at)); }}</span> | 
+                    <span class="col-12 m-0 h6">Deleted at : {{ date('d-M-Y h:i a', strtotime($post->deleted_at)); }}</span>
                 </div>
-                <div class="col-3">Status</div><div class="col-9">
-                  @if ($post->publish_status == 1)
-                  Active
-                  @else
-                  Draft
-                  @endif
+             </div>
+            <div class="col-md-3 ps-md-1">
+                <div class="shadow rounded">
+
+                  <div class="card border-success mb-1">
+                    <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">Category</h4>
+                    <div class="card-body text-success" style="padding: 8px">* {{ $post->category->name }}</div>
+                  </div>
+
+                  <div class="card border-success mb-1">
+                    <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">Author</h4>
+                    <div class="card-body text-success" style="padding: 8px">* {{ $post->user->name }}</div>
+                  </div>
+
+                  <div class="card border-success mb-1">
+                    <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">Tags</h4>
+                    <div class="card-body text-success" style="padding: 8px">* {{ $post->title }}</div>
+                  </div>
+
+                  <div class="card border-success mb-1">
+                    <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">Published Status</h4>
+                    <div class="card-body text-success" style="padding: 8px">
+                      @if ($post->publish_status == 0)
+                        Publish
+                      @else
+                      Draft
+                      @endif  
+                    </div>
+                  </div>
+
+                  <div class="card border-success mb-1">
+                    <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">Is Sticky ?</h4>
+                    <div class="card-body text-success" style="padding: 8px">
+                      @if ($post->is_sticky == 0)
+                      Sticky
+                      @else
+                      No Sticky
+                      @endif
+                    </div>
+                  </div>
+
+                  <div class="card border-success mb-1">
+                    <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">Allow Comments ?</h4>
+                    <div class="card-body text-success" style="padding: 8px">
+                      @if ($post->allow_comments == 1)
+                      Allow
+                      @else
+                      Commenting Off
+                      @endif
+                    </div>
+                  </div>
+
+                  <div class="card border-success mb-1">
+                    <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">Is Sticky ?</h4>
+                    <div class="card-body text-success" style="padding: 8px">
+                      @if ($post->is_sticky == 0)
+                      Sticky
+                      @else
+                      No Sticky
+                      @endif
+                    </div>
+                  </div>
+
+                  <div class="card border-success mb-1">
+                    <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">Feature Image</h4>
+                    <div class="card-body text-success" style="padding: 8px"><img class="img-fluid" style="height:300px" src="{{ asset('storage/post-image/'.$post->featured_image) }}" alt=""> </div>
+                  </div>
+
                 </div>
-                <div class="col-3">User</div><div class="col-9">{{ $post->users->name }}</div>
-                <div class="col-3">Category</div><div class="col-9">{{ $post->category->name }}</div>
-                <div class="col-3">Created_at</div><div class="col-9">{{ $post->created_at }}</div>
             </div>
         </div>
       </div>

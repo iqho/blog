@@ -17,7 +17,7 @@ class Post extends Model
     protected $fillable = ['title', 'slug', 'short_description', 'description', 'meta_description', 'featured_image', 'category_id', 'user_id', 'publish_status', 'is_sticky', 'allow_comments', 'views', 'post_order', 'published_at'];
 
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }

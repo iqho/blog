@@ -55,6 +55,21 @@
                             </a>
                         </li>
 
+                        {{-- @php($posts = App\Models\Admin\Post::all())
+                        @if(count($posts)> 0)
+                        @foreach($posts as $cat)
+                        {{-- <a href="#">{{$cat->title}}</a> --}}
+                        {{-- {{ request()->slug }} --}}
+                        {{-- @endforeach
+                        @endif --}} 
+                        @if (request()->slug)
+                        <li class="@if(Route::is('admin.single-post', request()->slug ) ) active @endif nav-item">
+                            <a class="d-flex align-items-center" href="#">
+                                <i class="fas fa-user-tie"></i>
+                                <span class="menu-item text-truncate" data-i18n="Collapsed Menu">Single Post</span>
+                            </a>
+                        </li>
+                        @endif
                         <li class="@if(Route::is('admin.trashedPost') ) active @endif nav-item">
                             <a class="d-flex align-items-center" href="{{ route('admin.trashedPost') }}">
                                 <i class="fas fa-user-tie"></i>

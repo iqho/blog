@@ -15,16 +15,15 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         @endif
-                        <table id="postsTable" class="table table-bordered table-hover dt-responsive"
-                            style="width:100%">
+                        <table id="postsTable" class="table table-bordered table-hover dt-responsive" style="width:100%">
                             <thead>
                                 <tr>
                                     <th class="min-mobile">#</th>
                                     <th class="min-mobile">Title</th>
                                     <th class="not-mobile">Slug</th>
-                                    <th class="not-mobile">Image</th>
+                                    <th class="not-mobile no-sort">Image</th>
                                     <th class="not-mobile">Category</th>
-                                    <th class="not-mobile">Action</th>
+                                    <th class="not-mobile no-sort">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -102,7 +101,12 @@
 <script>
     $(document).ready(function() {
     $('#postsTable').DataTable( {
-        "order": [[ 0, "desc" ]]
+        "order": [[ 0, "desc" ]],
+        "pageLength": 25,
+        "columnDefs": [ {
+        "targets" : 'no-sort',
+        "orderable": false,
+        }]
     } );
 } );
 </script>
