@@ -48,7 +48,7 @@
                                             <?php $dash=''; ?>
                                             <option value="{{$category->id}}">{{$category->name}}</option>
                                             @if(count($category->subcategory))
-                                                @include('backend.category.subCategoryList-option', ['subcategories' => $category->subcategory])
+                                                @include('livewire.backend.category.subcategoryList-option', ['subcategories' => $category->subcategory])
                                             @endif
                                         @endforeach
                                     @endif

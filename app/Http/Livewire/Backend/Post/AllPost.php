@@ -4,14 +4,17 @@ namespace App\Http\Livewire\Backend\Post;
 
 use Livewire\Component;
 use App\Models\Admin\Post;
+use App\Models\Admin\Category;
 use Illuminate\Support\Facades\File;
 
 class AllPost extends Component
 {
 
     public function create(){
-        return view('livewire.backend.post.create');
+        $data['catOption'] = Category::where('parent_id', null)->orderBy('id', 'desc')->get();
+        return view('livewire.backend.post.create', compact('data'));
     }
+
     public function store()
         {
             //dd('Ok');
