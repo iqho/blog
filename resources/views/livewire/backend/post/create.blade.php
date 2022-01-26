@@ -13,6 +13,10 @@ background-image: url("{{ asset('backend/assets/images/arrow/arrow.png') }}");
 transition: all 0.5s;
 }
 </style>
+
+@push('page-css')
+<link rel="stylesheet" href="{{ asset('backend/assets/ckeditor/styles.css') }}">
+@endpush
       <div class="card">
               <div class="card-header">
                 <div class="col-md-12 text-left">
@@ -57,11 +61,12 @@ transition: all 0.5s;
                             <div class="invalid-feedback">Please Enter Post Full Description.</div>
                           </div>
 
+
                           <div class="mb-1">
                             <input type="submit" value="Post" class="btn btn-primary px-4">
                           </div>
-            
-            
+
+
                     </div>
                     <div class="col-md-3 ps-md-1">
                       <div class="shadow rounded">
@@ -77,7 +82,7 @@ transition: all 0.5s;
                               <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
                                 Status & visibility
-                                
+
                               </button>
                             </h2>
                             <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show border border-gray" aria-labelledby="panelsStayOpen-headingOne">
@@ -96,7 +101,7 @@ transition: all 0.5s;
                                             <label class="custom-option-item" for="customOptionsCheckableRadios1">Draft
                                             </label>
                                           </div>
-                                        
+
                                           <div class="col-md-6">
                                             <input class="custom-option-item-check" type="radio" name="customOptionsCheckableRadios"
                                               id="customOptionsCheckableRadios2" value="Publish">
@@ -166,27 +171,56 @@ transition: all 0.5s;
                     </div>
                   </div>
                 </form>
-            
+
               </div>
         </div>
 
-    <script>
-      (function () {
-      'use strict'
-      var forms = document.querySelectorAll('.needs-validation')
-      Array.prototype.slice.call(forms)
-      .forEach(function (form) {
-      form.addEventListener('submit', function (event) {
-      if (!form.checkValidity()) {
-      event.preventDefault()
-      event.stopPropagation()
-      }
-      form.classList.add('was-validated')
-      }, false)
-      })
-      })();
+    @push('page-js')
+    <script src="{{ asset('backend/assets/ckeditor/ckeditor.js') }}"></script>
+        <script>
+        (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+        }, false)
+        })
+        })();
 
-
+        // CK Ediotr
+        const watchdog = new CKSource.EditorWatchdog();
+        window.watchdog = watchdog;
+        watchdog.setCreator( ( element, config ) => {
+            return CKSource.Editor
+                .create( element, config )
+                .then( editor => {
+                    return editor;
+                } )
+        } );
+        watchdog.setDestructor( editor => {
+            return editor.destroy();
+        } );
+        watchdog.on( 'error', handleError );
+        watchdog
+            .create( document.querySelector( '#full_description' ), {
+                licenseKey: '',
+            } )
+            .catch( handleError );
+            
+        function handleError( error ) {
+            console.error( 'Oops, something went wrong!' );
+            console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );
+            console.warn( 'Build id: fls0pt4it5ah-cdobge9njg78' );
+            console.error( error );
+        }
+        
     </script>
+    @endpush
     </x-Backend-Layout>
 
