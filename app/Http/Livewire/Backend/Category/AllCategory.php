@@ -93,7 +93,7 @@ class AllCategory extends Component
 
         if (!empty($this->image)) {
             $newImageName = $myslug.".".$this->image->extension();
-            $this->image->storeAs('category-image', $newImageName, 'public');
+            $this->image->storeAs('category-images', $newImageName, 'public');
             //$imageurl = url('storage') . '/' . $image;
         } else {
             $newImageName = "";
@@ -147,7 +147,7 @@ class AllCategory extends Component
 
                     if($category->image != null && empty($this->image3)){
                     // This Section for Only when slug change with image name change otherwise keep old slug name image
-                    $path_info = pathinfo(public_path('storage/category-image/'. $category->image));
+                    $path_info = pathinfo(public_path('storage/category-images/'. $category->image));
                     $getExt = $path_info['extension'];
                     $newImgName = $myslug.".".$getExt;
                     $currentPath = (public_path('storage/category-image/'. $category->image));

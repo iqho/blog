@@ -1,5 +1,5 @@
-<x-Backend-Layout>
-    @section('title', 'Create New Post')
+<div>
+@section('title', 'Create New Post')
 <style>
 .form-label{
   font-size: 16px;
@@ -24,7 +24,7 @@ transition: all 0.5s;
                 </div>
               </div>
               <div class="card-body">
-                <form action="{{ route('admin.post-store') }}" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                <form  enctype="multipart/form-data" class="needs-validation" novalidate>
                   @csrf
                   <div class="row g-0">
                     <div class="col-md-9 shadow rounded p-1">
@@ -32,7 +32,7 @@ transition: all 0.5s;
                           <div class="mb-1">
                             <label class="form-label" for="basic-addon-title">Title</label>
                             <input type="text" id="basic-addon-title" class="form-control" placeholder="Title" aria-label="Title"
-                              aria-describedby="basic-addon-title" required />
+                              aria-describedby="basic-addon-title" wire:model="title" required />
                             <div class="valid-feedback">Looks good !</div>
                             <div class="invalid-feedback">Please Enter Post Title.</div>
                           </div>
@@ -41,7 +41,7 @@ transition: all 0.5s;
                               <label class="form-label" for="basic-addon-title">Post Slug</label>
                               <div class="input-group mb-2">
                               <span class="input-group-text" id="slug">{{ url('/posts') }}/</span>
-                              <input type="text" class="form-control" id="slug" aria-describedby="slug" placeholder="Slug" required>
+                              <input type="text" class="form-control" id="slug" aria-describedby="slug" placeholder="Slug" wire:model="slug" required>
                               <div class="valid-feedback">Looks good !</div>
                               <div class="invalid-feedback">Please Enter Post Slug.</div>
                               </div>
@@ -49,27 +49,28 @@ transition: all 0.5s;
 
                           <div class="mb-1">
                             <label class="d-block form-label" for="short_description">Short Description</label>
-                            <textarea class="form-control" id="short_description" name="short_description" rows="3" required></textarea>
+                            <textarea class="form-control" id="short_description" name="short_description" rows="3" wire:model="short_description" required></textarea>
                             <div class="valid-feedback">Looks good !</div>
                             <div class="invalid-feedback">Please Enter Post Short Description.</div>
                           </div>
 
-                          <div class="mb-1">
+                          <div class="mb-1" wire:ignore>
                             <label class="d-block form-label" for="full_description">Full Description</label>
-                            <textarea class="form-control editor" id="full_description" name="full_description" rows="15" style="padding: 0px;" required></textarea>
+                            <textarea class="form-control editor" id="full_description" name="full_description" rows="15" style="padding: 0px;" wire:model.defer="full_description" required></textarea>
+                            <div id="word-count"></div>
                             <div class="valid-feedback">Looks good !</div>
                             <div class="invalid-feedback">Please Enter Post Full Description.</div>
                           </div>
 
                           <div class="mb-1">
                             <label class="d-block form-label" for="short_description">Meta Description</label>
-                            <textarea class="form-control" id="meta_description" name="meta_description" rows="3" required></textarea>
+                            <textarea class="form-control" id="meta_description" name="meta_description" rows="3" wire:model="meta_description" required></textarea>
                             <div class="valid-feedback">Looks good !</div>
                             <div class="invalid-feedback">Please Enter Post Meta Description.</div>
                           </div>
 
                           <div class="mb-1">
-                            <input type="submit" value="Post" class="btn btn-primary px-4">
+                            <button wire:click.prevent="store()" class="btn btn-primary px-4">Post</button>
                           </div>
 
 
@@ -79,15 +80,17 @@ transition: all 0.5s;
                         <div class="card border-success mb-1">
                           <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">
                             Feature Image</h4>
-                           <div class="card-body text-success" style="padding: 8px">
-                            <input type="file" class="form-control @error('image') is-invalid @enderror" name="image" accept="image/*" id="image" wire:model="image" onchange="return checkImageExtention()">
-                            @error('image') <span class="text-danger error">{{ $message }}</span>@enderror
-                            <div wire:loading wire:target="image" class="text-success">Uploading...</div>
+                           <div class="card-body text-success" style="padding: 8px;">
+                            @if($feature_image)
+                            <div class="col-12 text-center w-100"><img src="{{ $feature_image->temporaryUrl() }}" style="width: 100%; max-height:200px;"></div>
+                            @else
+                            <div class="col-12 text-center w-100"><img src="{{ asset('backend/assets/images/slider/03.jpg') }}" style="width: 100%; max-height:200px;"></div>
+                            @endif
+                            <div wire:loading wire:target="feature_image" class="text-success">Uploading...</div>
+                            <input type="file" class="form-control mt-1 @error('feature_image') is-invalid @enderror" name="feature_image" accept="image/*" id="feature_image" wire:model="feature_image" onchange="return checkImageExtention()">
+                            @error('feature_image') <span class="text-danger error">{{ $message }}</span>@enderror
                             <div id="error-msg" class="text-danger"></div>
-                            {{-- {{ $data['image'] }} --}}
-                            {{-- @if($image) --}}
-                            {{-- <div class="col-12 text-center w-100"><img src="{{ $image->temporaryUrl() }}" style="width: 100px; height:80px;"></div> --}}
-                            {{-- @endif --}}
+
 
                            </div>
                         </div>
@@ -103,32 +106,33 @@ transition: all 0.5s;
                             <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show border border-gray" aria-labelledby="panelsStayOpen-headingOne">
                                 <div class="accordion-body">
                                       <div class="form-group">
-
-                                        <div class="row g-0">
-                                            <div class="form-check form-check-primary col-6">
-                                            <input type="checkbox" class="form-check-input" name="isActive" id="colorCheck5" checked>
-                                            <label class="form-check-label" for="colorCheck5">Is Active</label>
+                                        <div class="row g-0 mt-1">
+                                            <div class="form-check form-check-danger col-sm-12 g-0">
+                                            <input type="checkbox" class="form-check-input" name="isStiky" id="isStiky" wire:mode="isStiky">
+                                            <label class="form-check-label" for="isStiky">Is Stiky</label>
                                             </div>
-                                            <div class="form-check form-check-danger col-6">
-                                            <input type="checkbox" class="form-check-input" name="isStiky" id="colorCheck5">
-                                            <label class="form-check-label" for="colorCheck5">Is Stiky</label>
+                                            <div class="form-check form-check-danger col-sm-12 mt-1 g-0" style="margin-bottom: 5px">
+                                            <input type="checkbox" class="form-check-input" name="allow_comments" id="allow_comments" wire:model="allow_comments">
+                                            <label class="form-check-label" for="allow_comments">Allow Comments</label>
                                             </div>
                                         </div>
-                                        <hr/>
-                                        <div class="row custom-options-checkable g-1">
-                                          <div class="col-md-6">
-                                            <input class="custom-option-item-check" type="radio" name="publish_status" wire:model="publish_status"
-                                              id="customOptionsCheckableRadios1" checked="">
-                                            <label class="custom-option-item text-center" for="customOptionsCheckableRadios1" style="padding: 6px">Publish
-                                            </label>
-                                          </div>
-
-                                          <div class="col-md-6">
-                                            <input class="custom-option-item-check" type="radio" name="publish_status" wire:model="publish_status"      id="customOptionsCheckableRadios2">
-                                            <label class="custom-option-item text-center" for="customOptionsCheckableRadios2" style="padding: 6px">
-                                              Draft
-                                            </label>
-                                          </div>
+                                        <hr style="margin-top: 0px; margin: 8px;"/>
+                                        <div class="col-12">
+                                            Select Publish Status:
+                                            <div class="row custom-options-checkable g-0" style="margin-top: 5px">
+                                                <div class="col-md-6" style="margin:0px; padding: 2px">
+                                                  <input class="custom-option-item-check" type="radio" name="publish_status" wire:model="publish_status"
+                                                    id="customOptionsCheckableRadios1" value="1" checked="">
+                                                  <label class="custom-option-item text-center" for="customOptionsCheckableRadios1" style="padding: 6px">Publish
+                                                  </label>
+                                                </div>
+                                                <div class="col-md-6" style="margin:0px; padding: 2px">
+                                                  <input class="custom-option-item-check" type="radio" name="publish_status" wire:model="publish_status"      id="customOptionsCheckableRadios2" value="0">
+                                                  <label class="custom-option-item text-center" for="customOptionsCheckableRadios2" style="padding: 6px">
+                                                    Draft
+                                                  </label>
+                                                </div>
+                                              </div>
                                         </div>
 
                                       </div>
@@ -139,8 +143,7 @@ transition: all 0.5s;
                          <div class="accordion-item">
                             <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
                               <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                Select Parent Category (<span class="text-danger">*</span>):
+                                data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">Post Category:
                               </button>
                             </h2>
                             <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show border border-gray"
@@ -186,15 +189,15 @@ transition: all 0.5s;
                           </div>
 
                           <div class="accordion-item">
-                            <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                            <h2 class="accordion-header" id="panelsStayOpen-headingFour">
                               <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
-                                aria-controls="panelsStayOpen-collapseThree">
-                                Accordion Item #3
+                                data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseFour">
+                                Accordion Item #4
                               </button>
                             </h2>
-                            <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse border border-gray"
-                              aria-labelledby="panelsStayOpen-headingThree">
+                            <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse border border-gray"
+                              aria-labelledby="panelsStayOpen-headingFour">
                               <div class="accordion-body">
                                 <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin
                                 adds the appropriate classes that we use to style each element. These classes control the overall appearance, as
@@ -238,8 +241,8 @@ transition: all 0.5s;
         })();
 
         function checkImageExtention() {
-          var fileInput = document.getElementById('image');
-          var filePath = document.getElementById('image').value;
+          var fileInput = document.getElementById('feature_image');
+          var filePath = document.getElementById('feature_image').value;
           var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
           if(!allowedExtensions.exec(filePath)){
             if(!document.getElementById("error-msg").childNodes.length){
@@ -255,20 +258,18 @@ transition: all 0.5s;
 
         // CK Ediotr
         ClassicEditor
-            .create( document.querySelector( '.editor' ), {
-                licenseKey: '',
-            } )
-            .then( editor => {
-                window.editor = editor;
-            } )
-            .catch( error => {
-                console.error( 'Oops, something went wrong!' );
-                console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );
-                console.warn( 'Build id: nwu99lowr3qi-sun0lufgs0ec' );
-                console.error( error );
-            } );
+            .create(document.querySelector('#full_description'))
+            .then(editor => {
+                editor.model.document.on('change:data', () => {
+                    @this.set('full_description', editor.getData());
+                })
+            })
+            .catch(error => {
+                console.error(error);
+            });
 
     </script>
     @endpush
-    </x-Backend-Layout>
+</div>
+
 
