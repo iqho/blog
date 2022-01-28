@@ -32,7 +32,7 @@ transition: all 0.5s;
                           <div class="mb-1">
                             <label class="form-label" for="basic-addon-title">Title</label>
                             <input type="text" id="basic-addon-title" class="form-control" placeholder="Title" aria-label="Title"
-                              aria-describedby="basic-addon-title" required />
+                              aria-describedby="basic-addon-title" wire:keyup="generateSlug()" wire:model='title' required />
                             <div class="valid-feedback">Looks good !</div>
                             <div class="invalid-feedback">Please Enter Post Title.</div>
                           </div>
@@ -41,7 +41,7 @@ transition: all 0.5s;
                               <label class="form-label" for="basic-addon-title">Post Slug</label>
                               <div class="input-group mb-2">
                               <span class="input-group-text" id="slug">{{ url('/posts') }}/</span>
-                              <input type="text" class="form-control" id="slug" aria-describedby="slug" placeholder="Slug" required>
+                              <input type="text" class="form-control" id="slug" aria-describedby="slug" placeholder="Slug" wire:model="slug" required>
                               <div class="valid-feedback">Looks good !</div>
                               <div class="invalid-feedback">Please Enter Post Slug.</div>
                               </div>

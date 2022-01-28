@@ -1,40 +1,33 @@
 <?php
 
-namespace App\Http\Livewire\Backend\Post;
+namespace App\Http\Controllers\backend\post;
 
-use Livewire\Component;
-use Illuminate\Support\Str;
-use Livewire\WithFileUploads;
-use App\Models\Admin\Category;
 use App\Models\Admin\Post;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\Admin\Category;
+use App\Http\Controllers\Controller;
 
-class CreatePost extends Component
+class CreatePost extends Controller
 {
-
-    use WithFileUploads;
-    public $publish_status = 1;
-    public $isStiky = 0;
-    public $allow_comments = 1;
-    public $title, $slug, $short_description, $description, $meta_description, $featured_image, $tags, $category_id;
-
-    public function render()
+    public function create()
     {
         $data['catOption'] = Category::where('parent_id', null)->orderBy('id', 'desc')->get();
 
-        $data['checkEmpty'] = Str::length($this->slug);
-        $data['checkSlug'] = Post::where('slug', '=', Str::slug($this->slug))->exists();
+      //  $data['checkEmpty'] = Str::length($this->slug);
+        //$data['checkSlug'] = Post::where('slug', '=', Str::slug($this->slug))->exists();
 
-        return view('livewire.backend.post.create-post', compact('data'));
+        return view('backend.post.create-post', compact('data'));
     }
 
-    public function generateSlug()
-    {
-        $slug = Str::slug($this->title);
-        $count = Post::where('slug', 'LIKE', "{$slug}%")->count();
-        $newCount = $count > 0 ? ++$count : '';
-        $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
-        return $this->slug = $myslug;
-    }
+    // public function generateSlug()
+    // {
+    //     $slug = Str::slug($this->title);
+    //     $count = Post::where('slug', 'LIKE', "{$slug}%")->count();
+    //     $newCount = $count > 0 ? ++$count : '';
+    //     $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
+    //     return $this->slug = $myslug;
+    // }
 
     public function storePost()
         {
@@ -109,6 +102,4 @@ class CreatePost extends Component
         //         $post->tags()->sync($tagIds);
         //     }
         }
-
 }
-

@@ -38,7 +38,7 @@ transition: all 0.5s;
                 </div>
               </div>
               <div class="card-body">
-                <form>
+                <form  enctype="multipart/form-data" method="post" action="{{ route('admin.post-store') }}" class="need-validation" novalidate>
                   @csrf
                   <div class="row g-0">
                     <div class="col-md-9 shadow rounded p-1">
@@ -46,20 +46,18 @@ transition: all 0.5s;
                           <div class="mb-1">
                             <label class="form-label" for="basic-addon-title">Title</label>
                             <input type="text" id="basic-addon-title" class="form-control" placeholder="Title" aria-label="Title"
-                              aria-describedby="basic-addon-title" name="title" wire:model="title" wire:keyup="generateSlug()" wire:change="generateSlug()" required />
-                              @error('title') <span class="text-danger error">{{ $message }}</span>@enderror
-                            {{-- <div class="valid-feedback">Looks good !</div>
-                            <div class="invalid-feedback">Please Enter Post Title.</div> --}}
+                              aria-describedby="basic-addon-title" wire:model="title" wire:keyup="generateSlug()" wire:change="generateSlug()" required />
+                            <div class="valid-feedback">Looks good !</div>
+                            <div class="invalid-feedback">Please Enter Post Title.</div>
                           </div>
 
-                          <div class="col-12 w-100">
+                          <div>
                               <label class="form-label" for="basic-addon-title">Post Slug</label>
                               <div class="input-group">
                               <span class="input-group-text" id="slug">{{ url('/posts') }}/</span>
-                              <input type="text" class="form-control" id="slug" name="slug" aria-describedby="slug" placeholder="Slug" wire:model="slug" required>
-                              @error('slug') <span class="text-danger error col-12">{{ $message }}</span>@enderror
-                             {{-- <div class="valid-feedback">Looks good !</div>
-                              <div class="invalid-feedback">Please Enter Post Slug.</div> --}}
+                              <input type="text" class="form-control" id="slug" aria-describedby="slug" placeholder="Slug" wire:model="slug" required>
+                             <div class="valid-feedback">Looks good !</div>
+                              <div class="invalid-feedback">Please Enter Post Slug.</div>
                               </div>
                           </div>
                             @if ($data['checkSlug'] > 0)
@@ -73,30 +71,28 @@ transition: all 0.5s;
 
                           <div class="my-1">
                             <label class="d-block form-label" for="short_description">Short Description</label>
-                            <textarea class="form-control" id="short_description" name="short_description" rows="3" name="short_description" wire:model="short_description" required></textarea>
-                            @error('short_description') <span class="text-danger error">{{ $message }}</span>@enderror
-                            {{-- <div class="valid-feedback">Looks good !</div>
-                            <div class="invalid-feedback">Please Enter Post Short Description.</div> --}}
+                            <textarea class="form-control" id="short_description" name="short_description" rows="3" wire:model="short_description" required></textarea>
+                            <div class="valid-feedback">Looks good !</div>
+                            <div class="invalid-feedback">Please Enter Post Short Description.</div>
                           </div>
 
                           <div class="mb-1" wire:ignore>
-                            <label class="d-block form-label" for="description">Full Description</label>
-                            <textarea class="form-control editor" id="description" name="description" rows="15" style="padding: 0px;" wire:model="description" required></textarea>
-                            @error('description') <span class="text-danger error col-12">{{ $message }}</span>@enderror
-                            {{-- <div class="valid-feedback">Looks good !</div>
-                            <div class="invalid-feedback">Please Enter Post Full Description.</div> --}}
+                            <label class="d-block form-label" for="full_description">Full Description</label>
+                            <textarea class="form-control editor" id="full_description" name="full_description" rows="15" style="padding: 0px;" wire:model.defer="full_description" required></textarea>
+                            <div id="word-count"></div>
+                            <div class="valid-feedback">Looks good !</div>
+                            <div class="invalid-feedback">Please Enter Post Full Description.</div>
                           </div>
 
                           <div class="mb-1">
                             <label class="d-block form-label" for="meta_description">Meta Description</label>
                             <textarea class="form-control" id="meta_description" name="meta_description" rows="3" wire:model="meta_description" required></textarea>
-                            @error('meta_description') <span class="text-danger error">{{ $message }}</span>@enderror
-                            {{-- <div class="valid-feedback">Looks good !</div>
-                            <div class="invalid-feedback">Please Enter Post Meta Description.</div> --}}
+                            <div class="valid-feedback">Looks good !</div>
+                            <div class="invalid-feedback">Please Enter Post Meta Description.</div>
                           </div>
 
                           <div class="mb-1">
-                            <button type="button" class="btn btn-primary" wire:click.prevent="storePost()" style="padding: 14px; margin-bottom:10px">Create New Post</button>
+                            <input type="submit"  value="Post" class="btn btn-primary px-4"/>
                           </div>
 
 
@@ -176,8 +172,8 @@ transition: all 0.5s;
                               aria-labelledby="panelsStayOpen-headingTwo">
                               <div class="accordion-body">
                                       <div class="form-group">
-                                        <select type="text" class="form-control @error('category_id') is-invalid @enderror" name="category_id" wire:model="category_id" required>
-                                        <option>Select Post Category</option>
+                                        <select type="text" class="form-control @error('category_id') is-invalid @enderror" name="category_id"
+                                          wire:model="category_id">
                                           @if($data['catOption'])
                                           @foreach($data['catOption'] as $category)
                                           <?php $dash=''; ?>
@@ -188,7 +184,8 @@ transition: all 0.5s;
                                           @endforeach
                                           @endif
                                         </select>
-                                        @error('category_id') <span class="text-danger error">{{ $message }}</span>@enderror
+                                        @error('parent_id') <span class="text-danger error">{{ $message }}</span>@enderror
+                                      </div>
                               </div>
                             </div>
                           </div>
@@ -204,9 +201,9 @@ transition: all 0.5s;
                             <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show border border-gray"
                               aria-labelledby="panelsStayOpen-headingThree">
                               <div class="accordion-body">
-{{-- <input type="text" wire:model="tags" name="tags"> --}}
-                                <div class="mb-1" wire:ignore.self>
-                                    <input class="form-control" type="text" data-role="tagsinput" name="tags" wire:model="tags">
+
+                                <div class="mb-1">
+                                    <input class="form-control" type="text" data-role="tagsinput" name="tags">
                                     @if ($errors->has('tags'))
                                     <span class="text-danger">{{ $errors->first('tags') }}</span>
                                     @endif
@@ -231,20 +228,20 @@ transition: all 0.5s;
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.js"></script>
     <script src="{{ asset('backend/assets/ckeditor/ckeditor.js') }}"></script>
         <script>
-        // (function () {
-        // 'use strict'
-        // var forms = document.querySelectorAll('.needs-validation')
-        // Array.prototype.slice.call(forms)
-        // .forEach(function (form) {
-        // form.addEventListener('submit', function (event) {
-        // if (!form.checkValidity()) {
-        // event.preventDefault()
-        // event.stopPropagation()
-        // }
-        // form.classList.add('was-validated')
-        // }, false)
-        // })
-        // })();
+        (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+        }, false)
+        })
+        })();
 
         function checkImageExtention() {
           var fileInput = document.getElementById('featured_image');
@@ -264,10 +261,10 @@ transition: all 0.5s;
 
         // CK Ediotr
         ClassicEditor
-            .create(document.querySelector('#description'))
+            .create(document.querySelector('#full_description'))
             .then(editor => {
                 editor.model.document.on('change:data', () => {
-                    @this.set('description', editor.getData());
+                    @this.set('full_description', editor.getData());
                 })
             })
             .catch(error => {

@@ -204,8 +204,8 @@ transition: all 0.5s;
                             <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show border border-gray"
                               aria-labelledby="panelsStayOpen-headingThree">
                               <div class="accordion-body">
-{{-- <input type="text" wire:model="tags" name="tags"> --}}
-                                <div class="mb-1" wire:ignore.self>
+
+                                <div class="mb-1">
                                     <input class="form-control" type="text" data-role="tagsinput" name="tags" wire:model="tags">
                                     @if ($errors->has('tags'))
                                     <span class="text-danger">{{ $errors->first('tags') }}</span>
