@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\backend\post;
 
+use App\Models\Admin\Tag;
 use App\Models\Admin\Post;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Admin\Category;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rules\Unique;
 
 class CreatePost extends Controller
 {
@@ -29,21 +31,83 @@ class CreatePost extends Controller
     //     return $this->slug = $myslug;
     // }
 
-    public function storePost()
+    public function storePost(Request $request)
         {
-            date_default_timezone_set("Asia/Dhaka");
-           dd($this->title, $this->slug, $this->short_description, $this->description, $this->meta_description, $this->category_id, $this->tags, $this->publish_status, $this->isStiky, $this->allow_comments);
-            // $validatedDate = $this->validate([
-            //    'title' => ['required', 'string', 'max:255'],
-            //    'slug' => ['required', 'string', 'min:2', 'max:255'],
-            //     'short_description' => ['required', 'string', 'min:2', 'max:500'],
-            //     'description' => ['required'],
-            //     'meta_description' => ['required', 'string', 'min:2', 'max:500'],
-            //     'publish_status' => ['required'],
-            //     //'featured_image' => ['nullable|featured_image|mimes:jpg,jpeg,png,svg,gif|max:2048'],
-            //     'category_id' => ['required', 'numeric'],
-            //     'tags' => ['required'],
-            // ]);
+            //date_default_timezone_set("Asia/Dhaka");
+            //dd($request->all());
+
+            $validatedDate = $request->validate([
+               'title' => ['required', 'string', 'max:255'],
+               'slug' => ['required', 'string', 'min:2', 'max:255', 'Unique:posts'],
+                'short_description' => ['required', 'string', 'min:2', 'max:500'],
+                'description' => ['required'],
+                'meta_description' => ['required', 'string', 'min:2', 'max:500'],
+                'publish_status' => ['required','boolean'],
+                'is_sticky' => ['boolean'],
+                'allow_comments' => ['boolean'],
+                'featured_image' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
+                'category_id' => ['required', 'numeric'],
+                'tags' => ['required'],
+            ]);
+            //dd($request->all());
+            //$request->user_id = auth()->id();
+           // Post::create($request->all());
+            //Tag::create($request->only('tags'));
+
+            // $post = Post::create($request->all());
+            // if($post)
+            //    {
+            //        $tagNames = explode(',',$request->get('tags'));
+            //         $tagIds = [];
+            //         foreach($tagNames as $tagName)
+            //         {
+            //             //$post->tags()->create(['name'=>$tagName]);
+            //             //Or to take care of avoiding duplication of Tag
+            //             //you could substitute the above line as
+            //             $tag = Tag::firstOrCreate(['title'=>$tagName]);
+            //             if($tag)
+            //             {
+            //             $tagIds[] = $tag->id;
+            //             }
+
+            //         }
+            //         $post->tags()->sync($tagIds);
+            //     }
+
+
+
+
+
+            $post = new Post;
+            $post->title = $request->title;
+            $post->slug = $request->slug;
+            $post->short_description = $request->short_description;
+            $post->description = $request->description;
+            $post->meta_description = $request->meta_description;
+            $post->category_id = $request->category_id;
+            $post->publish_status = $request->publish_status;
+            $post->is_sticky = 1;
+            $post->allow_comments = 1;
+            $post->featured_image = $request->featured_image;
+            $post->published_at = $request->published_at;
+            $post->user_id = 1;
+            //$post->isStiky = $request->isStiky;
+            $post->save();
+            $tags = $request->tag;
+            $tagNames = [];
+            if (!empty($tags)) {
+            foreach ($tags as $tagName)
+            {
+            $tag = Tag::firstOrCreate(['title'=>$tagName, 'slug'=>Str::slug($tagName)]);
+            if($tag)
+            {
+            $tagNames[] = $tag->id;
+            }
+            }
+            $post->tags()->syncWithoutDetaching($tagNames);
+            }
+
+            return redirect(route('admin.all-post'))->with('message', 'Post Created Successfully');
 
             // $slug = Str::slug($this->slug);
             // $count = Category::where('slug', 'LIKE', "{$slug}%")->count();

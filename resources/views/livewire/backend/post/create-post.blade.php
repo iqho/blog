@@ -116,8 +116,6 @@ transition: all 0.5s;
                             <input type="file" class="form-control mt-1 @error('featured_image') is-invalid @enderror" name="featured_image" accept="image/*" id="featured_image" wire:model="featured_image" onchange="return checkImageExtention()">
                             @error('featured_image') <span class="text-danger error">{{ $message }}</span>@enderror
                             <div id="error-msg" class="text-danger"></div>
-
-
                            </div>
                         </div>
 

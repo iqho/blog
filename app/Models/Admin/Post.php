@@ -27,9 +27,13 @@ class Post extends Model
         return $this->belongsTo(Category::class);
     }
 
+    // public function tags()
+    // {
+    //     return $this->belongsToMany(Tag::class);
+    // }
     public function tags()
     {
-        return $this->belongsToMany(Tag::class);
+    return $this->belongsToMany(Tag::class, 'post_tag', 'post_id', 'tag_id');
     }
 
     public function getRouteKeyName()
