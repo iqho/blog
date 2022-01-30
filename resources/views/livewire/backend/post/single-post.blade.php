@@ -12,6 +12,13 @@
                 <div class="col-12 p-1 pt-1" style="text-align: justify;"><span class="col-12 m-0 h4">Short Description : </span><br>{{ $post->short_description }}</div>
                 <div class="col-12 p-1 pt-0" style="text-align: justify;"><span class="col-12 m-0 h4">Description : </span><br>{{ $post->description }}</div>
                 <div class="col-12 p-1 pt-0" style="text-align: justify;"><span class="col-12 m-0 h4">Meta Description : </span><br>{{ $post->meta_description }}</div>
+                <div class="col-12 p-1 pt-0" style="text-align: justify;"><span class="col-12 m-0 h4">Meta Description : </span><br>
+                    @foreach ($post->tags as $tag)
+                        {{ $tag->title }}
+                    @endforeach
+
+
+                </div>
 
                 <div class="col-12 p-1 pt-0" style="text-align: justify;">
                     <span class="col-12 m-0 h6">Views : {{ $post->views }}</span> |

@@ -136,15 +136,15 @@
                 @error('category_id') <span class="text-danger error">{{ $message }}</span>@enderror
             </div>
             Tags <input class="form-control" type="text" data-role="tagsinput" name="tags" value="{{ old('tags') }}">
+            <ul>
+            @foreach ($data['tagOption'] as $tag)
+            <li>{{ $tag->title }}</li>
+            @endforeach
+            </ul>
             <div class="invalid-feedback">Please Write Tags.</div>
             @if ($errors->has('tags'))
             <span class="text-danger">{{ $errors->first('tags') }}</span>
             @endif
-            <input type="hidden" value="1" name="user_id">
-              <?php
-              $date = new DateTime('2000-01-01');
-              ?>
-            {{-- <input type="hidden" value="{{ $date->format('Y-m-d H:i:s'); }}" name="published_at"> --}}
             <input type="submit" value="Post" class="btn btn-primary">
 
             </form>

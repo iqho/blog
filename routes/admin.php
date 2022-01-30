@@ -25,6 +25,9 @@ Route::get('/posts/{slug}', SinglePost::class)->name('single-post');
 Route::get('/post/create', [CreatePost::class, 'create'])->name('post-create');
 Route::post('/post/store', [CreatePost::class, 'storePost'])->name('post-store');
 
+Route::get('/tag/create', [CreatePost::class, 'createTag'])->name('tag-create');
+Route::post('/tag/store', [CreatePost::class, 'storeTag'])->name('tag-store');
+
 Route::get('/post/trashed-post', TrashedPost::class)->name('trashedPost');
 
 

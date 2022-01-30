@@ -15,28 +15,16 @@ class CreatePost extends Controller
     public function create()
     {
         $data['catOption'] = Category::where('parent_id', null)->orderBy('id', 'desc')->get();
-
-      //  $data['checkEmpty'] = Str::length($this->slug);
-        //$data['checkSlug'] = Post::where('slug', '=', Str::slug($this->slug))->exists();
-
+        $data['tagOption'] = Tag::orderBy('id', 'desc')->get();
         return view('backend.post.create-post', compact('data'));
     }
 
-    // public function generateSlug()
-    // {
-    //     $slug = Str::slug($this->title);
-    //     $count = Post::where('slug', 'LIKE', "{$slug}%")->count();
-    //     $newCount = $count > 0 ? ++$count : '';
-    //     $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
-    //     return $this->slug = $myslug;
-    // }
 
     public function storePost(Request $request)
         {
             date_default_timezone_set("Asia/Dhaka");
-            //dd($request->all());
-
-            $validatedDate = $request->validate([
+            
+            $request->validate([
                'title' => ['required', 'string', 'max:255'],
                'slug' => ['required', 'string', 'min:2', 'max:255', 'Unique:posts'],
                 'short_description' => ['required', 'string', 'min:2', 'max:500'],
@@ -49,34 +37,6 @@ class CreatePost extends Controller
                 'category_id' => ['required', 'numeric'],
                 'tags' => ['required'],
             ]);
-            //dd($request->all());
-            //$request->user_id = auth()->id();
-           // Post::create($request->all());
-            //Tag::create($request->only('tags'));
-
-            // $post = Post::create($request->all());
-            // if($post)
-            //    {
-            //        $tagNames = explode(',',$request->get('tags'));
-            //         $tagIds = [];
-            //         foreach($tagNames as $tagName)
-            //         {
-            //             //$post->tags()->create(['name'=>$tagName]);
-            //             //Or to take care of avoiding duplication of Tag
-            //             //you could substitute the above line as
-            //             $tag = Tag::firstOrCreate(['title'=>$tagName]);
-            //             if($tag)
-            //             {
-            //             $tagIds[] = $tag->id;
-            //             }
-
-            //         }
-            //         $post->tags()->sync($tagIds);
-            //     }
-
-
-
-
 
             $post = new Post;
             $post->title = $request->title;
@@ -91,87 +51,21 @@ class CreatePost extends Controller
             $post->featured_image = $request->featured_image ? $request->featured_image : NULL;
             $post->published_at = date("Y-m-d H:i:s");
             $post->user_id = auth()->id();
-            //$post->save();
-            
-            $tags = $request->tags;
+            $post->save();
 
-        // dd($request->tags);
-            $tagNames = explode(',', $request->tags);
-            $tagNames2 = [];
-           // if ($user->states != FALSE) {
-            if (!empty($tagNames)) {
-            foreach ($tagNames as $tagName)
-            {
-                dd($tagName);
-            //$tag = Tag::firstOrCreate(['title'=>$tagName, 'slug'=>Str::slug($tagName)]);
-            // if($tag)
-            // {
-            // $tagNames[] = $tag->id;
-            // }
-            }
-            $post->tags()->syncWithoutDetaching($tagNames);
-            }
-            else{
-                dd('Display Blank');
+            if($request->has('tags')){
+                $tags = explode(",", $request->tags);
+                $tags_id = [];
+
+                foreach($tags as $tag){
+                    $tag_model = Tag::firstOrCreate(['title'=>$tag, 'slug'=>Str::slug($tag)]);
+                    if($tag_model){
+                        array_push($tags_id, $tag_model->id);
+                    }
+                }
+                $post->tags()->sync($tags_id);
             }
 
             return redirect(route('admin.all-post'))->with('message', 'Post Created Successfully');
-
-            // $slug = Str::slug($this->slug);
-            // $count = Category::where('slug', 'LIKE', "{$slug}%")->count();
-            // $newCount = $count > 0 ? ++$count : '';
-            // $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
-
-            // if (!empty($this->featured_image)) {
-            //     $newImageName = $myslug.".".$this->featured_image->extension();
-            //     $this->featured_image->storeAs('post-images', $newImageName, 'public');
-            //     //$imageurl = url('storage') . '/' . $image;
-            // } else {
-            //     $newImageName = "default-feature-image.png";
-            // }
-            //     Post::create([
-            //         'title' => $this->title,
-            //         'slug' => $myslug,
-            //         'short_description' => $this->short_description,
-            //         'description' => $this->description,
-            //         'meta_description' => $this->meta_description,
-            //         'featured_image' => $newImageName,
-            //         'user_id' => auth()->id(),
-            //         'category_id' => $this->category_id,
-            //         'published_at' => date("Y-m-d H:i:s"),
-            //         //'category_id' => $this->parent_id ? $this->parent_id : NULL,
-            //     ], $validatedDate);
-                //dd(date("Y-m-d H:i:s"));
-                //return redirect(route('admin.all-post'))->with('message', 'Post Created Successfully');
-               // session()->flash('message', 'Category Created Successfully.');
-                //$this->resetInputFields();
-               // $this->emit('storeCategory');
-
-
-
-
-        //    $post = Post::create([
-        //         'title' => $request->get('title'),
-        //         'body'  => $request->get('body')
-        //    ]);
-
-        //    if($post)
-        //    {
-        //        $tagNames = explode(',',$request->get('tags'));
-        //         $tagIds = [];
-        //         foreach($tagNames as $tagName)
-        //         {
-        //             //$post->tags()->create(['name'=>$tagName]);
-        //             //Or to take care of avoiding duplication of Tag
-        //             //you could substitute the above line as
-        //             $tag = App\Tag::firstOrCreate(['name'=>$tagName]);
-        //             if($tag)
-        //             {
-        //             $tagIds[] = $tag->id;
-        //             }
-
-        //         }
-        //         $post->tags()->sync($tagIds);
-        //     }
         }
 }
