@@ -33,7 +33,7 @@ class CreatePost extends Controller
 
     public function storePost(Request $request)
         {
-            //date_default_timezone_set("Asia/Dhaka");
+            date_default_timezone_set("Asia/Dhaka");
             //dd($request->all());
 
             $validatedDate = $request->validate([
@@ -86,25 +86,33 @@ class CreatePost extends Controller
             $post->meta_description = $request->meta_description;
             $post->category_id = $request->category_id;
             $post->publish_status = $request->publish_status;
-            $post->is_sticky = 1;
-            $post->allow_comments = 1;
-            $post->featured_image = $request->featured_image;
-            $post->published_at = $request->published_at;
-            $post->user_id = 1;
-            //$post->isStiky = $request->isStiky;
-            $post->save();
-            $tags = $request->tag;
-            $tagNames = [];
-            if (!empty($tags)) {
-            foreach ($tags as $tagName)
+            $post->is_sticky = $request->is_sticky ? $request->is_sticky : 0;
+            $post->allow_comments = $request->allow_comments ? $request->allow_comments : 0;
+            $post->featured_image = $request->featured_image ? $request->featured_image : NULL;
+            $post->published_at = date("Y-m-d H:i:s");
+            $post->user_id = auth()->id();
+            //$post->save();
+            
+            $tags = $request->tags;
+
+        // dd($request->tags);
+            $tagNames = explode(',', $request->tags);
+            $tagNames2 = [];
+           // if ($user->states != FALSE) {
+            if (!empty($tagNames)) {
+            foreach ($tagNames as $tagName)
             {
-            $tag = Tag::firstOrCreate(['title'=>$tagName, 'slug'=>Str::slug($tagName)]);
-            if($tag)
-            {
-            $tagNames[] = $tag->id;
-            }
+                dd($tagName);
+            //$tag = Tag::firstOrCreate(['title'=>$tagName, 'slug'=>Str::slug($tagName)]);
+            // if($tag)
+            // {
+            // $tagNames[] = $tag->id;
+            // }
             }
             $post->tags()->syncWithoutDetaching($tagNames);
+            }
+            else{
+                dd('Display Blank');
             }
 
             return redirect(route('admin.all-post'))->with('message', 'Post Created Successfully');

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\backend\category;
 
 use Illuminate\Http\Request;
 use App\Models\Admin\Category;
@@ -28,7 +28,7 @@ class CategoryController extends Controller
                 'slug' => $request->slug,
                 'parent_id' =>$request->parent_id,
                 'created_by' => auth()->id()
-            ]);
+            ], $validator);
 
             return redirect()->back()->with('success', 'Category has been created successfully.');
         }
