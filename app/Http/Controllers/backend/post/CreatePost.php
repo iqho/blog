@@ -19,11 +19,15 @@ class CreatePost extends Controller
         return view('backend.post.create-post', compact('data'));
     }
 
+    public function jsonTag(){
+        $tagjson = Tag::orderBy('id', 'desc')->pluck('title')->limit(7);
+        return $tagjson ;
+    }
 
     public function storePost(Request $request)
         {
             date_default_timezone_set("Asia/Dhaka");
-            
+
             $request->validate([
                'title' => ['required', 'string', 'max:255'],
                'slug' => ['required', 'string', 'min:2', 'max:255', 'Unique:posts'],

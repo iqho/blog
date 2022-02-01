@@ -24,6 +24,60 @@
     .bootstrap-tagsinput {
         width: 100%;
     }
+
+    .twitter-typeahead .tt-query,
+    .twitter-typeahead .tt-hint {
+        margin-bottom: 0;
+    }
+
+    .twitter-typeahead .tt-hint
+    {
+        display: none;
+    }
+
+    .tt-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        display: none;
+        float: left;
+        min-width: 160px;
+        padding: 5px 0;
+        margin: 2px 0 0;
+        list-style: none;
+        font-size: 14px;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+        -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        background-clip: padding-box;
+        cursor: pointer;
+    }
+
+    .tt-suggestion {
+        display: block;
+        padding: 3px 20px;
+        clear: both;
+        font-weight: normal;
+        line-height: 1.428571429;
+        color: #333333;
+        white-space: nowrap;
+        border-bottom: 1px solid #cccccc;
+    }
+    .tt-suggestion:last-child {
+        border-bottom: none;
+    }
+
+    .tt-suggestion:hover,
+    .tt-suggestion:focus {
+    color: #ffffff;
+    text-decoration: none;
+    outline: 0;
+    background-color: #428bca;
+    }
     </style>
 
     @push('page-css')
@@ -135,12 +189,12 @@
                 </select>
                 @error('category_id') <span class="text-danger error">{{ $message }}</span>@enderror
             </div>
-            Tags <input class="form-control" type="text" data-role="tagsinput" name="tags" value="{{ old('tags') }}">
-            <ul>
+            Tags <input class="form-control" type="text" data-role="tagsinput" name="tags" id="tags" value="{{ old('tags') }}">
+            {{-- <ul>
             @foreach ($data['tagOption'] as $tag)
             <li>{{ $tag->title }}</li>
             @endforeach
-            </ul>
+            </ul> --}}
             <div class="invalid-feedback">Please Write Tags.</div>
             @if ($errors->has('tags'))
             <span class="text-danger">{{ $errors->first('tags') }}</span>
@@ -155,6 +209,7 @@
 
         @push('page-js')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.js"></script>
+        <script src="https://codekutu.github.io/Bootstrap4TagsInputWithTypeahead/js/typeahead.js"></script>
         <script src="{{ asset('backend/assets/ckeditor/ckeditor.js') }}"></script>
             <script>
             (function () {
@@ -193,6 +248,29 @@
                 .create(document.querySelector('#description'))
                 .catch(error => {
                     console.error(error);
+                });
+
+                // Tags Input
+                var tags = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('title'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                prefetch: {
+                    url: '{{ route('admin.tag-json') }}',
+                    filter: function(list) {
+                    return $.map(list, function(title) {
+                        return { title: title }; });
+                    }
+                }
+                });
+                tags.initialize();
+
+                $('#tags').tagsinput({
+                typeaheadjs: {
+                    title: 'title',
+                    displayKey: 'title',
+                    valueKey: 'title',
+                    source: tags.ttAdapter()
+                }
                 });
 
         </script>

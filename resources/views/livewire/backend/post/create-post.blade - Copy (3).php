@@ -99,7 +99,8 @@
 
                           <div class="mb-1">
                             <label class="form-label" for="basic-addon-title">Title</label>
-                            <input type="text" class="form-control" name="title" value="{{ old('title') }}" required/>
+                            <input type="text" id="basic-addon-title" class="form-control" placeholder="Title" aria-label="Title"
+                              aria-describedby="basic-addon-title" name="title" wire:model="title" wire:keyup="generateSlug()" wire:change="generateSlug()" required />
                               @error('title') <span class="text-danger error">{{ $message }}</span>@enderror
                             {{-- <div class="valid-feedback">Looks good !</div>
                             <div class="invalid-feedback">Please Enter Post Title.</div> --}}
@@ -109,24 +110,24 @@
                               <label class="form-label" for="basic-addon-title">Post Slug</label>
                               <div class="input-group">
                               <span class="input-group-text" id="slug">{{ url('/posts') }}/</span>
-                              <input type="text" class="form-control" name="slug" value="{{ old('slug') }}" required/>
+                              <input type="text" class="form-control" id="slug" name="slug" aria-describedby="slug" placeholder="Slug" wire:model="slug" required>
                               @error('slug') <span class="text-danger error col-12">{{ $message }}</span>@enderror
                              {{-- <div class="valid-feedback">Looks good !</div>
                               <div class="invalid-feedback">Please Enter Post Slug.</div> --}}
                               </div>
                           </div>
-                            {{-- @if ($data['checkSlug'] > 0)
+                            @if ($data['checkSlug'] > 0)
                             <div class="col-12 text-danger">Post Slug Not Available</div>
                             @else
                             @if ($data['checkEmpty'] == 0)
                             @else
                             <div class="col-12 text-success">Post Slug Available</div>
                             @endif
-                            @endif --}}
+                            @endif
 
                           <div class="my-1">
                             <label class="d-block form-label" for="short_description">Short Description</label>
-                            <textarea name="short_description" class="form-control" id="" cols="30" rows="3" required>{{ old('short_description') }}</textarea>
+                            <textarea class="form-control" id="short_description" name="short_description" rows="3" name="short_description" wire:model="short_description" required></textarea>
                             @error('short_description') <span class="text-danger error">{{ $message }}</span>@enderror
                             {{-- <div class="valid-feedback">Looks good !</div>
                             <div class="invalid-feedback">Please Enter Post Short Description.</div> --}}
@@ -134,7 +135,7 @@
 
                           <div class="mb-1" wire:ignore>
                             <label class="d-block form-label" for="description">Full Description</label>
-                            <textarea name="description" id="" class="form-control" cols="30" rows="10" required>{{ old('description') }}</textarea>
+                            <textarea class="form-control editor" id="description" name="description" rows="15" style="padding: 0px;" wire:model="description" required></textarea>
                             @error('description') <span class="text-danger error col-12">{{ $message }}</span>@enderror
                             {{-- <div class="valid-feedback">Looks good !</div>
                             <div class="invalid-feedback">Please Enter Post Full Description.</div> --}}
@@ -142,15 +143,14 @@
 
                           <div class="mb-1">
                             <label class="d-block form-label" for="meta_description">Meta Description</label>
-                            <textarea name="meta_description" class="form-control" id="" cols="30" rows="3" required>{{ old('meta_description') }}</textarea>
+                            <textarea class="form-control" id="meta_description" name="meta_description" rows="3" wire:model="meta_description" required></textarea>
                             @error('meta_description') <span class="text-danger error">{{ $message }}</span>@enderror
                             {{-- <div class="valid-feedback">Looks good !</div>
                             <div class="invalid-feedback">Please Enter Post Meta Description.</div> --}}
                           </div>
 
                           <div class="mb-1">
-                            <input type="submit" class="btn btn-primary" style="padding: 14px; margin-bottom:10px" value="Create New Post"/>
-
+                            <input type="submit" class="btn btn-primary" wire:click.prevent="storePost()" style="padding: 14px; margin-bottom:10px" value="Create New Post"/>
                           </div>
 
 
@@ -160,7 +160,7 @@
                         <div class="card border-success mb-1">
                           <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">
                             Feature Image</h4>
-                           {{-- <div class="card-body text-success" style="padding: 8px;">
+                           <div class="card-body text-success" style="padding: 8px;">
                             @if($featured_image)
                             <div class="col-12 text-center w-100"><img src="{{ $featured_image->temporaryUrl() }}" style="width: 100%; max-height:200px;"></div>
                             @else
@@ -170,7 +170,7 @@
                             <input type="file" class="form-control mt-1 @error('featured_image') is-invalid @enderror" name="featured_image" accept="image/*" id="featured_image" wire:model="featured_image" onchange="return checkImageExtention()">
                             @error('featured_image') <span class="text-danger error">{{ $message }}</span>@enderror
                             <div id="error-msg" class="text-danger"></div>
-                           </div> --}}
+                           </div>
                         </div>
 
                         <div class="accordion border border-gray" id="accordionPanelsStayOpenExample">
@@ -186,11 +186,11 @@
                                       <div class="form-group">
                                         <div class="row g-0 mt-1">
                                             <div class="form-check form-check-danger col-sm-12 g-0">
-                                            <input type="checkbox" class="form-check-input" name="is_sticky" id="is_sticky">
+                                            <input type="checkbox" class="form-check-input" name="is_sticky" id="is_sticky" wire:mode="is_sticky">
                                             <label class="form-check-label" for="isStiky">Is Stiky</label>
                                             </div>
                                             <div class="form-check form-check-danger col-sm-12 mt-1 g-0" style="margin-bottom: 5px">
-                                            <input type="checkbox" class="form-check-input" name="allow_comments" id="allow_comments">
+                                            <input type="checkbox" class="form-check-input" name="allow_comments" id="allow_comments" wire:model="allow_comments">
                                             <label class="form-check-label" for="allow_comments">Allow Comments</label>
                                             </div>
                                         </div>
@@ -199,13 +199,13 @@
                                             Select Publish Status:
                                             <div class="row custom-options-checkable g-0" style="margin-top: 5px">
                                                 <div class="col-md-6" style="margin:0px; padding: 2px">
-                                                  <input class="custom-option-item-check" type="radio" name="publish_status"
+                                                  <input class="custom-option-item-check" type="radio" name="publish_status" wire:model="publish_status"
                                                     id="customOptionsCheckableRadios1" value="1" checked="">
                                                   <label class="custom-option-item text-center" for="customOptionsCheckableRadios1" style="padding: 6px">Publish
                                                   </label>
                                                 </div>
                                                 <div class="col-md-6" style="margin:0px; padding: 2px">
-                                                  <input class="custom-option-item-check" type="radio" name="publish_status"  id="customOptionsCheckableRadios2" value="0">
+                                                  <input class="custom-option-item-check" type="radio" name="publish_status" wire:model="publish_status"      id="customOptionsCheckableRadios2" value="0">
                                                   <label class="custom-option-item text-center" for="customOptionsCheckableRadios2" style="padding: 6px">
                                                     Draft
                                                   </label>
@@ -228,7 +228,7 @@
                               aria-labelledby="panelsStayOpen-headingTwo">
                               <div class="accordion-body">
                                       <div class="form-group">
-                                        <select type="text" class="form-control @error('category_id') is-invalid @enderror" name="category_id" required>
+                                        <select type="text" class="form-control @error('category_id') is-invalid @enderror" name="category_id" wire:model="category_id" required>
                                         <option>Select Post Category</option>
                                           @if($data['catOption'])
                                           @foreach($data['catOption'] as $category)
@@ -245,7 +245,7 @@
                             </div>
                           </div>
 
-                          <div class="accordion-item">
+                          <div class="accordion-item" wire:ignore>
                             <h2 class="accordion-header" id="panelsStayOpen-headingThree">
                               <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
