@@ -92,6 +92,16 @@
                 </div>
               </div>
               <div class="card-body">
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
                 <form action="{{ route('admin.post-store') }}" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
                   @csrf
                   <div class="row g-0">
@@ -99,57 +109,52 @@
 
                           <div class="mb-1">
                             <label class="form-label" for="basic-addon-title">Title</label>
-                            <input type="text" class="form-control" name="title" value="{{ old('title') }}" required/>
+                            <input type="text" class="form-control" name="title" wire:model="title" wire:keyup="generateSlug()" wire:change="generateSlug()" value="{{ old('title') }}" required/>
                               @error('title') <span class="text-danger error">{{ $message }}</span>@enderror
-                            {{-- <div class="valid-feedback">Looks good !</div>
-                            <div class="invalid-feedback">Please Enter Post Title.</div> --}}
+                            <div class="invalid-feedback">Please Enter Post Title.</div>
                           </div>
 
                           <div class="col-12 w-100">
                               <label class="form-label" for="basic-addon-title">Post Slug</label>
                               <div class="input-group">
                               <span class="input-group-text" id="slug">{{ url('/posts') }}/</span>
-                              <input type="text" class="form-control" name="slug" value="{{ old('slug') }}" required/>
+                              <input type="text" class="form-control"  name="slug" wire:model="slug" value="{{ old('slug') }}" required/>
                               @error('slug') <span class="text-danger error col-12">{{ $message }}</span>@enderror
-                             {{-- <div class="valid-feedback">Looks good !</div>
-                              <div class="invalid-feedback">Please Enter Post Slug.</div> --}}
+                              <div class="invalid-feedback">Please Enter Post Slug.</div>
                               </div>
                           </div>
-                            {{-- @if ($data['checkSlug'] > 0)
+                            @if ($data['checkSlug'] > 0)
                             <div class="col-12 text-danger">Post Slug Not Available</div>
                             @else
                             @if ($data['checkEmpty'] == 0)
                             @else
                             <div class="col-12 text-success">Post Slug Available</div>
                             @endif
-                            @endif --}}
+                            @endif
 
                           <div class="my-1">
                             <label class="d-block form-label" for="short_description">Short Description</label>
-                            <textarea name="short_description" class="form-control" id="" cols="30" rows="3" required>{{ old('short_description') }}</textarea>
+                            <textarea name="short_description" class="form-control" cols="30" rows="3" required>{{ old('short_description') }}</textarea>
                             @error('short_description') <span class="text-danger error">{{ $message }}</span>@enderror
-                            {{-- <div class="valid-feedback">Looks good !</div>
-                            <div class="invalid-feedback">Please Enter Post Short Description.</div> --}}
+                            <div class="invalid-feedback">Please Enter Post Short Description.</div>
                           </div>
 
                           <div class="mb-1" wire:ignore>
                             <label class="d-block form-label" for="description">Full Description</label>
-                            <textarea name="description" id="" class="form-control" cols="30" rows="10" required>{{ old('description') }}</textarea>
+                            <textarea name="description" id="description" class="form-control" cols="30" rows="10" required>{{ old('description') }}</textarea>
                             @error('description') <span class="text-danger error col-12">{{ $message }}</span>@enderror
-                            {{-- <div class="valid-feedback">Looks good !</div>
-                            <div class="invalid-feedback">Please Enter Post Full Description.</div> --}}
+                            <div class="invalid-feedback">Please Enter Post Full Description.</div>
                           </div>
 
                           <div class="mb-1">
                             <label class="d-block form-label" for="meta_description">Meta Description</label>
-                            <textarea name="meta_description" class="form-control" id="" cols="30" rows="3" required>{{ old('meta_description') }}</textarea>
+                            <textarea name="meta_description" class="form-control" cols="30" rows="3" required>{{ old('meta_description') }}</textarea>
                             @error('meta_description') <span class="text-danger error">{{ $message }}</span>@enderror
-                            {{-- <div class="valid-feedback">Looks good !</div>
-                            <div class="invalid-feedback">Please Enter Post Meta Description.</div> --}}
+                            <div class="invalid-feedback">Please Enter Post Meta Description.</div>
                           </div>
 
                           <div class="mb-1">
-                            <input type="submit" class="btn btn-primary" style="padding: 14px; margin-bottom:10px" value="Create New Post"/>
+                            <input type="submit" class="btn btn-primary" style="padding: 14px; margin-bottom:10px" value="Create New Post" />
 
                           </div>
 
@@ -160,7 +165,7 @@
                         <div class="card border-success mb-1">
                           <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">
                             Feature Image</h4>
-                           {{-- <div class="card-body text-success" style="padding: 8px;">
+                           <div class="card-body text-success" style="padding: 8px;">
                             @if($featured_image)
                             <div class="col-12 text-center w-100"><img src="{{ $featured_image->temporaryUrl() }}" style="width: 100%; max-height:200px;"></div>
                             @else
@@ -170,7 +175,7 @@
                             <input type="file" class="form-control mt-1 @error('featured_image') is-invalid @enderror" name="featured_image" accept="image/*" id="featured_image" wire:model="featured_image" onchange="return checkImageExtention()">
                             @error('featured_image') <span class="text-danger error">{{ $message }}</span>@enderror
                             <div id="error-msg" class="text-danger"></div>
-                           </div> --}}
+                           </div>
                         </div>
 
                         <div class="accordion border border-gray" id="accordionPanelsStayOpenExample">
@@ -185,12 +190,12 @@
                                 <div class="accordion-body">
                                       <div class="form-group">
                                         <div class="row g-0 mt-1">
-                                            <div class="form-check form-check-danger col-sm-12 g-0">
-                                            <input type="checkbox" class="form-check-input" name="is_sticky" id="is_sticky">
+                                            <div class="form-check form-check-success col-sm-12 g-0">
+                                            <input type="checkbox" class="form-check-input" name="is_sticky" value="1" id="is_sticky">
                                             <label class="form-check-label" for="isStiky">Is Stiky</label>
                                             </div>
                                             <div class="form-check form-check-danger col-sm-12 mt-1 g-0" style="margin-bottom: 5px">
-                                            <input type="checkbox" class="form-check-input" name="allow_comments" id="allow_comments">
+                                            <input type="checkbox" class="form-check-input" name="allow_comments" value="1" id="allow_comments" checked>
                                             <label class="form-check-label" for="allow_comments">Allow Comments</label>
                                             </div>
                                         </div>
@@ -200,7 +205,7 @@
                                             <div class="row custom-options-checkable g-0" style="margin-top: 5px">
                                                 <div class="col-md-6" style="margin:0px; padding: 2px">
                                                   <input class="custom-option-item-check" type="radio" name="publish_status"
-                                                    id="customOptionsCheckableRadios1" value="1" checked="">
+                                                    id="customOptionsCheckableRadios1" value="1" checked>
                                                   <label class="custom-option-item text-center" for="customOptionsCheckableRadios1" style="padding: 6px">Publish
                                                   </label>
                                                 </div>
@@ -228,8 +233,8 @@
                               aria-labelledby="panelsStayOpen-headingTwo">
                               <div class="accordion-body">
                                       <div class="form-group">
-                                        <select type="text" class="form-control @error('category_id') is-invalid @enderror" name="category_id" required>
-                                        <option>Select Post Category</option>
+                                        <select type="text" class="form-control @error('category_id') is-invalid @enderror" name="category_id" value="{{ old('category_id') }}" required>
+                                        <option selected disabled value="">Select Post Category</option>
                                           @if($data['catOption'])
                                           @foreach($data['catOption'] as $category)
                                           <?php $dash=''; ?>
@@ -240,6 +245,7 @@
                                           @endforeach
                                           @endif
                                         </select>
+                                        <div class="invalid-feedback">Please Select Post Category.</div>
                                         @error('category_id') <span class="text-danger error">{{ $message }}</span>@enderror
                               </div>
                             </div>
@@ -256,8 +262,9 @@
                             <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show border border-gray"
                               aria-labelledby="panelsStayOpen-headingThree">
                               <div class="accordion-body">
-                                <div class="mb-1">
-                                    <input class="form-control" type="text" data-role="tagsinput" name="tags" id="tags" value="{{ old('tags') }}">
+                                <div class="mb-1" wire:ignore>
+                                    <input class="form-control" type="text" data-role="tagsinput" name="tags" id="tags" value="{{ old('tags') }}" required/>
+                                    <div class="invalid-feedback">Please Enter Minimum 1 Post Tag.</div>
                                     @if ($errors->has('tags'))
                                     <span class="text-danger">{{ $errors->first('tags') }}</span>
                                     @endif
@@ -316,7 +323,11 @@
 
         // CK Ediotr
         ClassicEditor
-            .create(document.querySelector('#description'))
+            .create(document.querySelector('#description'),{
+                ckfinder: {
+                uploadUrl: '{{route('admin.ck.upload').'?_token='.csrf_token()}}'
+            }
+            })
             .then(editor => {
                 editor.model.document.on('change:data', () => {
                     @this.set('description', editor.getData());
@@ -325,6 +336,7 @@
             .catch(error => {
                 console.error(error);
             });
+            
 
         // Tags Input
         var tags = new Bloodhound({

@@ -1,0 +1,36 @@
+Step 1: Create Route
+Route::post('/post/image-upload', [CreatePost::class, 'imageUpload'])->name('ck.upload');
+
+Step 2: Create Controller Function
+    public function imageUpload(Request $request)
+    {
+        date_default_timezone_set("Asia/Dhaka");
+        if ($request->hasFile('upload')) {
+            $originName = $request->file('upload')->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $request->file('upload')->getClientOriginalExtension();
+            $fileName = $fileName . '_' . date("siH-dmY") . '.' . $extension;
+            $request->file('upload')->move(public_path('media'), $fileName);
+            $url = asset('media/' . $fileName);
+            return response()->json(['fileName' => $fileName, 'uploaded'=> 1, 'url' => $url]);    
+        }
+    }
+
+// Uploaded Image upload at public/media Folder
+
+Step 3: add code in CK Editor Blade on View
+
+        ClassicEditor
+            .create(document.querySelector('#description'),{
+
+                ckfinder: { uploadUrl: '{{route('admin.ck.upload').'?_token='.csrf_token()}}' } // add this lines in this place
+
+            })
+            .then(editor => {
+                editor.model.document.on('change:data', () => {
+                    @this.set('description', editor.getData());
+                })
+            })
+            .catch(error => {
+                console.error(error);
+            });

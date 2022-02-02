@@ -5,10 +5,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Backend\AllUsers;
 use App\Http\Livewire\Backend\Post\AllPost;
 use App\Http\Controllers\DashboardController;
+use App\Http\Livewire\Backend\Images\AllImage;
+use App\Http\Livewire\Backend\Post\CreatePost;
+//use App\Http\Controllers\backend\post\CreatePost;
 use App\Http\Livewire\Backend\Post\SinglePost;
 use App\Http\Livewire\Backend\Post\TrashedPost;
-//use App\Http\Controllers\backend\post\CreatePost;
-use App\Http\Livewire\Backend\Post\CreatePost;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Livewire\Backend\Category\AllCategory;
 use App\Http\Livewire\Backend\Category\TrashedCategory;
@@ -22,14 +23,17 @@ Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
 Route::get('/all-post', AllPost::class)->name('all-post');
 Route::get('/posts/{slug}', SinglePost::class)->name('single-post');
 
-Route::get('/post/create2', CreatePost::class)->name('post-create2');
-Route::get('/post/create', [CreatePost::class, 'create'])->name('post-create');
+Route::get('/post/create', CreatePost::class)->name('post-create');
 Route::post('/post/store', [CreatePost::class, 'storePost'])->name('post-store');
+Route::post('/post/image-upload', [CreatePost::class, 'imageUpload'])->name('ck.upload');
 
 Route::get('/tag/json', [CreatePost::class, 'jsonTag'])->name('tag-json'); // Get Taglist in CreatePost Page
 Route::post('/tag/store', [CreatePost::class, 'storeTag'])->name('tag-store');
 
 Route::get('/post/trashed-post', TrashedPost::class)->name('trashedPost');
+
+//Image Gallery
+Route::get('/images', AllImage::class)->name('images');
 
 
 // Category

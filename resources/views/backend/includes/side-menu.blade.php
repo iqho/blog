@@ -54,6 +54,12 @@
                                 <span class="menu-item text-truncate" data-i18n="Collapsed Menu">All Post</span>
                             </a>
                         </li>
+                        <li class="@if(Route::is('admin.post-create') ) active @endif nav-item">
+                            <a class="d-flex align-items-center" href="{{ route('admin.post-create') }}">
+                                <i class="far fa-sticky-note"></i>
+                                <span class="menu-item text-truncate" data-i18n="Collapsed Menu">Create New Post</span>
+                            </a>
+                        </li>
 
                         {{-- @php($posts = App\Models\Admin\Post::all())
                         @if(count($posts)> 0)
@@ -97,6 +103,26 @@
                                 <span class="menu-item text-truncate" data-i18n="Collapsed Menu">Trashed Category</span>
                             </a>
                         </li>
+
+                    </ul>
+                </li>
+
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fa fa-list-alt"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Image Gallery</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
+                    <ul class="menu-content">
+
+                        <li class="@if(Route::is('admin.images') ) active @endif nav-item">
+                            <a class="d-flex align-items-center" href="{{ route('admin.images') }}">
+                                <i class="fa fa-list-alt"></i>
+                                <span class="menu-item text-truncate" data-i18n="Collapsed Menu">All Images</span>
+                            </a>
+                        </li>
+
+                        {{-- <li class="@if(Route::is('admin.trashedCategory') ) active @endif nav-item">
+                            <a class="d-flex align-items-center" href="{{ route('admin.trashedCategory') }}">
+                                <i class="fas fa-trash-alt"></i>
+                                <span class="menu-item text-truncate" data-i18n="Collapsed Menu">Trashed Images</span>
+                            </a>
+                        </li> --}}
 
                     </ul>
                 </li>

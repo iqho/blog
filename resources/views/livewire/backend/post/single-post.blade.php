@@ -10,9 +10,9 @@
                 <h2 class="col-12 p-1 m-0">{{ $post->title }}</h2>
                 <hr style="margin: 0px; color:rebeccapurple"/>
                 <div class="col-12 p-1 pt-1" style="text-align: justify;"><span class="col-12 m-0 h4">Short Description : </span><br>{{ $post->short_description }}</div>
-                <div class="col-12 p-1 pt-0" style="text-align: justify;"><span class="col-12 m-0 h4">Description : </span><br>{{ $post->description }}</div>
-                <div class="col-12 p-1 pt-0" style="text-align: justify;"><span class="col-12 m-0 h4">Tags : </span><br>{{ $post->meta_description }}</div>
-                <div class="col-12 p-1 pt-0" style="text-align: justify;"><span class="col-12 m-0 h4">Meta Description : </span><br>
+                <div class="col-12 p-1 pt-0" style="text-align: justify;"><span class="col-12 m-0 h4">Description : </span><br>{!! html_entity_decode($post->description) !!}</div>
+                <div class="col-12 p-1 pt-0" style="text-align: justify;"><span class="col-12 m-0 h4">Meta Description : </span><br>{{ $post->meta_description }}</div>
+                <div class="col-12 p-1 pt-0" style="text-align: justify;"><span class="col-12 m-0 h4">Tags : </span><br>
                     @foreach ($post->tags as $tag)
                         <a href="#"><span class="bg-secondary text-white rounded-1" style="padding: 3px">{{ $tag->title }}</span></a>
                     @endforeach
@@ -42,14 +42,18 @@
 
                   <div class="card border-success mb-1">
                     <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">Tags</h4>
-                    <div class="card-body text-success" style="padding: 8px">* {{ $post->title }}</div>
+                    <div class="card-body text-success" style="padding: 8px">
+                        @foreach ($post->tags as $tag)
+                        <a href="#"><span class="bg-secondary text-white rounded-1" style="padding: 3px">{{ $tag->title }}</span></a>
+                        @endforeach
+                    </div>
                   </div>
 
                   <div class="card border-success mb-1">
                     <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">Published Status</h4>
                     <div class="card-body text-success" style="padding: 8px">
-                      @if ($post->publish_status == 0)
-                        Publish
+                      @if ($post->publish_status == 1)
+                      Publish
                       @else
                       Draft
                       @endif
@@ -57,9 +61,9 @@
                   </div>
 
                   <div class="card border-success mb-1">
-                    <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">Is Sticky ?</h4>
+                    <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">Is Sticky</h4>
                     <div class="card-body text-success" style="padding: 8px">
-                      @if ($post->is_sticky == 0)
+                      @if ($post->is_sticky == 1)
                       Sticky
                       @else
                       No Sticky
@@ -78,16 +82,6 @@
                     </div>
                   </div>
 
-                  <div class="card border-success mb-1">
-                    <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">Is Sticky ?</h4>
-                    <div class="card-body text-success" style="padding: 8px">
-                      @if ($post->is_sticky == 0)
-                      Sticky
-                      @else
-                      No Sticky
-                      @endif
-                    </div>
-                  </div>
                     @if ($post->featured_image)
                         <div class="card border-success mb-1">
                             <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">Feature Image</h4>
