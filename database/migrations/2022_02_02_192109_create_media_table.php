@@ -17,7 +17,10 @@ class CreateMediaTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('slug')->unique();
-            $table->string('description');
+            $table->string('media_name');
+            $table->string('caption')->nullable();
+            $table->string('alt')->nullable();
+            $table->string('description')->nullable();
             $table->string('media_type')->nullable();
             $table->string('extension')->nullable();
             $table->unsignedBigInteger('user_id');

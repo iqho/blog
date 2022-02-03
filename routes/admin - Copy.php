@@ -32,6 +32,9 @@ Route::post('/tag/store', [CreatePost::class, 'storeTag'])->name('tag-store');
 
 Route::get('/post/trashed-post', TrashedPost::class)->name('trashedPost');
 
+//Media Gallery
+Route::get('/media', Media::class)->name('media');
+
 
 // Category
 Route::get('/category', AllCategory::class)->name('category');
