@@ -23,9 +23,9 @@ class CreateMediaTable extends Migration
             $table->string('description')->nullable();
             $table->string('media_type')->nullable();
             $table->string('extension')->nullable();
+            $table->unsignedInteger('media_order')->nullable()->index();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedInteger('media_order')->nullable()->index();
             $table->timestamps();
             $table->softDeletes();
             $table->charset = 'utf8';

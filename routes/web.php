@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Livewire\Backend\Media;
+use App\Http\Livewire\Backend\AllMedia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
@@ -51,10 +51,10 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth:sanctu
 Route::group(['prefix' => 'admin-panel', 'as' => 'admin-panel.', 'middleware' => ['auth:sanctum', 'verified']], function () {
 
 //Media Gallery
-Route::get('/media', Media::class)->name('media');
-Route::get('/media/create', [Media::class, 'create'])->name('create.media');
-Route::get('/media/edit/{id}', [Media::class, 'edit'])->name('edit.media');
-Route::get('/media/update', [Media::class, 'update'])->name('update.media');
-Route::get('/media/delete/{id}', [Media::class, 'destroy'])->name('destroy.media');
+Route::get('/media', AllMedia::class)->name('media');
+Route::get('/media/create', [AllMedia::class, 'create'])->name('create.media');
+Route::get('/media/edit/{id}', [AllMedia::class, 'edit'])->name('edit.media');
+Route::get('/media/update', [AllMedia::class, 'update'])->name('update.media');
+Route::get('/media/delete/{id}', [AllMedia::class, 'destroy'])->name('destroy.media');
 
 });
