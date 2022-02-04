@@ -100,7 +100,7 @@
                         @endforeach
                     </ul>
                 </div>
-            @endif
+                @endif
 
                 <form action="{{ route('admin.post-store') }}" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
                   @csrf

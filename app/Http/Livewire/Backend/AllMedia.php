@@ -6,59 +6,88 @@ use App\Models\Media;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
+use Illuminate\Http\Request;
 
 class AllMedia extends Component
 {
     use WithFileUploads;
-    public $name, $username, $email, $password, $phone_no, $user_type, $bio, $social_media, $user_id;
+    public $title, $slug, $media_name, $caption, $alt, $description, $media_type, $extension, $media_order, $user_id;
 
     public function render()
         {
-
-        $data['users'] = Media::latest()->get();
-
-         $data['checkEmpty'] = Str::length($this->username);
-         $data['checkUser'] = Media::where('slug', '=', $this->username)->exists();
-
+        $data['media'] = Media::latest()->get();
+        $data['checkEmpty'] = Str::length($this->slug);
+        $data['checkslug'] = Media::where('slug', '=', $this->slug)->exists();
         return view('livewire.backend.media.media', compact('data'));
         }
 
-
-    private function resetInputFields(){
-        $this->name = '';
-        $this->username = '';
-        $this->email = '';
-        $this->password = '';
-        $this->phone_no = '';
-        $this->bio = '';
-        $this->social_media = '';
-        $this->user_type = '';
+    public function generateTitle()
+    {
+        if ($this->media_name) {
+        $title = $this->media_name->getClientOriginalName();
+        return $this->title = $title;
+        }
+        else{
+            return $this->title = "No Title";
+        }
     }
 
-    public function storeUser()
+    public function generateSlug()
+    {
+        $slug = Str::slug($this->title);
+        $count = Media::where('slug', 'LIKE', "{$slug}%")->count();
+        $newCount = $count > 0 ? ++$count : '';
+        $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
+        return $this->slug = $myslug;
+    }
+
+    private function resetInputFields(){
+        $this->title = '';
+        $this->slug = '';
+        $this->reset('media_name');
+        $this->caption = '';
+        $this->alt = '';
+        $this->description = '';
+        $this->media_order = '';
+        $this->user_id = '';
+    }
+
+    public function storeMedia()
         {
             $validatedDate = $this->validate([
-                'name' => ['required', 'string', 'max:255'],
-                'username' => ['required', 'string', 'min:3', 'max:100', 'unique:users'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'password' => ['required'],
-                'user_type' => ['required'],
+                'title' => ['required', 'string', 'max:255'],
+                'slug' => ['required', 'string', 'min:2', 'max:255', 'unique:media'],
+                'media_name' => ['required', 'max:255', 'mimes:jpg,jpeg,png,svg,gif,mp4,mp3,avi', 'max:4096'],
+                'caption' => ['required'],
+                'media_type' => ['required'],
             ]);
 
+        if (!empty($this->media_name)) {
+
+            $slug = Str::slug($this->slug);
+            $count = Media::where('slug', 'LIKE', "{$slug}%")->count();
+            $newCount = $count > 0 ? ++$count : '';
+            $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
+
+            $newImageName = $myslug . "." . $this->media_name->extension();
+            $this->media_name->storeAs('media', $newImageName, 'public');
+
             Media::create([
-                'name' => $this->name,
-                'username' => $this->username,
-                'email' => $this->email,
-                'password' => $this->password,
-                'phone_no' => $this->phone_no,
-                'bio' => $this->bio,
-                'social_media' => $this->social_media,
-                'user_type' => $this->user_type
+                'title' => $this->title,
+                'slug' => $myslug,
+                'media_name' => $newImageName,
+                'caption' => $this->caption,
+                'alt' => $this->alt,
+                'description' => $this->description,
+                'media_type' => $this->media_type,
+                'extension' => $this->media_name->extension(),
+                'user_id' => auth()->id(),
             ], $validatedDate);
+        }
             //User::create($validatedDate);
-            session()->flash('message', 'User Created Successfully.');
+            session()->flash('message', 'Media Created Successfully.');
             $this->resetInputFields();
-            $this->emit('userStore'); // Close model to using to jquery
+            $this->emit('mediaStore'); // Close model to using to jquery
         }
 
     public function edit($id)

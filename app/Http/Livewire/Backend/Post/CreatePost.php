@@ -8,7 +8,6 @@ use App\Models\Admin\Post;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use App\Models\Admin\Category;
-use DateTime;
 use Illuminate\Http\Request;
 
 class CreatePost extends Component
