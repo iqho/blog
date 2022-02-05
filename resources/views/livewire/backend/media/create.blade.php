@@ -73,11 +73,11 @@ aria-hidden="true">
                                     <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" wire:model="slug">
                                     @error('slug') <span class="text-danger error">{{ $message }}</span>@enderror
                                     @if ($data['checkslug'] > 0)
-                                    <span class="text-danger">Username Not Available</span>
+                                    <span class="text-danger"><i class="fas fa-sign-language    "></i> Not Available</span>
                                     @else
                                     @if ($data['checkEmpty'] == 0)
                                     @else
-                                    <span class="text-success">Username Available</span>
+                                    <span class="text-success">Slug Available</span>
                                     @endif
                                     @endif
                                 </div>
@@ -111,8 +111,15 @@ aria-hidden="true">
                     </form>
                 </div>
                 <div class="modal-footer">
+                    @if ($viewMode)
+                    viewMode
+                    @elseif ($updateMode)
+                    <button type="button" class="btn btn-primary" wire:click.prevent="storeMedia()" style="padding: 14px">Update New Media</button>
+                    @else
                     <button type="button" class="btn btn-primary" wire:click.prevent="storeMedia()" style="padding: 14px">Add
-                        New Media</button>
+                    New Media</button>
+                    @endif
+
                     </div>
                 </div>
             </div>

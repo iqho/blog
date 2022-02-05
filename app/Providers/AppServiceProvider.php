@@ -46,5 +46,9 @@ class AppServiceProvider extends ServiceProvider
             return $user->user_type == '0';
          });
 
+         Gate::define('isCommon', function($user) {
+            return $user->user_type != '0';
+         });
+
     }
 }

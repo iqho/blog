@@ -6,16 +6,17 @@ use App\Models\Media;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
-use Illuminate\Http\Request;
 
 class AllMedia extends Component
 {
     use WithFileUploads;
     public $title, $slug, $media_name, $caption, $alt, $description, $media_type, $extension, $media_order, $user_id;
+    public $updateMode = false;
+    public $viewMode = false;
 
     public function render()
         {
-        $data['media'] = Media::latest()->get();
+        $data['media'] = Media::where('user_id', auth()->id())->latest()->get();
         $data['checkEmpty'] = Str::length($this->slug);
         $data['checkslug'] = Media::where('slug', '=', $this->slug)->exists();
         return view('livewire.backend.media.media', compact('data'));
@@ -38,18 +39,25 @@ class AllMedia extends Component
         $count = Media::where('slug', 'LIKE', "{$slug}%")->count();
         $newCount = $count > 0 ? ++$count : '';
         $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
-        return $this->slug = $myslug;
+        $autoslug = $this->slug = $myslug;
+        $autocaption = $this->caption = $this->title;
+        $autoalt = $this->alt = $this->title;
+        $autodes = $this->description = $this->title;
+        return [$autoslug, $autocaption, $autoalt, $autodes];
     }
 
     private function resetInputFields(){
         $this->title = '';
         $this->slug = '';
         $this->reset('media_name');
+        $this->reset('media_type');
         $this->caption = '';
         $this->alt = '';
         $this->description = '';
         $this->media_order = '';
         $this->user_id = '';
+        $this->viewMode = false;
+        $this->updateMode = false;
     }
 
     public function storeMedia()
@@ -57,7 +65,7 @@ class AllMedia extends Component
             $validatedDate = $this->validate([
                 'title' => ['required', 'string', 'max:255'],
                 'slug' => ['required', 'string', 'min:2', 'max:255', 'unique:media'],
-                'media_name' => ['required', 'max:255', 'mimes:jpg,jpeg,png,svg,gif,mp4,mp3,avi', 'max:4096'],
+                'media_name' => ['required', 'mimes:jpg,jpeg,png,svg,gif,mp4,mp3,avi', 'max:4096'],
                 'caption' => ['required'],
                 'media_type' => ['required'],
             ]);
@@ -87,20 +95,30 @@ class AllMedia extends Component
             //User::create($validatedDate);
             session()->flash('message', 'Media Created Successfully.');
             $this->resetInputFields();
+            $this->resetErrorBag();
+            $this->resetValidation();
             $this->emit('mediaStore'); // Close model to using to jquery
         }
 
+    public function details($id){
+        $media = Media::where('id', $id)->first();
+        $this->title = $media->title;
+        $this->slug = $media->slug;
+        $this->caption = $media->caption;
+        $this->alt = $media->alt;
+        $this->description = $media->description;
+        $this->viewMode = true;
+    }
+
     public function edit($id)
         {
-            $user = Media::where('id',$id)->first();
-            $this->user_id = $id;
-            $this->name = $user->name;;
-            $this->username = $user->username;
-            $this->email = $user->email;
-            $this->phone_no = $user->phone_no;
-            $this->bio = $user->bio;
-            $this->social_media = $user->social_media;
-            $this->user_type = $user->user_type;
+            $media = Media::where('id', $id)->first();
+            $this->title = $media->title;
+            $this->slug = $media->slug;
+            $this->caption = $media->caption;
+            $this->alt = $media->alt;
+            $this->description = $media->description;
+            $this->updateMode = true;
         }
     public function cancel()
     {

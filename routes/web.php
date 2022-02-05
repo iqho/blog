@@ -48,13 +48,13 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth:sanctu
 });
 
 // Auth Commm Route
-Route::group(['prefix' => 'admin-panel', 'as' => 'admin-panel.', 'middleware' => ['auth:sanctum', 'verified']], function () {
+Route::group(['prefix' => 'admin-panel', 'as' => 'admin-panel.', 'middleware' => ['auth:sanctum', 'verified', 'can:isCommon']], function () {
 
 //Media Gallery
 Route::get('/media', AllMedia::class)->name('media');
-Route::get('/media/create', [AllMedia::class, 'create'])->name('create.media');
-Route::get('/media/edit/{id}', [AllMedia::class, 'edit'])->name('edit.media');
-Route::get('/media/update', [AllMedia::class, 'update'])->name('update.media');
-Route::get('/media/delete/{id}', [AllMedia::class, 'destroy'])->name('destroy.media');
+// Route::get('/media/create', [AllMedia::class, 'create'])->name('create.media');
+// Route::get('/media/edit/{id}', [AllMedia::class, 'edit'])->name('edit.media');
+// Route::get('/media/update', [AllMedia::class, 'update'])->name('update.media');
+// Route::get('/media/delete/{id}', [AllMedia::class, 'destroy'])->name('destroy.media');
 
 });

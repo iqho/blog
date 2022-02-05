@@ -1,16 +1,14 @@
-<div>
-@section('title','Show All Post')
+<div class="card p-1">
+@section('title','Show All Media')
 @push('page-css')
 <style>
 .filter-button{
     font-size: 18px;
     border: 1px solid #0275d8;
-	  padding:5px 10px;
+	padding:5px 10px;
     text-align: center;
     color: #fff;
-    margin-top: 10px;
-    margin-bottom: 10px;
-	  background:#0275d8;
+	background:#0275d8;
     border-radius: 5px 5px 0px 0px;
 }
 .filter-button:hover,
@@ -24,10 +22,9 @@
 .btn-link:hover{
     background-color: rgb(218, 218, 218);
     }
-
 .img-wrapper {
 position: relative;
-padding-bottom: 100%;
+padding-bottom: 130px;
 overflow: hidden;
 width: 100%;
 }
@@ -38,13 +35,21 @@ left:0;
 width:100%;
 height:100%;
 }
+.filter{
+    padding: 5px;
+    /* border: 1px solid blue; */
+}
+@media only screen and (max-width: 278px) {
+  .col-xs-12 {
+    width: 100%;
+  }
+}
 </style>
 
 @endpush
 
 @include('livewire.backend.media.create')
 
-<div class="col-md-2 text-center"><a href="#" class="btn btn-primary" onclick="resetFunction()" data-bs-toggle="modal" data-id="1" data-bs-target="#addMediaModal" style="padding: 14px">Add New Media</a></div>
     @if (session()->has('message'))
       <div class="alert alert-success alert-dismissible fade show p-1" role="alert">
         {{ session('message') }}
@@ -52,74 +57,29 @@ height:100%;
       </div>
     @endif
 
-<div class="row text-center">
-    <div class="text-center">
-        <button class="filter-button active" data-filter="all">All</button>
-        <button class="filter-button" data-filter="images">Images</button>
-        <button class="filter-button" data-filter="videos">Videos</button>
-        <button class="filter-button" data-filter="others">Others</button>
-    </div>
-  @foreach ($data['media'] as $media)
-      @if ($media->media_name)
-        <div class="col-md-2 col-sm-3 col-12 filter {{ $media->media_type }}">
-          <a href="#" class="d-block img-wrapper mb-2" data-bs-toggle="modal" data-id="1" data-bs-target="#addMediaModal">
-            <img class="img-fluid img-thumbnail" src="{{ asset('storage/media/'.$media->media_name) }}" alt="{{ $media->alt }}">
-          </a>
+<div class="row g-0">
+        <div class="row g-0 px-1 align-items-center h-100">    
+            <div class="col-md-5 col-sm-5 col-12">
+                <button class="btn btn-primary btn-lg" onclick="resetFunction()" data-bs-toggle="modal" data-id="1" data-bs-target="#addMediaModal">Add New Media</button>
+            </div>    
+            <div class="col-md-7 col-sm-7 col-12 g-0 align-items-center h-100">
+                <button class="filter-button active" data-filter="all">All</button>
+                <button class="filter-button" data-filter="images">Images</button>
+                <button class="filter-button" data-filter="videos">Videos</button>
+                <button class="filter-button" data-filter="others">Others</button> 
+            </div> 
         </div>
-    @endif
-  @endforeach
-
-{{-- <div class="col-lg-3 col-md-4 col-sm-6 col-12 category1">
-    <a href="#" class="d-block mb-2 h-100" data-bs-toggle="modal" data-id="1" data-bs-target="#addMediaModal">
-      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/pWkk7iiCoDM/400x300" alt="">
-    </a>
-  </div>
-  <div class="col-lg-3 col-md-4 col-sm-6 col-12 category1">
-    <a href="#" class="d-block mb-2 h-100">
-      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/aob0ukAYfuI/400x300" alt="">
-    </a>
-  </div>
-  <div class="col-lg-3 col-md-4 col-sm-6 col-12 filter category2">
-    <a href="#" class="d-block mb-2 h-100">
-      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/EUfxH-pze7s/400x300" alt="">
-    </a>
-  </div>
-  <div class="col-lg-3 col-md-4 col-sm-6 col-12 filter category2">
-    <a href="#" class="d-block mb-2 h-100">
-      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/M185_qYH8vg/400x300" alt="">
-    </a>
-  </div>
-  <div class="col-lg-3 col-md-4 col-sm-6 col-12 filter category2">
-    <a href="#" class="d-block mb-2 h-100">
-      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/sesveuG_rNo/400x300" alt="">
-    </a>
-  </div>
-  <div class="col-lg-3 col-md-4  col-sm-6 col-12 filter category3">
-    <a href="#" class="d-block mb-2 h-100">
-      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/AvhMzHwiE_0/400x300" alt="">
-    </a>
-  </div>
-  <div class="col-lg-3 col-md-4 col-sm-6 col-12 filter category3">
-    <a href="#" class="d-block mb-2 h-100">
-      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/2gYsZUmockw/400x300" alt="">
-    </a>
-  </div>
-  <div class="col-lg-3 col-md-4 col-sm-6 col-12 filter category3">
-    <a href="#" class="d-block mb-2 h-100">
-      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/EMSDtjVHdQ8/400x300" alt="">
-    </a>
-  </div>
-  <div class="col-lg-3 col-md-4  col-sm-6 col-12 filter category3">
-    <a href="#" class="d-block mb-2 h-100">
-      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/8mUEy0ABdNE/400x300" alt="">
-    </a>
-  </div>
-  <div class="col-lg-3 col-md-4 col-sm-6 col-12 filter category3">
-    <a href="#" class="d-block mb-2 h-100">
-      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/G9Rfc1qccH4/400x300" alt="">
-    </a>
-  </div> --}}
-
+        <div class="row g-0 mt-1">
+            @foreach ($data['media'] as $media)
+                @if ($media->media_name)
+                    <div class="col-md-2 col-sm-4 col-6 col-xs-12 filter {{ $media->media_type }}">
+                    <a href="#" class="d-block img-wrapper" data-bs-toggle="modal" data-id="1" data-bs-target="#addMediaModal" wire:click="details({{ $media->id }})">
+                        <img class="img-responsive img-thumbnail" src="{{ asset('storage/media/'.$media->media_name) }}" alt="{{ $media->alt }}">
+                    </a>
+                    </div>
+                @endif
+            @endforeach
+        </div>
 </div>
 @push('page-js')
 <script>
@@ -146,6 +106,8 @@ height:100%;
         // Media Modal Emit
         window.livewire.on('mediaStore', () => {
           $('#addMediaModal').modal('hide');
+           window.location.reload(true);
+           //window.setTimeout(function(){location.reload(true)}, 3000);
           });
           window.livewire.on('mediaUpdate', () => {
           $('#updateMediaModal').modal('hide');

@@ -106,27 +106,6 @@
 
                     </ul>
                 </li>
-
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fa fa-list-alt"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Media</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
-                    <ul class="menu-content">
-
-                        <li class="@if(Route::is('admin-panel.media') ) active @endif nav-item">
-                            <a class="d-flex align-items-center" href="{{ route('admin-panel.media') }}">
-                                <i class="fa fa-list-alt"></i>
-                                <span class="menu-item text-truncate" data-i18n="Collapsed Menu">All Media</span>
-                            </a>
-                        </li>
-
-                        {{-- <li class="@if(Route::is('admin.trashedCategory') ) active @endif nav-item">
-                            <a class="d-flex align-items-center" href="{{ route('admin.trashedCategory') }}">
-                                <i class="fas fa-trash-alt"></i>
-                                <span class="menu-item text-truncate" data-i18n="Collapsed Menu">Trashed Images</span>
-                            </a>
-                        </li> --}}
-
-                    </ul>
-                </li>
-
             @elsecan('isEditor')
                 <li class="@if(Route::is('editor.dashboard') ) active @endif nav-item"><a class="d-flex align-items-center" href="{{ route('editor.dashboard') }}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Home">Home</span></a>
                 </li>
@@ -141,7 +120,17 @@
             </li>
             @endcan
 
-            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Pages</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
+            <!-- Common Route List -->
+            @can('isCommon')
+            <li class="@if(Route::is('admin-panel.media') ) active @endif nav-item">
+                <a class="d-flex align-items-center" href="{{ route('admin-panel.media') }}">
+                <i class="fa fa-list-alt"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">All Media</span>
+                </a>
+            </li>
+            @endcan
+
+
+            {{-- <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Pages</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
                 <ul class="menu-content">
                     <li><a class="d-flex align-items-center" href="{{ route('admin.all-users') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">All Users</span></a>
                     </li>
@@ -154,7 +143,8 @@
                     <li><a class="d-flex align-items-center" href="layout-blank.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Blank">Layout Blank</span></a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
+
         </ul>
     </div>
 </div>
