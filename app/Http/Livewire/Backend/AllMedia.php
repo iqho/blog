@@ -24,7 +24,7 @@ class AllMedia extends Component
     public function generateTitle()
     {
         if ($this->media_name) {
-        $title = $this->media_name->getClientOriginalName();
+        $title = pathinfo($this->media_name->getClientOriginalName(), PATHINFO_FILENAME);
         return $this->title = $title;
         }
         else{

@@ -5,11 +5,12 @@
 .filter-button{
     font-size: 18px;
     border: 1px solid #0275d8;
-	padding:5px 10px;
+	  padding:5px 10px;
     text-align: center;
     color: #fff;
-    margin-bottom: 20px;
-	background:#0275d8;
+    margin-top: 10px;
+    margin-bottom: 10px;
+	  background:#0275d8;
     border-radius: 5px 5px 0px 0px;
 }
 .filter-button:hover,
@@ -23,11 +24,19 @@
 .btn-link:hover{
     background-color: rgb(218, 218, 218);
     }
-.row-eq-height {
-display: -webkit-box;
-display: -webkit-flex;
-display: -ms-flexbox;
-display: flex;
+
+.img-wrapper {
+position: relative;
+padding-bottom: 100%;
+overflow: hidden;
+width: 100%;
+}
+.img-wrapper img {
+position: absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
 }
 </style>
 
@@ -43,7 +52,7 @@ display: flex;
       </div>
     @endif
 
-<div class="row text-center row-eq-height">
+<div class="row text-center">
     <div class="text-center">
         <button class="filter-button active" data-filter="all">All</button>
         <button class="filter-button" data-filter="images">Images</button>
@@ -52,9 +61,9 @@ display: flex;
     </div>
   @foreach ($data['media'] as $media)
       @if ($media->media_name)
-        <div class="col-lg-3 col-md-4 col-sm-6 col-12 col-6 filter {{ $media->media_type }}">
-          <a href="#" class="d-block mb-2 h-100" data-bs-toggle="modal" data-id="1" data-bs-target="#addMediaModal">
-            <img class="img-fluid img-thumbnail h-100" src="{{ asset('storage/media/'.$media->media_name) }}" alt="{{ $media->alt }}">
+        <div class="col-md-2 col-sm-3 col-12 filter {{ $media->media_type }}">
+          <a href="#" class="d-block img-wrapper mb-2" data-bs-toggle="modal" data-id="1" data-bs-target="#addMediaModal">
+            <img class="img-fluid img-thumbnail" src="{{ asset('storage/media/'.$media->media_name) }}" alt="{{ $media->alt }}">
           </a>
         </div>
     @endif
