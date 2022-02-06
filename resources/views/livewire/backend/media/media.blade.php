@@ -58,16 +58,16 @@ height:100%;
     @endif
 
 <div class="row g-0">
-        <div class="row g-0 px-1 align-items-center h-100">    
+        <div class="row g-0 px-1 align-items-center h-100">
             <div class="col-md-5 col-sm-5 col-12">
                 <button class="btn btn-primary btn-lg" onclick="resetFunction()" data-bs-toggle="modal" data-id="1" data-bs-target="#addMediaModal">Add New Media</button>
-            </div>    
+            </div>
             <div class="col-md-7 col-sm-7 col-12 g-0 align-items-center h-100">
                 <button class="filter-button active" data-filter="all">All</button>
                 <button class="filter-button" data-filter="images">Images</button>
                 <button class="filter-button" data-filter="videos">Videos</button>
-                <button class="filter-button" data-filter="others">Others</button> 
-            </div> 
+                <button class="filter-button" data-filter="others">Others</button>
+            </div>
         </div>
         <div class="row g-0 mt-1">
             @foreach ($data['media'] as $media)
@@ -82,6 +82,7 @@ height:100%;
         </div>
 </div>
 @push('page-js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
 <script>
     $(document).ready(function(){
         $(".filter-button").click(function(){
@@ -117,7 +118,7 @@ height:100%;
         function checkImageExtention() {
                 var fileInput = document.getElementById('media_name');
                 var filePath = document.getElementById('media_name').value;
-                var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+                var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.mp4|\.mp3|\.pdf)$/i;
                 if(!allowedExtensions.exec(filePath)){
                 if(!document.getElementById("error-msg").childNodes.length){
                 var gendererror = document.createElement("span");
@@ -129,6 +130,20 @@ height:100%;
                 return false;
                 }
                 }
+
+                // clipboard.js
+                var clipboard = new ClipboardJS('.copy-btn', {
+                    container: document.getElementById('addMediaModal')
+                });
+                clipboard.on('success', function(e) {
+                    document.getElementById("copy-msg").innerHTML = "Copied";
+                    setTimeout(function(){
+                        document.getElementById('copy-msg').style.display='none';
+                    }, 5000);
+                });
+                clipboard.on('error', function(e) {
+                    document.getElementById("copy-msg").innerHTML = "Failed";
+                });
 
 </script>
 @endpush

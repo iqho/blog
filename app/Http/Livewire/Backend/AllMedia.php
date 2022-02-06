@@ -6,6 +6,7 @@ use App\Models\Media;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class AllMedia extends Component
 {
@@ -13,6 +14,8 @@ class AllMedia extends Component
     public $title, $slug, $media_name, $caption, $alt, $description, $media_type, $extension, $media_order, $user_id;
     public $updateMode = false;
     public $viewMode = false;
+    public $mediaSize;
+    public $mediaURL;
 
     public function render()
         {
@@ -104,10 +107,15 @@ class AllMedia extends Component
         $media = Media::where('id', $id)->first();
         $this->title = $media->title;
         $this->slug = $media->slug;
+        $this->media_name = $media->media_name;
         $this->caption = $media->caption;
         $this->alt = $media->alt;
         $this->description = $media->description;
+        $this->media_type = $media->media_type;
         $this->viewMode = true;
+        //$size = Storage::size('public/'.$picture->filename);
+        $this->mediaSize = Storage::size('public/media/'.$media->media_name);
+        $this->mediaURL = url('storage/media/'.$media->media_name);
     }
 
     public function edit($id)
