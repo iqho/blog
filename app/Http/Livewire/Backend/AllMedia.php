@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 class AllMedia extends Component
 {
     use WithFileUploads;
-    public $title, $slug, $media_name, $caption, $alt, $description, $media_type, $extension, $media_order, $user_id;
+    public $title, $slug, $media_name, $media_name2, $media_name3, $caption, $alt, $description, $media_type, $extension, $media_order, $user_id, $media_id;
     public $updateMode = false;
     public $viewMode = false;
     public $mediaSize;
@@ -105,6 +105,7 @@ class AllMedia extends Component
 
     public function details($id){
         $media = Media::where('id', $id)->first();
+        $this->media_id = $id;
         $this->title = $media->title;
         $this->slug = $media->slug;
         $this->media_name = $media->media_name;
@@ -120,20 +121,28 @@ class AllMedia extends Component
 
     public function edit($id)
         {
-            $media = Media::where('id', $id)->first();
-            $this->title = $media->title;
-            $this->slug = $media->slug;
-            $this->caption = $media->caption;
-            $this->alt = $media->alt;
-            $this->description = $media->description;
-            $this->updateMode = true;
+        $media = Media::where('id', $id)->first();
+        $this->media_id = $id;
+        $this->title = $media->title;
+        $this->slug = $media->slug;
+        $this->media_name2 = $media->media_name;
+        $this->caption = $media->caption;
+        $this->alt = $media->alt;
+        $this->description = $media->description;
+        $this->media_type = $media->media_type;
+        $this->viewMode = true;
+        //$size = Storage::size('public/'.$picture->filename);
+        $this->mediaSize = Storage::size('public/media/' . $media->media_name);
+        $this->mediaURL = url('storage/media/' . $media->media_name);
+        $this->updateMode = true;
+        $this->viewMode = false;
         }
     public function cancel()
     {
        $this->resetInputFields();
     }
 
-    public function updateUser()
+    public function updateMedia()
         {
             $validatedDate = $this->validate([
                 'name' => ['required', 'string', 'max:255'],

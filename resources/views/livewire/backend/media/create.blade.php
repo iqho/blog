@@ -60,9 +60,10 @@ aria-hidden="true">
                         <div class="col-12 text-center w-100">
                             @if ($viewMode)
                             <img src="{{ asset('storage/media/'.$media_name) }}" style="max-height: 300px" class="img-fluid img-thumbnail rounded">
+                            @elseif ($updateMode)
+                            <img src="{{ asset('storage/media/'.$media_name) }}" style="max-height: 300px" class="img-fluid img-thumbnail rounded">
                             @else
-                            <img src="{{ $media_name->temporaryUrl() }}"
-                         class="img-fluid img-thumbnail rounded" style="max-height: 300px">
+                            <img src="{{ $media_name->temporaryUrl() }}" style="max-height: 300px" class="img-fluid img-thumbnail rounded" >
                             @endif
                         </div>
                         @else
@@ -71,8 +72,14 @@ aria-hidden="true">
                         </div>
                         @endif
                             <div wire:loading wire:target="media_name" class="text-success">Uploading...</div>
-                            @if(!$viewMode)
+
+                            @if($updateMode)
                             <input type="file" class="form-control" name="media_name" onchange="return checkImageExtention()" id="media_name" wire:model="media_name" wire:change="generateTitle()" required/>
+                            <div id="error-msg" class="text-danger"></div>
+                            @elseif ($viewMode)
+                            @else
+                            <input type="file" class="form-control" name="media_name" onchange="return checkImageExtention()" id="media_name"
+                                wire:model="media_name" wire:change="generateTitle()" required />
                             <div id="error-msg" class="text-danger"></div>
                             @endif
                             <div class="col-12">
@@ -88,13 +95,18 @@ aria-hidden="true">
                                         <b>Size:</b>  {{ formatSizeUnits($mediaSize) }}<br>
                                         <b>Extension:</b>  {{ $pathinfo['extension'] }} <br>
                                         <b>Full Image Name:</b>  {{ basename($path) }}
+                                       
+                                             <a href="#" data-bs-toggle="modal" data-id="1" data-bs-target="#updateMediaModal" wire:click="edit({{ $media_id }})">Edit Media</a>
+                                        
+                                       
+
                                         @else
                                         @if($media_name)
-                                        <div class="col-12 h3 mt-1">Image Details</div>
+                                        {{-- <div class="col-12 h3 mt-1">Image Details</div>
                                         <b>Image Name:</b> {{ pathinfo($media_name->getClientOriginalName(), PATHINFO_FILENAME) }}<br>
                                         <b>Size:</b>  {{ formatSizeUnits($media_name->getSize()) }}<br>
                                         <b>Extension:</b>  {{ $media_name->extension() }} <br>
-                                        <b>Full Image Name:</b>  {{ $media_name->getClientOriginalName() }}
+                                        <b>Full Image Name:</b>  {{ $media_name->getClientOriginalName() }} --}}
                                         @endif
                                         @endif
                                     </div>

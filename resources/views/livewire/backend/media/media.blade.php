@@ -49,6 +49,10 @@ height:100%;
 @endpush
 
 @include('livewire.backend.media.create')
+@if ($updateMode)
+  @include('livewire.backend.media.edit')  
+@endif
+
 
     @if (session()->has('message'))
       <div class="alert alert-success alert-dismissible fade show p-1" role="alert">
