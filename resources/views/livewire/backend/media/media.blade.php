@@ -44,14 +44,42 @@ height:100%;
     width: 100%;
   }
 }
+*[tooltip]:focus:after {
+content: attr(tooltip);
+display:block;
+position: absolute;
+margin-top: 40px;
+margin-right: 80px;
+top: 0;
+right: 0;
+color: green;
+}
+input[type="text"]:read-only:not([read-only="false"]) { 
+    background-color: rgb(248, 248, 248); 
+}
+textarea:read-only:not([read-only="false"]) { background-color: rgb(248, 248, 248);; }
+select:disabled:not([read-only="false"]) { background-color: rgb(248, 248, 248);; }
 </style>
-
 @endpush
 
 @include('livewire.backend.media.create')
-@if ($updateMode)
-  @include('livewire.backend.media.edit')  
-@endif
+@include('livewire.backend.media.edit')  
+
+@php
+function formatSizeUnits($bytes)
+{
+$label = array( 'B', 'KB', 'MB', 'GB', 'TB', 'PB' );
+for ( $i = 0; $bytes >= 1024 && $i < ( count( $label ) -1 ); $bytes /=1024, $i++ ); return ( round( $bytes, 2 ) . " " .
+    $label[$i] ); } function getFilesize($file, $digits=2) { if (is_file($file)) { $filePath=$file; if
+    (!realpath($filePath)) { $filePath=$_SERVER["DOCUMENT_ROOT"].$filePath; } $fileSize=filesize($filePath);
+    $sizes=array("TB","GB","MB","KB","B"); $total=count($sizes); while ($total-- && $fileSize> 1024) {
+    $fileSize /= 1024;
+    }
+    return round($fileSize, $digits)." ".$sizes[$total];
+    }
+    return false;
+    }
+@endphp
 
 
     @if (session()->has('message'))
@@ -77,7 +105,7 @@ height:100%;
             @foreach ($data['media'] as $media)
                 @if ($media->media_name)
                     <div class="col-md-2 col-sm-4 col-6 col-xs-12 filter {{ $media->media_type }}">
-                    <a href="#" class="d-block img-wrapper" data-bs-toggle="modal" data-id="1" data-bs-target="#addMediaModal" wire:click="details({{ $media->id }})">
+                    <a href="#" class="d-block img-wrapper" data-bs-toggle="modal" data-bs-target="#updateMediaModal" wire:click="details({{ $media->id }})">
                         <img class="img-responsive img-thumbnail" src="{{ asset('storage/media/'.$media->media_name) }}" alt="{{ $media->alt }}">
                     </a>
                     </div>
@@ -126,10 +154,23 @@ height:100%;
                 if(!allowedExtensions.exec(filePath)){
                 if(!document.getElementById("error-msg").childNodes.length){
                 var gendererror = document.createElement("span");
-                gendererror.innerHTML = "Supported Image Extention Only .jpeg/.jpg/.png/.gif";
+                gendererror.innerHTML = "Supported Image Extention Only .jpeg/.jpg/.png/.gif/.mp4/.mp3/.pdf";
                 document.getElementById("error-msg").appendChild(gendererror);
                 }
-                //alert('Please upload file having extensions .jpeg/.jpg/.png/.gif only.');
+                fileInput.value = '';
+                return false;
+                }
+                }
+        function checkImageExtentionupdate() {
+                var fileInput = document.getElementById('media_name3');
+                var filePath = document.getElementById('media_name3').value;
+                var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.mp4|\.mp3|\.pdf)$/i;
+                if(!allowedExtensions.exec(filePath)){
+                if(!document.getElementById("error-msg3").childNodes.length){
+                var gendererror = document.createElement("span");
+                gendererror.innerHTML = "Supported Image Extention Only .jpeg/.jpg/.png/.gif/.mp4/.mp3/.pdf";
+                document.getElementById("error-msg3").appendChild(gendererror);
+                }
                 fileInput.value = '';
                 return false;
                 }
@@ -137,17 +178,14 @@ height:100%;
 
                 // clipboard.js
                 var clipboard = new ClipboardJS('.copy-btn', {
-                    container: document.getElementById('addMediaModal')
+                    container: document.getElementById('addMediaModal'),
+                    container: document.getElementById('updateMediaModal')
                 });
-                clipboard.on('success', function(e) {
-                    document.getElementById("copy-msg").innerHTML = "Copied";
-                    setTimeout(function(){
-                        document.getElementById('copy-msg').style.display='none';
-                    }, 5000);
-                });
-                clipboard.on('error', function(e) {
-                    document.getElementById("copy-msg").innerHTML = "Failed";
-                });
+
+                // $('#updateMediaModal').on('hidden.bs.modal', function () {
+                // document.getElementById("updateForm").reset();
+                // });
+
 
 </script>
 @endpush

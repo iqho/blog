@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Storage;
 class AllMedia extends Component
 {
     use WithFileUploads;
-    public $title, $slug, $media_name, $media_name2, $media_name3, $caption, $alt, $description, $media_type, $extension, $media_order, $user_id, $media_id,
-    $newImageName;
+    public $title, $slug, $media_name, $media_name2, $media_name3, $caption, $alt, $description, $media_type, $extension, $media_order, $user_id, $media_id;
     public $updateMode = false;
     public $viewMode = false;
     public $mediaSize;
@@ -157,77 +156,53 @@ class AllMedia extends Component
 
             if($id){
                 $media = Media::findOrFail($id);
-
-
-
-                    if (!empty($this->media_name3)) {
-
-                        if ($this->slug != $media->slug) {
-                            $slug = Str::slug($this->slug);
-                            $count = Media::where('slug', 'LIKE', "{$slug}%")->count();
-                            $newCount = $count > 0 ? ++$count : '';
-                            $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
-                        } else {
-                            $myslug = $this->slug;
-                        }
-
-                        File::delete([public_path('storage/media/' . $media->media_name)]); // Delete Old Image and Store New Image
-
-                        $newImageName = $myslug . "." . $this->media_name3->extension();
-                        $this->media_name3->storeAs('media', $newImageName, 'public');
-
-                        $media->update([
-                            'title' => $this->title,
-                            'slug' => $myslug,
-                            'media_name' => $newImageName,
-                            'caption' => $this->caption,
-                            'alt' => $this->alt,
-                            'description' => $this->description,
-                            'media_type' => $this->media_type,
-                            'extension' => $this->media_name3->extension(),
-                            'user_id' => auth()->id(),
-                        ], $validatedDate);
-                    }
-                else{
-
-                if ($this->slug != $media->slug) {
+                if($this->slug != $media->slug) {
                     $slug = Str::slug($this->slug);
                     $count = Media::where('slug', 'LIKE', "{$slug}%")->count();
                     $newCount = $count > 0 ? ++$count : '';
                     $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
 
-                    if ($media->media_name != null && empty($this->media_name3)) {
-                        $path_info = pathinfo(public_path('storage/media/' . $media->media_name));
-                        $getExt = $path_info['extension'];
-                        $newImgName = $myslug . "." . $getExt;
-                        $currentPath = (public_path('storage/media/' . $media->media_name));
-                        $newPath = (public_path('storage/media/' . $newImgName));
-                        File::move($currentPath, $newPath); // If Change Slug than change also image name too
-                    }
+                        if ($media->media_name != null && empty($this->media_name3)) {
+                            $path_info = pathinfo(public_path('storage/media/' . $media->media_name));
+                            $getExt = $path_info['extension'];
+                            $newImgName = $myslug . "." . $getExt;
+                            $currentPath = (public_path('storage/media/' . $media->media_name));
+                            $newPath = (public_path('storage/media/' . $newImgName));
+                            File::move($currentPath, $newPath); // If Change Slug than change also image name too
+                        }
+                }
+                else{
+                $myslug = $this->slug;
+                }
+                if (!empty($this->media_name3)) {
+
+                    File::delete([public_path('storage/media/' . $media->media_name)]); // Delete Old Image and Store New Image
+
+                    $newImageName = $myslug . "." . $this->media_name3->extension();
+                    $this->media_name3->storeAs('media', $newImageName, 'public');
 
                     $media->update([
                         'title' => $this->title,
                         'slug' => $myslug,
-                        'media_name' => $newImgName,
+                        'media_name' => $newImageName,
                         'caption' => $this->caption,
                         'alt' => $this->alt,
                         'description' => $this->description,
                         'media_type' => $this->media_type,
+                        'extension' => $this->media_name3->extension(),
                         'user_id' => auth()->id(),
-                    ], $validatedDate);   
-
-                } else {
+                    ], $validatedDate);
+                }
+                else{
                     $media->update([
                         'title' => $this->title,
-                        'slug' => $this->slug,
+                        'slug' => $myslug,
                         'caption' => $this->caption,
                         'alt' => $this->alt,
                         'description' => $this->description,
                         'media_type' => $this->media_type,
                         'user_id' => auth()->id(),
-                    ], $validatedDate);   
-                }
-               
+                    ], $validatedDate);                  
                 }
             }
         //User::create($validatedDate);
@@ -238,12 +213,13 @@ class AllMedia extends Component
         $this->emit('mediaUpdate'); // Close model to using to jquery
     }
 
-    public function trashed($id)
-        {
-            if($id){
-            Media::where('id', $id)->delete();
-            session()->flash('message', 'Media Move to Trashed Successfully.');
-            $this->emit('mediaUpdate');
-            }
-        }
+    // public function trashed($id)
+    //     {
+    //         if($id){
+    //         Media::where('id', $id)->delete();
+    //         session()->flash('message', 'Media Move to Trashed Successfully.');
+    //         //$this->emit('mediaUpdate');
+    //         }
+    //     }
+
 }

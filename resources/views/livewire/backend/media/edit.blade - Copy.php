@@ -5,7 +5,7 @@
             <div class="modal-content">
                 <div class="modal-header" style="padding: 0px; margin:0px; border-bottom:2px solid rgb(231, 231, 231)">
                     <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12 ps-1">
-                        <h2 class="modal-title" id="exampleModalLabel">@if ($updateMode) Edit Media Details @else Media Details @endif</h2>
+                        <h2 class="modal-title" id="exampleModalLabel">Update Media</h2>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 text-end g-0">
                         <div class="btn-group flex-wrap m-0" role="group"
@@ -31,35 +31,33 @@
                     </div>
                     @endif
 
-                    <form id="updateForm" enctype="multipart/form-data">
+                    <form id="updateform" method="" action="" enctype="multipart/form-data">
 
                         <div class="row">
                             <div class="col-md-6 text-center align-middle">
+                                @if($media_name3)
                                 <div class="col-12 text-center w-100">
-                                    @if ($media_name3)
-                                    <img src="{{ $media_name3->temporaryUrl() }}" style="max-height: 300px" class="img-fluid img-thumbnail rounded">
+                                    @if ($media_name2)
+                                    <img src="{{ asset('storage/media/'.$media_name2) }}" style="max-height: 300px"
+                                        class="img-fluid img-thumbnail rounded">
                                     @else
-                                    <img src="{{ asset('storage/media/'.$media_name2) }}" style="max-height: 300px" class="img-fluid img-thumbnail rounded">
+                                    <img src="{{ $media_name3->temporaryUrl() }}" style="max-height: 300px"
+                                        class="img-fluid img-thumbnail rounded">
                                     @endif
                                 </div>
-                                @if ($updateMode)
-                                <div wire:loading wire:target="media_name3" class="text-success">Uploading...</div>
-                                <input type="file" class="form-control" style="max-width: 75%; margin: 8px auto;" name="media_name3"
-                                    onchange="return checkImageExtentionupdate()" id="media_name3" wire:model="media_name3" required />
-                                <div id="error-msg3" class="text-danger"></div>                                    
+                                @else
+                                <div class="col-12 text-center w-100">
+                                    <img src="{{ asset('backend/assets/images/slider/03.jpg') }}"
+                                        style="max-height: 300px" class="img-fluid img-thumbnail rounded">
+                                </div>
                                 @endif
-
+                                <div wire:loading wire:target="media_name3" class="text-success">Uploading...</div>
+                                <input type="file" class="form-control" name="media_name3"
+                                    onchange="return checkImageExtention()" id="media_name3" wire:model="media_name3" required />
+                                <div id="error-msg" class="text-danger"></div>
                                 <div class="col-12">
                                     <div class="col-12 d-flex justify-content-center w-100">
                                         <div class="text-start">
-                                            @if($media_name3)
-                                            <div class="col-12 h3 mt-1">Image Details</div>
-                                            <b>Image Name:</b> {{ pathinfo($media_name3->getClientOriginalName(),
-                                            PATHINFO_FILENAME) }}<br>
-                                            <b>Size:</b> {{ formatSizeUnits($media_name3->getSize()) }}<br>
-                                            <b>Extension:</b> {{ $media_name3->extension() }} <br>
-                                            <b>Full Image Name:</b> {{ $media_name3->getClientOriginalName() }}
-                                            @else
                                             @if ($media_name2)
                                             <div class="col-12 h3 mt-1">Image Details</div>
                                             @php
@@ -70,6 +68,14 @@
                                             <b>Size:</b> {{ formatSizeUnits($mediaSize) }}<br>
                                             <b>Extension:</b> {{ $pathinfo['extension'] }} <br>
                                             <b>Full Image Name:</b> {{ basename($path) }}
+                                            @else
+                                            @if($media_name3)
+                                            <div class="col-12 h3 mt-1">Image Details</div>
+                                            <b>Image Name:</b> {{ pathinfo($media_name3->getClientOriginalName(),
+                                            PATHINFO_FILENAME) }}<br>
+                                            <b>Size:</b> {{ formatSizeUnits($media_name3->getSize()) }}<br>
+                                            <b>Extension:</b> {{ $media_name3->extension() }} <br>
+                                            <b>Full Image Name:</b> {{ $media_name3->getClientOriginalName() }}
                                             @endif
                                             @endif
                                         </div>
@@ -89,14 +95,14 @@
                                             class="text-danger">*</span>):</label>
                                     <input type="text" class="form-control @error('title') is-invalid @enderror"
                                         id="title" wire:model="title" wire:keyup="generateSlug()"
-                                        wire:change="generateSlug()" @if (!$updateMode) readonly @endif required>
+                                        wire:change="generateSlug()" required>
                                     @error('title') <span class="text-danger error">{{ $message }}</span>@enderror
                                 </div>
                                 <div>
                                     <label for="slug" class="col-form-label">Slug (<span
                                             class="text-danger">*</span>):</label>
                                     <input type="text" class="form-control @error('slug') is-invalid @enderror"
-                                        id="slug" wire:model="slug" @if (!$updateMode) readonly @endif required>
+                                        id="slug" wire:model="slug">
                                     @error('slug') <span class="text-danger error">{{ $message }}</span>@enderror 
                                     @if ($data['checkslug'] > 0)
                                     <span class="text-danger"><i class="fas fa-sign-language    "></i> Not
@@ -113,20 +119,20 @@
                                     <label for="caption" class="col-form-label">Caption (<span
                                             class="text-danger">*</span>):</label>
                                     <input type="text" class="form-control @error('caption') is-invalid @enderror"
-                                        id="caption" wire:model="caption" @if (!$updateMode) readonly @endif >
+                                        id="caption" wire:model="caption">
                                     @error('email') <span class="text-danger error">{{ $message }}</span>@enderror
                                 </div>
                                 <div>
                                     <label for="alt" class="col-form-label">Alternative Text (<span
                                             class="text-danger">*</span>):</label>
-                                    <input type="text" class="form-control" id="alt" wire:model="alt" @if (!$updateMode) readonly @endif>
+                                    <input type="text" class="form-control" id="alt" wire:model="alt">
                                     @error('alt') <span class="text-danger error">{{ $message }}</span>@enderror
                                 </div>
                                 <div>
                                     <label for="media_type" class="col-form-label">Media Type (<span
                                             class="text-danger">*</span>):</label>
                                     <select class="form-select @error('media_type') is-invalid @enderror"
-                                        aria-label="media_type" wire:model="media_type" required @if (!$updateMode) disabled @endif>
+                                        aria-label="media_type" wire:model="media_type" required>
                                         <option value="" selected>Select Media Type</option>
                                         <option value="images">Image</option>
                                         <option value="videos">Video</option>
@@ -136,7 +142,7 @@
                                 </div>
                                 <div>
                                     <label for="description" class="col-form-label">Description ( Optional ):</label>
-                                    <textarea class="form-control" id="description" wire:model="description" @if (!$updateMode) readonly @endif></textarea>
+                                    <textarea class="form-control" id="description" wire:model="description"></textarea>
                                     @error('description') <span class="text-danger error">{{ $message }}</span>@enderror
                                 </div>
                             </div>
@@ -144,15 +150,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <div class="col-12 w-100 text-center">
-                    @if ($updateMode)
-                    <button type="button" class="btn btn-danger me-2" wire:click="details({{ $media_id }})" style="padding: 14px">Back to Details Mode</button>
-                    <button type="button" class="btn btn-success me-2" wire:click="updateMedia({{ $media_id }})" style="padding: 14px">Update Media</button>
-                    @else
-                    <button type="button" class="btn btn-primary me-2" wire:click="edit({{ $media_id }})" style="padding: 14px">Edit Media Details</button>                     
-                    <button type="button" class="btn btn-danger me-2" wire:click="trashed({{ $media_id }})" style="padding: 14px">Move to Trashed</button>                     
-                    @endif
-                </div>
+                    <button type="button" class="btn btn-primary" wire:click.prevent="updateMedia()"
+                        style="padding: 14px">Update Media</button>
                 </div>
             </div>
         </div>
