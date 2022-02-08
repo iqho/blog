@@ -46,7 +46,7 @@
                                 <div wire:loading wire:target="media_name3" class="text-success">Uploading...</div>
                                 <input type="file" class="form-control" style="max-width: 75%; margin: 8px auto;" name="media_name3"
                                     onchange="return checkImageExtentionupdate()" id="media_name3" wire:model="media_name3" required />
-                                <div id="error-msg3" class="text-danger"></div>                                    
+                                <div id="error-msg3" class="text-danger"></div>
                                 @endif
 
                                 <div class="col-12">
@@ -97,10 +97,9 @@
                                             class="text-danger">*</span>):</label>
                                     <input type="text" class="form-control @error('slug') is-invalid @enderror"
                                         id="slug" wire:model="slug" @if (!$updateMode) readonly @endif required>
-                                    @error('slug') <span class="text-danger error">{{ $message }}</span>@enderror 
+                                    @error('slug') <span class="text-danger error">{{ $message }}</span>@enderror
                                     @if ($data['checkslug'] > 0)
-                                    <span class="text-danger"><i class="fas fa-sign-language    "></i> Not
-                                        Available</span>
+                                    <span class="text-danger">Not Available</span>
                                     @else
                                     @if ($data['checkEmpty'] == 0)
                                     @else
@@ -149,8 +148,8 @@
                     <button type="button" class="btn btn-danger me-2" wire:click="details({{ $media_id }})" style="padding: 14px">Back to Details Mode</button>
                     <button type="button" class="btn btn-success me-2" wire:click="updateMedia({{ $media_id }})" style="padding: 14px">Update Media</button>
                     @else
-                    <button type="button" class="btn btn-primary me-2" wire:click="edit({{ $media_id }})" style="padding: 14px">Edit Media Details</button>                     
-                    <button type="button" class="btn btn-danger me-2" wire:click="trashed({{ $media_id }})" style="padding: 14px">Move to Trashed</button>                     
+                    <button type="button" class="btn btn-primary me-2" wire:click="edit({{ $media_id }})" style="padding: 14px">Edit Media Details</button>
+                    <button type="button" class="btn btn-danger me-2" wire:click="trashed({{ $media_id }})" style="padding: 14px">Move to Trashed</button>
                     @endif
                 </div>
                 </div>

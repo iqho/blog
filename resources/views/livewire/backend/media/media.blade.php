@@ -54,8 +54,8 @@ top: 0;
 right: 0;
 color: green;
 }
-input[type="text"]:read-only:not([read-only="false"]) { 
-    background-color: rgb(248, 248, 248); 
+input[type="text"]:read-only:not([read-only="false"]) {
+    background-color: rgb(248, 248, 248);
 }
 textarea:read-only:not([read-only="false"]) { background-color: rgb(248, 248, 248);; }
 select:disabled:not([read-only="false"]) { background-color: rgb(248, 248, 248);; }
@@ -63,7 +63,7 @@ select:disabled:not([read-only="false"]) { background-color: rgb(248, 248, 248);
 @endpush
 
 @include('livewire.backend.media.create')
-@include('livewire.backend.media.edit')  
+@include('livewire.backend.media.edit')
 
 @php
 function formatSizeUnits($bytes)
@@ -90,27 +90,36 @@ for ( $i = 0; $bytes >= 1024 && $i < ( count( $label ) -1 ); $bytes /=1024, $i++
     @endif
 
 <div class="row g-0">
+    <div class="col-12 text-center w-100 my-1"><h1>Display All Media</h1></div>
+    <hr/>
         <div class="row g-0 px-1 align-items-center h-100">
-            <div class="col-md-5 col-sm-5 col-12">
-                <button class="btn btn-primary btn-lg" onclick="resetFunction()" data-bs-toggle="modal" data-id="1" data-bs-target="#addMediaModal">Add New Media</button>
+            <div class="col-md-3 col-sm-3 col-12 text-md-start text-center">
+                <a class="btn btn-outline-danger" href="{{ route('admin-panel.media.list-view') }}"><i class="fa fa-bars me-1"></i> List View</a>
             </div>
-            <div class="col-md-7 col-sm-7 col-12 g-0 align-items-center h-100">
+            <div class="col-md-5 col-sm-5 col-12 g-0 text-center">
                 <button class="filter-button active" data-filter="all">All</button>
                 <button class="filter-button" data-filter="images">Images</button>
                 <button class="filter-button" data-filter="videos">Videos</button>
                 <button class="filter-button" data-filter="others">Others</button>
             </div>
+            <div class="col-md-4 col-sm-4 col-12 text-md-end text-center">
+                <div class="input-group">
+                <button class="btn btn-primary btn-lg" onclick="resetFunction()" data-bs-toggle="modal" data-id="1" data-bs-target="#addMediaModal">Add New Media</button>
+                    <input type="text" class="form-control" placeholder="Search Media by Title" style="max-width: 250px; margin-left: 5px" wire:model="searchTerm" />
+                </div>
+            </div>
         </div>
         <div class="row g-0 mt-1">
-            @foreach ($data['media'] as $media)
-                @if ($media->media_name)
+            @forelse($data['media'] as $media)
                     <div class="col-md-2 col-sm-4 col-6 col-xs-12 filter {{ $media->media_type }}">
                     <a href="#" class="d-block img-wrapper" data-bs-toggle="modal" data-bs-target="#updateMediaModal" wire:click="details({{ $media->id }})">
                         <img class="img-responsive img-thumbnail" src="{{ asset('storage/media/'.$media->media_name) }}" alt="{{ $media->alt }}">
                     </a>
                     </div>
-                @endif
-            @endforeach
+            @empty
+                <h2 class="col-12 w-100 text-center my-2">No Media Found </h2>
+            @endforelse
+            <div class="row">{{ $data['media']->onEachSide(2)->links('backend.includes.pagination-custom') }}</div>
         </div>
 </div>
 @push('page-js')
@@ -144,6 +153,7 @@ for ( $i = 0; $bytes >= 1024 && $i < ( count( $label ) -1 ); $bytes /=1024, $i++
           });
           window.livewire.on('mediaUpdate', () => {
           $('#updateMediaModal').modal('hide');
+          window.location.reload(true);
           });
 
         //Seleceted Format

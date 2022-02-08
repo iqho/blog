@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Backend;
+namespace App\Http\Livewire\Backend\Media;
 
 use App\Models\Media;
 use Livewire\Component;
@@ -9,7 +9,7 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
-class AllMedia extends Component
+class AllMediaList extends Component
 {
     use WithFileUploads;
     public $title, $slug, $media_name, $media_name2, $media_name3, $caption, $alt, $description, $media_type, $extension, $media_order, $user_id, $media_id,
@@ -21,10 +21,10 @@ class AllMedia extends Component
 
     public function render()
         {
-        $data['media'] = Media::where('user_id', auth()->id())->latest()->get();
+        $data['media'] = Media::where('user_id', auth()->id())->orderBy('id', 'desc')->get();
         $data['checkEmpty'] = Str::length($this->slug);
         $data['checkslug'] = Media::where('slug', '=', $this->slug)->exists();
-        return view('livewire.backend.media.media', compact('data'));
+        return view('livewire.backend.media.media-list-view', compact('data'));
         }
 
     public function generateTitle()
@@ -214,7 +214,7 @@ class AllMedia extends Component
                         'description' => $this->description,
                         'media_type' => $this->media_type,
                         'user_id' => auth()->id(),
-                    ], $validatedDate);   
+                    ], $validatedDate);
 
                 } else {
                     $media->update([
@@ -225,9 +225,9 @@ class AllMedia extends Component
                         'description' => $this->description,
                         'media_type' => $this->media_type,
                         'user_id' => auth()->id(),
-                    ], $validatedDate);   
+                    ], $validatedDate);
                 }
-               
+
                 }
             }
         //User::create($validatedDate);
@@ -246,4 +246,12 @@ class AllMedia extends Component
             $this->emit('mediaUpdate');
             }
         }
+
+    public function parmanentDelete($id)
+    {
+        $media = Media::withTrashed()->findOrFail($id);
+        File::delete([public_path('storage/media/'. $media->media_name)]);
+        $media->forceDelete();
+        session()->flash('message', 'Media Deleted Successfully.');
+    }
 }
