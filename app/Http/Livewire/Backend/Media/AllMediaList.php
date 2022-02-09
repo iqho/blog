@@ -18,10 +18,12 @@ class AllMediaList extends Component
     public $viewMode = false;
     public $mediaSize;
     public $mediaURL;
+    public $checkMode = false;
 
     public function render()
         {
         $data['media'] = Media::where('user_id', auth()->id())->orderBy('id', 'desc')->get();
+
         $data['checkEmpty'] = Str::length($this->slug);
         $data['checkslug'] = Media::where('slug', '=', $this->slug)->exists();
         return view('livewire.backend.media.media-list-view', compact('data'));
@@ -40,14 +42,20 @@ class AllMediaList extends Component
 
     public function generateSlug()
     {
-        $slug = Str::slug($this->title);
-        $count = Media::where('slug', 'LIKE', "{$slug}%")->count();
-        $newCount = $count > 0 ? ++$count : '';
-        $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
+        if(Str::length($this->title) == 0){
+            $myslug = ''; 
+        }
+        else{
+            $slug = Str::slug($this->title);
+            $count = Media::where('slug', 'LIKE', "{$slug}%")->count();
+            $newCount = $count > 0 ? ++$count : '';
+            $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
+        }
         $autoslug = $this->slug = $myslug;
         $autocaption = $this->caption = $this->title;
         $autoalt = $this->alt = $this->title;
         $autodes = $this->description = $this->title;
+        $this->checkMode = true ;
         return [$autoslug, $autocaption, $autoalt, $autodes];
     }
 
@@ -65,6 +73,7 @@ class AllMediaList extends Component
         $this->viewMode = false;
         $this->updateMode = false;
     }
+
 
     public function storeMedia()
         {
@@ -119,6 +128,7 @@ class AllMediaList extends Component
         $this->media_type = $media->media_type;
         $this->mediaSize = Storage::size('public/media/' . $media->media_name);
         $this->mediaURL = url('storage/media/' . $media->media_name);
+        $this->checkMode = false ;
     }
 
     public function edit($id)
@@ -136,6 +146,7 @@ class AllMediaList extends Component
         $this->mediaSize = Storage::size('public/media/' . $media->media_name);
         $this->mediaURL = url('storage/media/' . $media->media_name);
         $this->updateMode = true;
+        $this->checkMode = false ;
         }
 
     public function cancel()
@@ -252,6 +263,7 @@ class AllMediaList extends Component
         $media = Media::withTrashed()->findOrFail($id);
         File::delete([public_path('storage/media/'. $media->media_name)]);
         $media->forceDelete();
-        session()->flash('message', 'Media Deleted Successfully.');
+        //session()->flash('message', 'Media Deleted Successfully.');
+        return redirect(route('admin-panel.media.list-view'))->with('message', 'Media Parmanetly Deleted Successfully.');
     }
 }

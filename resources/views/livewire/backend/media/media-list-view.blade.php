@@ -6,7 +6,7 @@
                 content: attr(tooltip);
                 display:block;
                 position: absolute;
-                margin-top: 40px;
+                margin-top: 35px;
                 margin-right: 80px;
                 top: 0;
                 right: 0;
@@ -17,6 +17,12 @@
             }
             textarea:read-only:not([read-only="false"]) { background-color: rgb(248, 248, 248);; }
             select:disabled:not([read-only="false"]) { background-color: rgb(248, 248, 248);; }
+            table.dataTable td {
+                padding: 7px;
+                }
+            th{
+                text-align: center;
+            }
         </style>
     @endpush
 
@@ -62,6 +68,7 @@
                                 <th class="min-mobile">Title</th>
                                 <th class="not-mobile">Slug</th>
                                 <th class="not-mobile no-sort">Media</th>
+                                <th class="not-mobile">URL</th>
                                 <th class="not-mobile">User</th>
                                 <th class="not-mobile no-sort">Action</th>
                             </tr>
@@ -70,11 +77,19 @@
                             @php $i = $data['media']->count(); @endphp
                             @foreach ($data['media'] as $media)
                                 <tr>
-                                    <td>{{ $i-- }}</td>
-                                    <td><a href="#">{{ $media->title }}</a>
+                                    <td class="text-center">{{ $i-- }}</td>
+                                    <td><a href="#" data-bs-toggle="modal" data-bs-target="#updateMediaModal" wire:click="details({{ $media->id }})">{{ $media->title }}</a>
                                     </td>
                                     <td>{{ $media->slug }}</td>
-                                    <td><img src="{{ asset('storage/media/'.$media->media_name) }}" width="40" height="40" alt="{{ $media->title }}"> </td>
+                                    <td class="text-center"><img src="{{ asset('storage/media/'.$media->media_name) }}" width="40" height="40" alt="{{ $media->title }}"> </td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="{{ $media->slug }}" value="{{ url('storage/media/'.$media->media_name) }}"
+                                                readonly>
+                                            <span class="input-group-text"><a href="javascript:void(0)" class="copy-btn" tooltip="Copied"
+                                                    data-clipboard-target="#{{ $media->slug }}">Copy</a></span>
+                                        </div>
+                                    </td>
                                     <td>{{ $media->users->name }}</td>
                                     <td>
                                         <div class="d-inline-flex">
@@ -207,14 +222,6 @@
             container: document.getElementById('updateMediaModal')
         });
 
-        // $('#updateMediaModal').on('hidden.bs.modal', function () {
-        // document.getElementById("updateForm").reset();
-        // });
-
-
-    </script>
-
-    <script>
         $(document).ready(function() {
             $('#postsTable').DataTable( {
                 "order": [[ 0, "desc" ]],

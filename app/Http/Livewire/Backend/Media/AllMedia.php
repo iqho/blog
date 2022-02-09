@@ -24,6 +24,9 @@ class AllMedia extends Component
     public $viewMode = false;
     public $mediaSize;
     public $mediaURL;
+    public $checkMode = false;
+    public $nextBtn;
+    public $preBtn;
 
     public function render()
         {
@@ -57,14 +60,20 @@ class AllMedia extends Component
 
     public function generateSlug()
     {
-        $slug = Str::slug($this->title);
-        $count = Media::where('slug', 'LIKE', "{$slug}%")->count();
-        $newCount = $count > 0 ? ++$count : '';
-        $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
+        if(Str::length($this->title) == 0){
+            $myslug = ''; 
+        }
+        else{
+            $slug = Str::slug($this->title);
+            $count = Media::where('slug', 'LIKE', "{$slug}%")->count();
+            $newCount = $count > 0 ? ++$count : '';
+            $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
+        }
         $autoslug = $this->slug = $myslug;
         $autocaption = $this->caption = $this->title;
         $autoalt = $this->alt = $this->title;
         $autodes = $this->description = $this->title;
+        $this->checkMode = true ;
         return [$autoslug, $autocaption, $autoalt, $autodes];
     }
 
@@ -127,6 +136,10 @@ class AllMedia extends Component
         $this->resetInputFields();
         $media = Media::where('id', $id)->first();
         $this->media_id = $id;
+        $this->preBtn = $media->previous;
+        $this->nextBtn = Media::findNext($id);
+       // $this->nextBtn = Media::where('id', '>', $media->id)->min('id');
+        //$this->nextBtn = '1';
         $this->title = $media->title;
         $this->slug = $media->slug;
         $this->media_name2 = $media->media_name;
@@ -136,6 +149,7 @@ class AllMedia extends Component
         $this->media_type = $media->media_type;
         $this->mediaSize = Storage::size('public/media/' . $media->media_name);
         $this->mediaURL = url('storage/media/' . $media->media_name);
+        $this->checkMode = false ; 
     }
 
     public function edit($id)
@@ -153,6 +167,7 @@ class AllMedia extends Component
         $this->mediaSize = Storage::size('public/media/' . $media->media_name);
         $this->mediaURL = url('storage/media/' . $media->media_name);
         $this->updateMode = true;
+        $this->checkMode = false ;
         }
 
     public function cancel()
@@ -174,9 +189,7 @@ class AllMedia extends Component
 
             if($id){
                 $media = Media::findOrFail($id);
-
-
-
+                
                     if (!empty($this->media_name3)) {
 
                         if ($this->slug != $media->slug) {

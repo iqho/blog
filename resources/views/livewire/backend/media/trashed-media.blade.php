@@ -37,10 +37,10 @@
                                     <td><img src="{{ asset('storage/media/'.$media->media_name) }}" width="40" height="40" alt="{{ $media->title }}"> </td>
                                     <td>{{ $media->users->name }}</td>
                                     <td style="text-align: center;">
-                                        <button type="button" wire:click="restore({{ $media->id }})" onclick="confirm('Confirm ! You Want to Restore This Category ?') || event.stopImmediatePropagation()" class="btn btn-relief-success waves-effect waves-float waves-light" style="margin: 2px">
+                                        <button type="button" wire:click="restore({{ $media->id }})" onclick="confirm('Confirm ! You Want to Restore This Media ?') || event.stopImmediatePropagation()" class="btn btn-relief-success waves-effect waves-float waves-light" style="margin: 2px">
                                             <i class="fas fa-sync fa-lg" alt="{{ __('Restore') }}" style="margin-right: 3px"></i> <span>{{ __('Restore') }}</span>
                                         </button>
-                                        <button type="button" onclick="confirm('Confirm ! You Want to Delete This Category Parmanently?') || event.stopImmediatePropagation()" wire:click.prevent="delete({{ $media->id }})" class="btn btn-relief-danger waves-effect waves-float waves-light" style="margin: 2px">
+                                        <button type="button" onclick="confirm('Confirm ! You Want to Delete This Media Parmanently?') || event.stopImmediatePropagation()" wire:click.prevent="delete({{ $media->id }})" class="btn btn-relief-danger waves-effect waves-float waves-light" style="margin: 2px">
                                             <i class="fas fa-trash-alt fa-lg" style="margin-right: 3px"></i> <span>P. Delete</span>
                                         </button>
                                     </td>

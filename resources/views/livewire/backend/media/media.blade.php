@@ -104,7 +104,7 @@ for ( $i = 0; $bytes >= 1024 && $i < ( count( $label ) -1 ); $bytes /=1024, $i++
             </div>
             <div class="col-md-4 col-sm-4 col-12 text-md-end text-center">
                 <div class="input-group">
-                <button class="btn btn-primary btn-lg" onclick="resetFunction()" data-bs-toggle="modal" data-id="1" data-bs-target="#addMediaModal">Add New Media</button>
+                <button class="btn btn-primary btn-lg" wire:click.prevent="cancel()" data-bs-toggle="modal" data-id="1" data-bs-target="#addMediaModal">Add New Media</button>
                     <input type="text" class="form-control" placeholder="Search Media by Title" style="max-width: 250px; margin-left: 5px" wire:model="searchTerm" />
                 </div>
             </div>

@@ -8,8 +8,6 @@ aria-hidden="true">
             </div>
             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 text-end g-0">
                 <div class="btn-group flex-wrap m-0" role="group" style="border-left:2px solid rgb(231, 231, 231)">
-                    <button type="button" class="btn btn-link m-0"><i class="fa fa-chevron-left fa-2x"></i></button>
-                    <button type="button" class="btn btn-link m-0"><i class="fa fa-chevron-right fa-2x"></i></button>
                     <button type="button" class="btn btn-link m-0" wire:click.prevent="cancel()" data-bs-dismiss="modal"><i class="fas fa-times fa-2x"></i></button>
                 </div>
             </div>
@@ -33,10 +31,10 @@ aria-hidden="true">
                         @if($media_name)
                         <div class="col-12 text-center w-100">
                             <img src="{{ $media_name->temporaryUrl() }}" style="max-height: 300px" class="img-fluid img-thumbnail rounded" >
-                        </div>                        
+                        </div>
                         @else
                         <div class="col-12 text-center w-100">
-                            <img src="{{ asset('backend/assets/images/slider/03.jpg') }}" style="max-height: 300px" class="img-fluid img-thumbnail rounded">
+                            <img src="{{ asset('images/no-image-available.jpg') }}" style="max-height: 300px" class="img-fluid img-thumbnail rounded mb-1">
                         </div>
                         @endif
                             <div wire:loading wire:target="media_name" class="text-success">Uploading...</div>
@@ -64,7 +62,7 @@ aria-hidden="true">
                                 </div>
                                 <div>
                                     <label for="slug" class="col-form-label">Slug (<span class="text-danger">*</span>):</label>
-                                    <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" wire:model="slug" />
+                                    <input type="text" class="form-control @if ($data['checkslug'] > 0) is-invalid @endif @error('slug') is-invalid @enderror" id="slug" wire:model="slug" />
                                     @error('slug') <span class="text-danger error">{{ $message }}</span>@enderror
                                     @if ($data['checkslug'] > 0)
                                     <span class="text-danger">Not Available</span>
@@ -87,7 +85,7 @@ aria-hidden="true">
                                 </div>
                                 <div>
                                     <label for="media_type" class="col-form-label">Media Type (<span class="text-danger">*</span>):</label>
-                                    <select class="form-select @error('media_type') is-invalid @enderror" aria-label="media_type" wire:model="media_type" required />
+                                    <select class="form-select @error('media_type') is-invalid @enderror" aria-label="media_type" wire:model="media_type" required>
                                         <option value="" selected>Select Media Type</option>
                                         <option value="images">Image</option>
                                         <option value="videos">Video</option>

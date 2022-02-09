@@ -10,10 +10,8 @@
                     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 text-end g-0">
                         <div class="btn-group flex-wrap m-0" role="group"
                             style="border-left:2px solid rgb(231, 231, 231)">
-                            <button type="button" class="btn btn-link m-0"><i
-                                    class="fa fa-chevron-left fa-2x"></i></button>
-                            <button type="button" class="btn btn-link m-0"><i
-                                    class="fa fa-chevron-right fa-2x"></i></button>
+                            <button type="button" class="btn btn-link m-0"><i class="fa fa-chevron-left fa-2x"></i></button>
+                            <button type="button" wire:click="details({{ $nextBtn }})" class="btn btn-link m-0"><i class="fa fa-chevron-right fa-2x"></i></button>{{ $nextBtn }}
                             <button type="button" class="btn btn-link m-0" wire:click.prevent="cancel()"
                                 data-bs-dismiss="modal"><i class="fas fa-times fa-2x"></i></button>
                         </div>
@@ -39,7 +37,12 @@
                                     @if ($media_name3)
                                     <img src="{{ $media_name3->temporaryUrl() }}" style="max-height: 300px" class="img-fluid img-thumbnail rounded">
                                     @else
+                                    @if ($media_name2)
                                     <img src="{{ asset('storage/media/'.$media_name2) }}" style="max-height: 300px" class="img-fluid img-thumbnail rounded">
+                                    @else
+                                    <img src="{{ asset('images/no-image-available.jpg') }}" style="max-height: 300px" class="img-fluid img-thumbnail rounded">
+                                    @endif
+
                                     @endif
                                 </div>
                                 @if ($updateMode)
@@ -95,15 +98,17 @@
                                 <div>
                                     <label for="slug" class="col-form-label">Slug (<span
                                             class="text-danger">*</span>):</label>
-                                    <input type="text" class="form-control @error('slug') is-invalid @enderror"
+                                    <input type="text" class="form-control @if ($checkMode) @if ($data['checkslug'] > 0) is-invalid @endif @endif @error('slug') is-invalid @enderror"
                                         id="slug" wire:model="slug" @if (!$updateMode) readonly @endif required>
                                     @error('slug') <span class="text-danger error">{{ $message }}</span>@enderror
+                                    @if ($checkMode)
                                     @if ($data['checkslug'] > 0)
                                     <span class="text-danger">Not Available</span>
                                     @else
                                     @if ($data['checkEmpty'] == 0)
                                     @else
                                     <span class="text-success">Slug Available</span>
+                                    @endif
                                     @endif
                                     @endif
 
@@ -145,11 +150,14 @@
                 <div class="modal-footer">
                     <div class="col-12 w-100 text-center">
                     @if ($updateMode)
-                    <button type="button" class="btn btn-danger me-2" wire:click="details({{ $media_id }})" style="padding: 14px">Back to Details Mode</button>
+                    <button type="button" class="btn btn-warning me-2" wire:click="details({{ $media_id }})" style="padding: 14px">Back to Details Mode</button>
                     <button type="button" class="btn btn-success me-2" wire:click="updateMedia({{ $media_id }})" style="padding: 14px">Update Media</button>
+                    <button type="button" class="btn btn-danger me-2" onclick="confirm('Confirm ! You Want to Move This Media to Trashed ?') || event.stopImmediatePropagation()" wire:click="trashed({{ $media_id }})" style="padding: 14px">Move to Trashed</button>
+                    <button type="button" class="btn btn-danger me-2" onclick="confirm('Confirm ! You Want to Delete This Media Parmanently ?') || event.stopImmediatePropagation()" wire:click="parmanentDelete({{ $media_id }})" style="padding: 14px">Delete Parmanently</button>
                     @else
                     <button type="button" class="btn btn-primary me-2" wire:click="edit({{ $media_id }})" style="padding: 14px">Edit Media Details</button>
-                    <button type="button" class="btn btn-danger me-2" wire:click="trashed({{ $media_id }})" style="padding: 14px">Move to Trashed</button>
+                    <button type="button" class="btn btn-danger me-2" onclick="confirm('Confirm ! You Want to Move This Media to Trashed ?') || event.stopImmediatePropagation()" wire:click="trashed({{ $media_id }})" style="padding: 14px">Move to Trashed</button>
+                    <button type="button" class="btn btn-danger me-2" onclick="confirm('Confirm ! You Want to Delete This Media Parmanently ?') || event.stopImmediatePropagation()" wire:click="parmanentDelete({{ $media_id }})" style="padding: 14px">Delete Parmanently</button>
                     @endif
                 </div>
                 </div>
