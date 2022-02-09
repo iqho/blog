@@ -135,11 +135,9 @@ class AllMedia extends Component
     public function details($id){
         $this->resetInputFields();
         $media = Media::where('id', $id)->first();
+        $this->preBtn = Media::where('id', '>', $media->id)->orderBy('id', 'asc')->first(); // Get Next Id
+        $this->nextBtn = Media::where('id', '<', $media->id)->orderBy('id', 'desc')->first(); // get Previus Id
         $this->media_id = $id;
-        $this->preBtn = $media->previous;
-        $this->nextBtn = Media::findNext($id);
-       // $this->nextBtn = Media::where('id', '>', $media->id)->min('id');
-        //$this->nextBtn = '1';
         $this->title = $media->title;
         $this->slug = $media->slug;
         $this->media_name2 = $media->media_name;
@@ -156,6 +154,8 @@ class AllMedia extends Component
         {
         $this->resetInputFields();
         $media = Media::where('id', $id)->first();
+        $this->preBtn = Media::where('id', '>', $media->id)->orderBy('id', 'asc')->first();
+        $this->nextBtn = Media::where('id', '<', $media->id)->orderBy('id', 'desc')->first();
         $this->media_id = $id;
         $this->title = $media->title;
         $this->slug = $media->slug;

@@ -20,9 +20,4 @@ class Media extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public static function findNext($id)
-{
-    return static::where('id', '>', $id)->first();
-}
-
 }

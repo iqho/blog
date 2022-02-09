@@ -19,6 +19,8 @@ class AllMediaList extends Component
     public $mediaSize;
     public $mediaURL;
     public $checkMode = false;
+    public $nextBtn;
+    public $preBtn;
 
     public function render()
         {
@@ -118,6 +120,8 @@ class AllMediaList extends Component
     public function details($id){
         $this->resetInputFields();
         $media = Media::where('id', $id)->first();
+        $this->preBtn = Media::where('id', '>', $media->id)->orderBy('id', 'asc')->first();
+        $this->nextBtn = Media::where('id', '<', $media->id)->orderBy('id', 'desc')->first();
         $this->media_id = $id;
         $this->title = $media->title;
         $this->slug = $media->slug;
@@ -135,6 +139,8 @@ class AllMediaList extends Component
         {
         $this->resetInputFields();
         $media = Media::where('id', $id)->first();
+        $this->preBtn = Media::where('id', '>', $media->id)->orderBy('id', 'asc')->first();
+        $this->nextBtn = Media::where('id', '<', $media->id)->orderBy('id', 'desc')->first();
         $this->media_id = $id;
         $this->title = $media->title;
         $this->slug = $media->slug;

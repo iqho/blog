@@ -10,8 +10,13 @@
                     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 text-end g-0">
                         <div class="btn-group flex-wrap m-0" role="group"
                             style="border-left:2px solid rgb(231, 231, 231)">
-                            <button type="button" class="btn btn-link m-0"><i class="fa fa-chevron-left fa-2x"></i></button>
-                            <button type="button" wire:click="details({{ $nextBtn }})" class="btn btn-link m-0"><i class="fa fa-chevron-right fa-2x"></i></button>{{ $nextBtn }}
+                            @if($updateMode)
+                            @if($preBtn) <button type="button" wire:click.prevent="edit({{ $preBtn->id }})" class="btn btn-link m-0"><i class="fa fa-chevron-left fa-2x"></i></button> @endif
+                            @if($nextBtn) <button type="button" wire:click.prevent="edit({{ $nextBtn->id }})" class="btn btn-link m-0"><i class="fa fa-chevron-right fa-2x"></i></button> @endif
+                            @else
+                            @if($preBtn) <button type="button" wire:click.prevent="details({{ $preBtn->id }})" class="btn btn-link m-0"><i class="fa fa-chevron-left fa-2x"></i></button> @endif
+                            @if($nextBtn) <button type="button" wire:click.prevent="details({{ $nextBtn->id }})" class="btn btn-link m-0"><i class="fa fa-chevron-right fa-2x"></i></button> @endif
+                            @endif
                             <button type="button" class="btn btn-link m-0" wire:click.prevent="cancel()"
                                 data-bs-dismiss="modal"><i class="fas fa-times fa-2x"></i></button>
                         </div>

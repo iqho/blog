@@ -80,8 +80,9 @@
                                     <td class="text-center">{{ $i-- }}</td>
                                     <td><a href="#" data-bs-toggle="modal" data-bs-target="#updateMediaModal" wire:click="details({{ $media->id }})">{{ $media->title }}</a>
                                     </td>
-                                    <td>{{ $media->slug }}</td>
-                                    <td class="text-center"><img src="{{ asset('storage/media/'.$media->media_name) }}" width="40" height="40" alt="{{ $media->title }}"> </td>
+                                    <td><a href="#" data-bs-toggle="modal" data-bs-target="#updateMediaModal" wire:click="details({{ $media->id }})">{{ $media->slug }}</a></td>
+                                    <td class="text-center">
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#updateMediaModal" wire:click="details({{ $media->id }})"><img src="{{ asset('storage/media/'.$media->media_name) }}" width="40" height="40" alt="{{ $media->title }}"></a></td>
                                     <td>
                                         <div class="input-group">
                                             <input type="text" class="form-control" id="{{ $media->slug }}" value="{{ url('storage/media/'.$media->media_name) }}"
@@ -90,8 +91,8 @@
                                                     data-clipboard-target="#{{ $media->slug }}">Copy</a></span>
                                         </div>
                                     </td>
-                                    <td>{{ $media->users->name }}</td>
-                                    <td>
+                                    <td class="text-center">{{ $media->users->name }}</td>
+                                    <td class="text-center">
                                         <div class="d-inline-flex">
                                             <a class="pe-1 dropdown-toggle hide-arrow text-primary"
                                                data-bs-toggle="dropdown">
@@ -129,7 +130,7 @@
                                                     </svg>Parmanent Delete</a>
                                             </div>
                                         </div>
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#updateMediaModal" wire:click="details({{ $media->id }})" class="item-edit">
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#updateMediaModal" wire:click="edit({{ $media->id }})" class="item-edit">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                  stroke-linecap="round" stroke-linejoin="round"

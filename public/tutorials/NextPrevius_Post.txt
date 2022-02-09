@@ -1,0 +1,34 @@
+Controller: 
+   Route::get('/media/{id}', function ($id) {
+       $media = Media::find($id);
+        $previous_id = Media::where('id', '<', $media->id)->max('id');        
+        $previous = Media::find($previous_id);
+        $next_id = Media::where('id', '>', $media->id)->min('id');
+        $next = Media::find($next_id);
+        return view('livewire.backend.media.test', compact('media', 'previous', 'next'));
+    });
+<div class="row">@if($previous) <div class="col-2"><a href="{{ $previous->id }}">Pre</a></div> @endif <div class="col-8"><h1>{{ $media->title }}</h1></div>   @if($next) <div class="col-2"><a href="{{ $next->id }}">Next</a>@endif</div></div>
+.................................................................................................................................
+Alternative
+    Route::get('/media/{id}', function ($id) {
+       $media = Media::find($id);      
+        $previous = Media::where('id', '<', $media->id)->orderBy('id', 'desc')->first();
+       // $next = Media::where('id', '>', $media->id)->orderBy('id', 'asc')->first(); // Same
+        $next = Media::where('id', '>', $media->id)->first(); // Same
+        return view('livewire.backend.media.test', compact('media', 'previous', 'next'));
+    });
+<div class="row">@if($previous) <div class="col-2"><a href="{{ $previous->id }}">Pre</a></div> @endif <div class="col-8"><h1>{{ $media->title }}</h1></div>   @if($next) <div class="col-2"><a href="{{ $next->id }}">Next</a>@endif</div></div>
+................................................................................................................................
+public function show($id)
+{
+    // get the current user
+    $user = User::find($id);
+
+    // get previous user id
+    $previous = User::offset($user->id-2)->first();
+
+    // get next user id
+    $next = User::offset($user->id)->first();
+
+    return View::make('users.show')->with('previous', $previous)->with('next', $next);
+}

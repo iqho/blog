@@ -1,10 +1,12 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Request;
+use App\Http\Controllers\DashboardController;
 use App\Http\Livewire\Backend\Media\AllMedia;
 use App\Http\Livewire\Backend\Media\AllMediaList;
 use App\Http\Livewire\Backend\Media\TrashedMedia;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
+use App\Models\Media;
 use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 
 /*
@@ -56,9 +58,5 @@ Route::group(['prefix' => 'admin-panel', 'as' => 'admin-panel.', 'middleware' =>
 Route::get('/media', AllMedia::class)->name('media');
 Route::get('/media/list-view', AllMediaList::class)->name('media.list-view');
 Route::get('/media/trashed-media', TrashedMedia::class)->name('media.trashed');
-// Route::get('/media/create', [AllMedia::class, 'create'])->name('create.media');
-// Route::get('/media/edit/{id}', [AllMedia::class, 'edit'])->name('edit.media');
-// Route::get('/media/update', [AllMedia::class, 'update'])->name('update.media');
-// Route::get('/media/delete/{id}', [AllMedia::class, 'destroy'])->name('destroy.media');
 
 });
