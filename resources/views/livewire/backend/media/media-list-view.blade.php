@@ -51,7 +51,7 @@
                     <div class="card-header border-bottom">
                         <a class="btn btn-outline-danger" href="{{ route('admin-panel.media') }}"><i class="fa fa-th-large me-1"></i> Grid View</a>
                         <h1 class="card-title" style="font-size: 28px">Display All Media</h1>
-                            <button class="btn btn-primary btn-lg" onclick="resetFunction()" data-bs-toggle="modal" data-id="1" data-bs-target="#addMediaModal">Add New Media</button>
+                            <button class="btn btn-primary btn-lg" wire:click.prevent="cancel()" data-bs-toggle="modal" data-id="1" data-bs-target="#addMediaModal">Add New Media</button>
 
                     </div>
                     <div class="card-datatable table-responsive">

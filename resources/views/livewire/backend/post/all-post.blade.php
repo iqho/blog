@@ -8,7 +8,7 @@
                     <div class="card-header border-bottom">
                         <div class="row w-100">
                             <div class="col-6"><h1 class="card-title" style="font-size: 28px">Display All Post</h1></div>
-                            <div class="col-6"><a class="btn btn-primary" href="{{ route('admin.post-create') }}">Create New Post</a></div>
+                            <div class="col-6"><a class="btn btn-primary" href="{{ route('admin-panel.post-create') }}">Create New Post</a></div>
                         </div>
 
                     </div>
@@ -35,7 +35,7 @@
                                 @foreach ($data['posts'] as $post)
                                     <tr>
                                         <td>{{ $i++ }}</td>
-                                        <td><a href="{{ route('admin.single-post', $post->slug) }}">{{ $post->title }}</a></td>
+                                        <td><a href="{{ route('admin-panel.single-post', $post->slug) }}">{{ $post->title }}</a></td>
                                         <td>{{ $post->slug }}</td>
                                         <td style="padding: 0px; text-align:center">
                                             @if ($post->featured_image)
@@ -65,7 +65,7 @@
                                                         </svg>Parmanent Delete</a>
                                                         </div>
                                                 </div>
-                                                            <a href="{{ route('admin.single-post', $post->slug) }}" class="item-edit">
+                                                            <a href="{{ route('admin-panel.edit-post', $post->slug) }}" class="item-edit">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4">
                                                                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                                                                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>

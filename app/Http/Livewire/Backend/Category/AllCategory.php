@@ -195,7 +195,7 @@ class AllCategory extends Component
         {
             $posts = Post::where('category_id', $id)->count();
             if($posts > 0){
-                return Redirect::to(route('admin.category'))->with('message', 'Category Have $posts Post. Please Move to Another Category Than Delete this Category');
+                return Redirect::to(route('admin-panel.category'))->with('message', 'Category Have $posts Post. Please Move to Another Category Than Delete this Category');
            }
            else{
 

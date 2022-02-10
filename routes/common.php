@@ -2,26 +2,31 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Livewire\Backend\AllUsers;
 use App\Http\Livewire\Backend\Post\AllPost;
-use App\Http\Controllers\DashboardController;
+use App\Http\Livewire\Backend\Post\EditPost;
 use App\Http\Livewire\Backend\Post\CreatePost;
-//use App\Http\Controllers\backend\post\CreatePost;
 use App\Http\Livewire\Backend\Post\SinglePost;
 use App\Http\Livewire\Backend\Post\TrashedPost;
+
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Livewire\Backend\Category\AllCategory;
 use App\Http\Livewire\Backend\Category\TrashedCategory;
-use App\Http\Livewire\Media;
-use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 
-Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
-Route::get('/all-users', AllUsers::class)->name('all-users');
-Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
+use App\Http\Livewire\Backend\Media\AllMedia;
+use App\Http\Livewire\Backend\Media\AllMediaList;
+use App\Http\Livewire\Backend\Media\TrashedMedia;
+
+
+
+//Media Gallery
+Route::get('/media', AllMedia::class)->name('media');
+Route::get('/media/list-view', AllMediaList::class)->name('media.list-view');
+Route::get('/media/trashed-media', TrashedMedia::class)->name('media.trashed');
 
 // Post
-Route::get('/all-post', AllPost::class)->name('all-post');
-Route::get('/posts/{slug}', SinglePost::class)->name('single-post');
+Route::get('/all-posts', AllPost::class)->name('all-posts');
+Route::get('/post/edit/{slug}', EditPost::class)->name('edit-post');
+Route::get('/post/details/{slug}', SinglePost::class)->name('single-post');
 
 Route::get('/post/create', CreatePost::class)->name('post-create');
 Route::post('/post/store', [CreatePost::class, 'storePost'])->name('post-store');
@@ -32,12 +37,9 @@ Route::post('/tag/store', [CreatePost::class, 'storeTag'])->name('tag-store');
 
 Route::get('/post/trashed-post', TrashedPost::class)->name('trashedPost');
 
-//Media Gallery
-Route::get('/media', Media::class)->name('media');
-
-
 // Category
 Route::get('/category', AllCategory::class)->name('category');
 Route::get('/category/trashed-category', TrashedCategory::class)->name('trashedCategory');
-
 Route::any('/category/create', [CategoryController::class, 'createCategory'])->name('createCategory');
+
+

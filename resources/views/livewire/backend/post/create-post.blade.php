@@ -102,7 +102,7 @@
                 </div>
                 @endif
 
-                <form action="{{ route('admin.post-store') }}" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
+                <form action="{{ route('admin-panel.post-store') }}" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
                   @csrf
                   <div class="row g-0">
                     <div class="col-md-9 shadow rounded p-1">
@@ -325,7 +325,7 @@
         ClassicEditor
             .create(document.querySelector('#description'),{
                 ckfinder: {
-                uploadUrl: '{{route('admin.ck.upload').'?_token='.csrf_token()}}'
+                uploadUrl: '{{route('admin-panel.ck.upload').'?_token='.csrf_token()}}'
             }
             })
             .then(editor => {
@@ -336,14 +336,14 @@
             .catch(error => {
                 console.error(error);
             });
-            
+
 
         // Tags Input
         var tags = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('title'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         prefetch: {
-            url: '{{ route('admin.tag-json') }}',
+            url: '{{ route('admin-panel.tag-json') }}',
             filter: function(list) {
             return $.map(list, function(title) {
                 return { title: title }; });

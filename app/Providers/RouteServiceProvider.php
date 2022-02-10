@@ -57,6 +57,12 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/admin.php'));
 
+            Route::middleware('web', 'auth:sanctum', 'verified', 'can:isCommon')
+                ->prefix('admin-panel')
+                ->as('admin-panel.')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/common.php'));
+
         });
     }
 

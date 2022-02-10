@@ -19,7 +19,7 @@ class CreatePost extends Component
     public $description;
     public $featured_image;
 
-   
+
 
     public function render()
     {
@@ -33,10 +33,15 @@ class CreatePost extends Component
 
     public function generateSlug()
     {
-        $slug = Str::slug($this->title);
-        $count = Post::where('slug', 'LIKE', "{$slug}%")->count();
-        $newCount = $count > 0 ? ++$count : '';
-        $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
+        if(Str::length($this->title) == 0){
+            $myslug = '';
+        }
+        else{
+            $slug = Str::slug($this->title);
+            $count = Post::where('slug', 'LIKE', "{$slug}%")->count();
+            $newCount = $count > 0 ? ++$count : '';
+            $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
+        }
         return $this->slug = $myslug;
     }
 
@@ -56,7 +61,7 @@ class CreatePost extends Component
             $fileName = date("His-dmY") . '.' . $extension;
             $request->file('upload')->move(public_path('media'), $fileName);
             $url = asset('media/' . $fileName);
-            return response()->json(['fileName' => $fileName, 'uploaded'=> 1, 'url' => $url]);    
+            return response()->json(['fileName' => $fileName, 'uploaded'=> 1, 'url' => $url]);
         }
     }
 
