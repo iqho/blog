@@ -25,8 +25,10 @@ Route::get('/media/trashed-media', TrashedMedia::class)->name('media.trashed');
 
 // Post
 Route::get('/all-posts', AllPost::class)->name('all-posts');
-Route::get('/post/edit/{slug}', EditPost::class)->name('edit-post');
 Route::get('/post/details/{slug}', SinglePost::class)->name('single-post');
+
+Route::get('/post/edit/{slug}', EditPost::class)->name('edit-post');
+Route::get('/post/edit/store', [EditPost::class, 'updatePost'])->name('update-post');
 
 Route::get('/post/create', CreatePost::class)->name('post-create');
 Route::post('/post/store', [CreatePost::class, 'storePost'])->name('post-store');

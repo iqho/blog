@@ -1,5 +1,5 @@
-<x-Backend-Layout>
-    @section('title', 'Create New Post')
+<div>
+@section('title', 'Create New Post')
 <style>
 .form-label{
   font-size: 16px;
@@ -24,7 +24,7 @@ transition: all 0.5s;
                 </div>
               </div>
               <div class="card-body">
-                <form action="{{ route('admin.post-store') }}" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                <form action="{{ route('admin-panel.post-store') }}" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
                   @csrf
                   <div class="row g-0">
                     <div class="col-md-9 shadow rounded p-1">
@@ -270,5 +270,5 @@ transition: all 0.5s;
 
     </script>
     @endpush
-    </x-Backend-Layout>
+</div>
 
