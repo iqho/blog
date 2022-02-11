@@ -6,37 +6,62 @@ use Livewire\Component;
 use App\Models\Admin\Tag;
 use App\Models\Admin\Post;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Livewire\WithFileUploads;
 use App\Models\Admin\Category;
-use Illuminate\Http\Request;
 
-class CreatePost extends Component
+class EditPost extends Component
 {
-
     use WithFileUploads;
-    public $title;
-    public $slug;
-    public $description;
-    public $featured_image;
+    public $title, $slug, $short_description, $description, $meta_description, $category_id, $publish_status, $is_sticky, $allow_comments, $featured_image, $post;
+
+    // public function mount($id){
+    //     $post = Post::withTrashed()->where('id', $id)->with('tags')->first();
+    //     dd($post->tags);
+    //     $this->title = $post->title;
+    //     $this->slug = $post->slug;
+    //     $this->short_description = $post->short_description;
+    //     $this->description = $post->description;
+    //     $this->meta_description = $post->meta_description;
+    //     $this->category_id = $post->category_id;
+    //     $this->publish_status = $post->publish_status;
+    //     $this->is_sticky = $post->is_sticky;
+    //     $this->allow_comments = $post->allow_comments;
+    //    // $this->featured_image = $newImageName;
+    //    // $post->published_at = date("Y-m-d H:i:s");
+    //   // return $this->post = Post::withTrashed()->where('id', $id)->first(); 
+    // }
 
 
+
+    public function mount($id)
+    {
+        return $this->post = Post::withTrashed()->where('id', $id)->first();
+    }
 
     public function render()
     {
         $data['catOption'] = Category::where('parent_id', null)->orderBy('id', 'desc')->get();
-
         $data['checkEmpty'] = Str::length($this->slug);
         $data['checkSlug'] = Post::where('slug', '=', Str::slug($this->slug))->exists();
 
-        return view('livewire.backend.post.create-post', compact('data'));
+        return view('livewire.backend.post.edit-post', compact('data'));
+    }
+
+    public function showPost($id)
+    {
+        $post = Post::withTrashed()->where('id', $id)->first();
+        $this->title = $post->title;
+        $this->slug = $post->slug;
+
+        return view('livewire.backend.post.edit-post');
     }
 
     public function generateSlug()
     {
-        if(Str::length($this->title) == 0){
+        if (Str::length($this->title) == 0) {
             $myslug = '';
-        }
-        else{
+        } else {
             $slug = Str::slug($this->title);
             $count = Post::where('slug', 'LIKE', "{$slug}%")->count();
             $newCount = $count > 0 ? ++$count : '';
@@ -45,10 +70,6 @@ class CreatePost extends Component
         return $this->slug = $myslug;
     }
 
-    public function jsonTag(){
-        $tagjson = Tag::orderBy('id', 'desc')->pluck('title')->take(7);
-        return $tagjson ;
-    }
 
     // Ck Image Upload Code
     public function imageUpload(Request $request)
@@ -124,9 +145,9 @@ class CreatePost extends Component
                 $post->tags()->sync($tags_id);
             }
 
-            return redirect(route('admin-panel.all-post'))->with('message', 'Post Created Successfully');
+            return redirect(route('admin.all-post'))->with('message', 'Post Created Successfully');
 
         }
 
-}
 
+}

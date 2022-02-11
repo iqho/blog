@@ -76,6 +76,14 @@
                             </a>
                         </li>
                         @endif
+                        @if (request()->id)
+                        <li class="@if(Route::is('admin-panel.edit-post', request()->id ) ) active @endif nav-item">
+                            <a class="d-flex align-items-center" href="#">
+                                <i class="fas fa-book-open"></i>
+                                <span class="menu-item text-truncate" data-i18n="Collapsed Menu">Edit Post Details</span>
+                            </a>
+                        </li>
+                        @endif
                         <li class="@if(Route::is('admin-panel.trashedPost') ) active @endif nav-item">
                             <a class="d-flex align-items-center" href="{{ route('admin-panel.trashedPost') }}">
                                 <i class="fas fa-trash-alt"></i>

@@ -1,5 +1,5 @@
 <div>
-  @section('title', $post->title)
+  @section('title', 'Edit Post')
   <style>
     .form-label {
       font-size: 16px;
@@ -90,7 +90,7 @@
   <div class="card">
     <div class="card-header">
       <div class="col-md-12 text-left">
-        <h1>Update Post Details</h1>
+        <h1>Create New Post</h1>
       </div>
     </div>
     <div class="card-body">
@@ -146,8 +146,8 @@
 
             <div class="mb-1" wire:ignore>
               <label class="d-block form-label" for="description">Full Description</label>
-              <textarea name="description" id="description" class="form-control" cols="30" rows="10"
-                required>{!! $post->description !!}</textarea>
+              <textarea name="description" id="description" wire:model="description" class="form-control" cols="30" rows="10"
+                required>{{ old('description') }}</textarea>
               @error('description') <span class="text-danger error col-12">{{ $message }}</span>@enderror
               <div class="invalid-feedback">Please Enter Post Full Description.</div>
             </div>
@@ -162,7 +162,7 @@
 
             <div class="mb-1">
               <input type="submit" class="btn btn-primary" style="padding: 14px; margin-bottom:10px"
-                value="Update Post" />
+                value="Create New Post" />
 
             </div>
 
@@ -173,26 +173,21 @@
               <div class="card border-success mb-1">
                 <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">
                   Feature Image</h4>
-                <div class="card-body text-success" style="padding: 8px;">
-
-                  @if ($featured_image2)
-                  <img src="{{ $featured_image2->temporaryUrl() }}" style="max-height: 300px" class="img-fluid img-thumbnail rounded">
+                {{-- <div class="card-body text-success" style="padding: 8px;">
+                  @if($featured_image)
+                  <div class="col-12 text-center w-100"><img src="{{ $featured_image->temporaryUrl() }}"
+                      style="width: 100%; max-height:200px;"></div>
                   @else
-                  @if ($featured_image)
-                  <img src="{{ asset('storage/media/'.$featured_image) }}" style="max-height: 300px" class="img-fluid img-thumbnail rounded">
-                  @else
-                  <img src="{{ asset('images/no-image-available.jpg') }}" style="max-height: 300px"
-                    class="img-fluid img-thumbnail rounded">
+                  <div class="col-12 text-center w-100"><img src="{{ asset('backend/assets/images/slider/03.jpg') }}"
+                      style="width: 100%; max-height:200px;"></div>
                   @endif
-                  @endif
-
-                  <div wire:loading wire:target="featured_image2" class="text-success">Uploading...</div>
-                  <input type="file" class="form-control mt-1 @error('featured_image2') is-invalid @enderror"
-                    name="featured_image2" accept="image/*" id="featured_image2" wire:model="featured_image2"
+                  <div wire:loading wire:target="featured_image" class="text-success">Uploading...</div>
+                  <input type="file" class="form-control mt-1 @error('featured_image') is-invalid @enderror"
+                    name="featured_image" accept="image/*" id="featured_image" wire:model="featured_image"
                     onchange="return checkImageExtention()">
-                  @error('featured_image2') <span class="text-danger error">{{ $message }}</span>@enderror
+                  @error('featured_image') <span class="text-danger error">{{ $message }}</span>@enderror
                   <div id="error-msg" class="text-danger"></div>
-                </div>
+                </div> --}}
               </div>
 
               <div class="accordion border border-gray" id="accordionPanelsStayOpenExample">
@@ -258,11 +253,11 @@
                     <div class="accordion-body">
                       <div class="form-group">
                         <select type="text" class="form-control @error('category_id') is-invalid @enderror"
-                          name="category_id" required>
+                          name="category_id" wire:modal="category_id" required>
                           @if($data['catOption'])
                           @foreach($data['catOption'] as $category)
                           <?php $dash=''; ?>
-                          <option value="{{$category->id}}" @if($post->category_id == $category->id) selected @endif>{{$category->name}}</option>
+                          <option value="{{$category->id}}">{{$category->name}}</option>
                           @if(count($category->subcategory))
                           @include('livewire.backend.category.subcategoryList-option', ['subcategories' =>
                           $category->subcategory])
@@ -288,8 +283,12 @@
                       aria-labelledby="panelsStayOpen-headingThree">
                       <div class="accordion-body">
                         <div class="mb-1" wire:ignore>
+                          {{ $post->tags }}
+                          @foreach ($post->tags as $tag)
+                          <a href="#"><span class="bg-secondary text-white rounded-1" style="padding: 3px">{{ $tag->title }}</span></a>
+                          @endforeach
                           <input class="form-control" type="text" data-role="tagsinput" name="tags" id="tags"
-                             required value="@foreach ($post->tags as $tag) {{ $tag->title }}, @endforeach" />
+                             required />
                           <div class="invalid-feedback">Please Enter Minimum 1 Post Tag.</div>
                           @if ($errors->has('tags'))
                           <span class="text-danger">{{ $errors->first('tags') }}</span>
@@ -347,21 +346,18 @@
           }
          }
 
-         // CK Ediotr
-          ClassicEditor
-          .create(document.querySelector('#description'),{
-          ckfinder: {
-          uploadUrl: '{{route('admin-panel.ck.upload').'?_token='.csrf_token()}}'
-          }
-          })
-          .then(editor => {
-          editor.model.document.on('change:data', () => {
-          @this.set('description', editor.getData());
-          })
-          })
-          .catch(error => {
-          console.error(error);
-          });
+        // CK Ediotr
+        ClassicEditor
+            .create(document.querySelector('#description'),{
+                ckfinder: {
+                uploadUrl: '{{route('admin-panel.ck.upload').'?_token='.csrf_token()}}'
+            }
+            })
+
+            .catch(error => {
+                console.error(error);
+            });
+
 
         // Tags Input
         var tags = new Bloodhound({

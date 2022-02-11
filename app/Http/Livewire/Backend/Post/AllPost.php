@@ -4,11 +4,18 @@ namespace App\Http\Livewire\Backend\Post;
 
 use Livewire\Component;
 use App\Models\Admin\Post;
+use Illuminate\Support\Str;
+use Livewire\WithFileUploads;
+use App\Models\Admin\Category;
 use Illuminate\Support\Facades\File;
 
 
 class AllPost extends Component
 {
+
+    use WithFileUploads;
+    public $title, $slug, $description, $featured_image;
+
     public function moveToTrashed($id)
     {
         $post = Post::findOrFail($id);
@@ -30,4 +37,5 @@ class AllPost extends Component
         $data['posts'] = Post::with('category')->get();
         return view('livewire.backend.post.all-post', compact('data'));
     }
+
 }

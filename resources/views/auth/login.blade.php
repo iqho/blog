@@ -1,4 +1,4 @@
-@section('title','Registration Page')
+@section('title','Login Page')
 <x-guest-layout>
     <style>
         @media (min-width:978px) {

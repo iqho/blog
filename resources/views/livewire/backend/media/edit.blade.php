@@ -47,7 +47,6 @@
                                     @else
                                     <img src="{{ asset('images/no-image-available.jpg') }}" style="max-height: 300px" class="img-fluid img-thumbnail rounded">
                                     @endif
-
                                     @endif
                                 </div>
                                 @if ($updateMode)
