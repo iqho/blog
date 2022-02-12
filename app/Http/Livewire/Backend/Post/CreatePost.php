@@ -19,8 +19,6 @@ class CreatePost extends Component
     public $description;
     public $featured_image;
 
-
-
     public function render()
     {
         $data['catOption'] = Category::where('parent_id', null)->orderBy('id', 'desc')->get();
@@ -43,11 +41,6 @@ class CreatePost extends Component
             $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
         }
         return $this->slug = $myslug;
-    }
-
-    public function jsonTag(){
-        $tagjson = Tag::orderBy('id', 'desc')->pluck('title')->take(7);
-        return $tagjson ;
     }
 
     // Ck Image Upload Code
@@ -82,7 +75,7 @@ class CreatePost extends Component
             ]);
 
             $slug = Str::slug($request->slug);
-            $count = Category::where('slug', 'LIKE', "{$slug}%")->count();
+            $count = Post::where('slug', 'LIKE', "{$slug}%")->count();
             $newCount = $count > 0 ? ++$count : '';
             $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
 
@@ -124,7 +117,7 @@ class CreatePost extends Component
                 $post->tags()->sync($tags_id);
             }
 
-            return redirect(route('admin-panel.all-post'))->with('message', 'Post Created Successfully');
+            return redirect(route('admin-panel.all-posts'))->with('message', 'Post Created Successfully');
 
         }
 

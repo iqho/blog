@@ -26,7 +26,11 @@
     .bootstrap-tagsinput {
       width: 100%;
     }
-
+    span.tag.label {
+    position: relative;
+    float: left;
+    margin-bottom: 3px;
+    }
     .twitter-typeahead .tt-query,
     .twitter-typeahead .tt-hint {
       margin-bottom: 0;
@@ -104,12 +108,12 @@
       </div>
       @endif
 
-      <form action="{{ route('admin-panel.update-post') }}" method="post" class="needs-validation"
+      <form action="{{ route('admin-panel.update-post', $post->id) }}" method="post" class="needs-validation"
         enctype="multipart/form-data" novalidate>
         @csrf
         <div class="row g-0">
           <div class="col-md-9 shadow rounded p-1">
-
+            <input type="hidden" value="{{ $post->id }}" name="post_id"/>
             <div class="mb-1">
               <label class="form-label" for="basic-addon-title">Title</label>
               <input type="text" class="form-control" name="title" wire:model="title" wire:keyup="generateSlug()"
@@ -127,6 +131,7 @@
                 <div class="invalid-feedback">Please Enter Post Slug.</div>
               </div>
             </div>
+            @if($checkMode)
             @if ($data['checkSlug'] > 0)
             <div class="col-12 text-danger">Post Slug Not Available</div>
             @else
@@ -135,6 +140,8 @@
             <div class="col-12 text-success">Post Slug Available</div>
             @endif
             @endif
+            @endif
+
 
             <div class="my-1">
               <label class="d-block form-label" for="short_description">Short Description</label>
@@ -179,7 +186,7 @@
                   <img src="{{ $featured_image2->temporaryUrl() }}" style="max-height: 300px" class="img-fluid img-thumbnail rounded">
                   @else
                   @if ($featured_image)
-                  <img src="{{ asset('storage/media/'.$featured_image) }}" style="max-height: 300px" class="img-fluid img-thumbnail rounded">
+                  <img src="{{ asset('storage/post-images/'.$featured_image) }}" style="max-height: 300px" class="img-fluid img-thumbnail rounded">
                   @else
                   <img src="{{ asset('images/no-image-available.jpg') }}" style="max-height: 300px"
                     class="img-fluid img-thumbnail rounded">
@@ -289,7 +296,7 @@
                       <div class="accordion-body">
                         <div class="mb-1" wire:ignore>
                           <input class="form-control" type="text" data-role="tagsinput" name="tags" id="tags"
-                             required value="@foreach ($post->tags as $tag) {{ $tag->title }}, @endforeach" />
+                             required value="@foreach ($post->tags as $tag) {{$tag->title.','}} @endforeach" />
                           <div class="invalid-feedback">Please Enter Minimum 1 Post Tag.</div>
                           @if ($errors->has('tags'))
                           <span class="text-danger">{{ $errors->first('tags') }}</span>
@@ -363,25 +370,20 @@
           console.error(error);
           });
 
-        // Tags Input
-        var tags = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('title'),
+       // Tags Input
+       var tags = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         prefetch: {
             url: '{{ route('admin-panel.tag-json') }}',
-            filter: function(list) {
-            return $.map(list, function(title) {
-                return { title: title }; });
+            cache: false
             }
-        }
         });
         tags.initialize();
 
         $('#tags').tagsinput({
         typeaheadjs: {
             title: 'title',
-            displayKey: 'title',
-            valueKey: 'title',
             source: tags.ttAdapter()
         }
         });

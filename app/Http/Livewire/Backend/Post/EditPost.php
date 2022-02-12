@@ -14,6 +14,7 @@ class EditPost extends Component
 {
     use WithFileUploads;
     public $title, $slug, $short_description, $description, $meta_description, $category_id, $publish_status, $is_sticky, $allow_comments, $featured_image, $featured_image2, $post;
+    public $checkMode = false;
 
     public function mount($id){
         $post = Post::withTrashed()->where('id', $id)->first();
@@ -26,9 +27,9 @@ class EditPost extends Component
         $this->publish_status = $post->publish_status;
         $this->is_sticky = $post->is_sticky;
         $this->allow_comments = $post->allow_comments;
-       $this->featured_image = $post->featured_image;
+        $this->featured_image = $post->featured_image;
        // $post->published_at = date("Y-m-d H:i:s");
-       return $this->post = $post; 
+       return $this->post = $post;
     }
 
     public function render()
@@ -40,17 +41,9 @@ class EditPost extends Component
         return view('livewire.backend.post.edit-post', compact('data'));
     }
 
-    public function showPost($id)
-    {
-        $post = Post::withTrashed()->where('id', $id)->first();
-        $this->title = $post->title;
-        $this->slug = $post->slug;
-
-        return view('livewire.backend.post.edit-post');
-    }
-
     public function generateSlug()
     {
+        $this->checkMode = true;
         if (Str::length($this->title) == 0) {
             $myslug = '';
         } else {
@@ -78,66 +71,74 @@ class EditPost extends Component
         }
     }
 
-    public function storePost(Request $request)
+    public function updatePost(Request $request, $id)
         {
             date_default_timezone_set("Asia/Dhaka");
+        //    $request->validate([
+        //          'title' => ['required', 'string', 'max:255'],
+        //          //'slug' => ['required', 'string', 'min:2', 'max:255', 'Unique:posts'],
+        //          'short_description' => ['required', 'string', 'min:2', 'max:500'],
+        //          'description' => 'required',
+        //          'meta_description' => ['required', 'string', 'min:2', 'max:500'],
+        //          'publish_status' => ['required','boolean'],
+        //          'featured_image' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
+        //          'category_id' => 'required|numeric',
+        //          'tags' => 'required',
+        //     ]);
+$post = Post::Find($id);
+        $post->update($request->all());
 
-           $request->validate([
-                 'title' => ['required', 'string', 'max:255'],
-                 'slug' => ['required', 'string', 'min:2', 'max:255', 'Unique:posts'],
-                 'short_description' => ['required', 'string', 'min:2', 'max:500'],
-                 'description' => 'required',
-                 'meta_description' => ['required', 'string', 'min:2', 'max:500'],
-                 'publish_status' => ['required','boolean'],
-                 'featured_image' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
-                 'category_id' => 'required|numeric',
-                 'tags' => 'required',
-            ]);
+            // $slug = Str::slug($request->slug);
+            // $count = Post::where('slug', 'LIKE', "{$slug}%")->count();
+            // $newCount = $count > 0 ? ++$count : '';
+            // $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
 
-            $slug = Str::slug($request->slug);
-            $count = Category::where('slug', 'LIKE', "{$slug}%")->count();
-            $newCount = $count > 0 ? ++$count : '';
-            $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
-
-            if (!empty($request->featured_image)) {
-                $newImageName = $myslug.".".$request->featured_image->extension();
-                $request->featured_image->storeAs('post-images', $newImageName, 'public');
-                //$imageurl = url('storage') . '/' . $image;
-            } else {
-                $newImageName = "default-feature-image.png";
-            }
-
-            $post = new Post;
-            $post->title = $request->title;
-            $post->slug = $request->slug;
-            $post->short_description = $request->short_description;
-            $post->description = $request->description;
-            $post->meta_description = $request->meta_description;
-            $post->category_id = $request->category_id;
-            $post->publish_status = $request->publish_status;
-            $post->is_sticky = $request->is_sticky ? $request->is_sticky : 0;
-            $post->allow_comments = $request->allow_comments ? $request->allow_comments : 0;
-            $post->featured_image = $newImageName;
-            $post->published_at = date("Y-m-d H:i:s");
-            $post->user_id = auth()->id();
-            $post->save();
+            // if (!empty($request->featured_image)) {
+            //     $newImageName = $myslug.".".$request->featured_image->extension();
+            //     $request->featured_image->storeAs('post-images', $newImageName, 'public');
+            //     //$imageurl = url('storage') . '/' . $image;
+            // } else {
+            //     $newImageName = "default-feature-image.png";
+            // }
+            //dd($request->post_id);
+            //$post->id = $request->post_id;
+            //$post->id = $request->post_id;
+            //'title' = $request->input('title', $post->title);
+            //$post->slug = $request->input('slug', $post->slug);
+           // $post->slug = $request->slug;
+            // $post->short_description = $request->short_description;
+            // $post->description = $request->description;
+            // $post->meta_description = $request->meta_description;
+            // $post->category_id = $request->category_id;
+            // $post->publish_status = $request->publish_status;
+            // $post->is_sticky = $request->is_sticky ? $request->is_sticky : 0;
+            // $post->allow_comments = $request->allow_comments ? $request->allow_comments : 0;
+            // $post->featured_image = $newImageName;
+            // $post->published_at = date("Y-m-d H:i:s");
+            // $post->user_id = auth()->id();
+            // $post->update();
 
            //dd($post);
 
-            if($request->has('tags')){
-                $tags = explode(",", $request->tags);
-                $tags_id = [];
+            // if($request->has('tags')){
+            //     $tags = explode(",", $request->tags);
+            //     $tags_id = [];
 
-                foreach($tags as $tag){
-                    $tag_model = Tag::firstOrCreate(['title'=>$tag, 'slug'=>Str::slug($tag)]);
-                    if($tag_model){
-                        array_push($tags_id, $tag_model->id);
-                    }
-                }
-                $post->tags()->sync($tags_id);
-            }
+            //     foreach($tags as $tag){
+            //        // $tag_model = Tag::wh(['title'=>$tag, 'slug'=>Str::slug($tag)]);
+            //         $tag_model = Tag::where('slug', Str::slug($tag))->first();
 
-            return redirect(route('admin.all-post'))->with('message', 'Post Created Successfully');
+            //         if($tag_model){
+            //             array_push($tags_id, $tag_model->id);
+            //         }
+            //         else{
+            //             array_push($tags_id, (Tag::create(['title'=>$tag, 'slug'=>Str::slug($tag)])));
+            //         }
+            //     }
+            //     $post->tags()->sync($tags_id);
+            // }
+
+            return redirect(route('admin-panel.all-posts'))->with('message', 'Post Updated Successfully');
 
         }
 

@@ -27,7 +27,7 @@
     span.tag.label {
     position: relative;
     float: left;
-    margin-bottom: 2px;
+    margin: 1px;
     }
     .twitter-typeahead .tt-query,
     .twitter-typeahead .tt-hint {
@@ -344,21 +344,27 @@
 
         // Tags Input
         var tags = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('title'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         prefetch: {
             url: '{{ route('admin-panel.tag-json') }}',
-            cache: false
+            filter: function(list) {
+            return $.map(list, function(title) {
+                return { title: title }; });
             }
+        }
         });
         tags.initialize();
-        
+
         $('#tags').tagsinput({
         typeaheadjs: {
             title: 'title',
+            displayKey: 'title',
+            valueKey: 'title',
             source: tags.ttAdapter()
         }
         });
+
     </script>
     @endpush
 </div>
