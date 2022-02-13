@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 
+use App\Http\Livewire\Frontend\HomeComponent;
 use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 
 /*
@@ -16,9 +17,20 @@ use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Front End Routes
+Route::get('/', HomeComponent::class)->name('home');
+
+
+
+
+
+
+
+
+
+
+
+
 
 //Route::view('profile2', 'profile.show2');
 

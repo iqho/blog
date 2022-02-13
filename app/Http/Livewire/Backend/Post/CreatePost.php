@@ -8,6 +8,7 @@ use App\Models\Admin\Post;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use App\Models\Admin\Category;
+use App\Models\Media;
 use Illuminate\Http\Request;
 
 class CreatePost extends Component
@@ -51,9 +52,12 @@ class CreatePost extends Component
            // $originName = $request->file('upload')->getClientOriginalName();
             //$fileName = pathinfo($originName, PATHINFO_FILENAME);
             $extension = $request->file('upload')->getClientOriginalExtension();
-            $fileName = date("His-dmY") . '.' . $extension;
-            $request->file('upload')->move(public_path('media'), $fileName);
-            $url = asset('media/' . $fileName);
+            $currentDateTime = date("His-dmY");
+            $fileName = $currentDateTime . '.' . $extension;
+            $request->file('upload')->storeAs('media', $fileName, 'public');
+            //$request->file('upload')->move(public_path('media'), $fileName);
+            Media::create(['title'=>$currentDateTime, 'slug'=>$currentDateTime, 'media_name'=>$fileName, 'user_id'=>auth()->id(), 'media_type' => 'images']);
+            $url = asset('storage/media/' . $fileName);
             return response()->json(['fileName' => $fileName, 'uploaded'=> 1, 'url' => $url]);
         }
     }
@@ -102,21 +106,22 @@ class CreatePost extends Component
             $post->user_id = auth()->id();
             $post->save();
 
-           //dd($post);
+           if($request->has('tags')){
+            $tags = explode(",", $request->tags);
+            $tags_id = [];
 
-            if($request->has('tags')){
-                $tags = explode(",", $request->tags);
-                $tags_id = [];
-
-                foreach($tags as $tag){
-                    $tag_model = Tag::firstOrCreate(['title'=>$tag, 'slug'=>Str::slug($tag)]);
-                    if($tag_model){
-                        array_push($tags_id, $tag_model->id);
-                    }
+            foreach($tags as $tag){
+                $tag_model = Tag::where('slug', Str::slug($tag))->first();
+                if($tag_model){
+                    array_push($tags_id, $tag_model->id);
                 }
-                $post->tags()->sync($tags_id);
+                else{
+                    $tag_model2 = Tag::create(['title' => $tag, 'slug' => Str::slug($tag), 'user_id' => auth()->id()]);
+                    array_push($tags_id, $tag_model2->id);
+                }
             }
-
+            $post->tags()->sync($tags_id);
+        }
             return redirect(route('admin-panel.all-posts'))->with('message', 'Post Created Successfully');
 
         }

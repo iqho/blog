@@ -13,18 +13,13 @@ class Tag extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['title', 'slug', 'meta_description', 'tag_order'];
+    protected $fillable = ['title', 'slug', 'meta_description', 'tag_order', 'user_id'];
 
 
     public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
-
-    // public function posts()
-    // {
-    //     return $this->belongsToMany(Post::class);
-    // }
 
     public function posts()
         {

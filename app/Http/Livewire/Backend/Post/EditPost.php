@@ -168,7 +168,7 @@ class EditPost extends Component
                             ]);
                         }
                     }
-            
+
                 if($request->has('tags')){
                     $tags = explode(",", $request->tags);
                     $tags_id = [];
@@ -179,7 +179,7 @@ class EditPost extends Component
                             array_push($tags_id, $tag_model->id);
                         }
                         else{
-                            $tag_model2 = Tag::create(['title' => $tag, 'slug' => Str::slug($tag)]);
+                            $tag_model2 = Tag::create(['title' => $tag, 'slug' => Str::slug($tag), 'user_id' => auth()->id()]);
                             array_push($tags_id, $tag_model2->id);
                         }
                     }

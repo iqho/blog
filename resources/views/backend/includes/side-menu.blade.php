@@ -144,6 +144,23 @@
             </a>
             </li>
             </ul>
+            </li>
+
+
+            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fas fa-icons"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Tags</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
+                <ul class="menu-content">
+                <li class="@if(Route::is('admin-panel.all-tags') ) active @endif nav-item">
+                    <a class="d-flex align-items-center" href="{{ route('admin-panel.all-tags') }}">
+                    <i class="fas fa-photo-video"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">All Tags</span>
+                    </a>
+                </li>
+                <li class="@if(Route::is('admin-panel.tag.trashed-tag') ) active @endif nav-item">
+                <a class="d-flex align-items-center" href="{{ route('admin-panel.tag.trashed-tag') }}">
+                <i class="fa fa-list-alt"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Trashed Media</span>
+                </a>
+                </li>
+                </ul>
+                </li>
             @endcan
 
 

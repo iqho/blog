@@ -14,7 +14,7 @@
                 <div class="col-12 p-1 pt-0" style="text-align: justify;"><span class="col-12 m-0 h4">Meta Description : </span><br>{{ $post->meta_description }}</div>
                 <div class="col-12 p-1 pt-0" style="text-align: justify;"><span class="col-12 m-0 h4">Tags : </span><br>
                     @foreach ($post->tags as $tag)
-                        <a href="#"><span class="bg-secondary text-white rounded-1" style="padding: 3px">{{ $tag->title }}</span></a>
+                    <a href="#"><span class="bg-secondary text-white btn btn-secondary" style="padding: 5px; margin-bottom:3px">{{ $tag->title }}</span></a>
                     @endforeach
                 </div>
 
@@ -29,6 +29,13 @@
              </div>
             <div class="col-md-3 ps-md-1">
                 <div class="shadow rounded">
+                    
+                    @if ($post->featured_image)
+                        <div class="card border-success mb-1">
+                            <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">Feature Image</h4>
+                            <div class="card-body text-center" style="padding: 8px"><img class="img-fluid w-100" style="max-height:250px;" src="{{ asset('storage/post-images/'.$post->featured_image) }}" alt=""> </div>
+                        </div>
+                    @endif
 
                   <div class="card border-success mb-1">
                     <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">Category</h4>
@@ -44,7 +51,7 @@
                     <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">Tags</h4>
                     <div class="card-body text-success" style="padding: 8px">
                         @foreach ($post->tags as $tag)
-                        <a href="#"><span class="bg-secondary text-white rounded-1" style="padding: 3px">{{ $tag->title }}</span></a>
+                        <a href="#"><span class="bg-secondary text-white btn btn-secondary" style="padding: 5px; margin-bottom:3px">{{ $tag->title }}</span></a>
                         @endforeach
                     </div>
                   </div>
@@ -81,13 +88,6 @@
                       @endif
                     </div>
                   </div>
-
-                    @if ($post->featured_image)
-                        <div class="card border-success mb-1">
-                            <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">Feature Image</h4>
-                            <div class="card-body text-success" style="padding: 8px"><img class="img-fluid" style="height:300px; max-height:200px" src="{{ asset('storage/post-images/'.$post->featured_image) }}" alt=""> </div>
-                        </div>
-                    @endif
                 </div>
             </div>
         </div>
