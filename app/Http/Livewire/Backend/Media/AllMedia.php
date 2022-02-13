@@ -220,43 +220,43 @@ class AllMedia extends Component
                     }
                 else{
 
-                if ($this->slug != $media->slug) {
-                    $slug = Str::slug($this->slug);
-                    $count = Media::where('slug', 'LIKE', "{$slug}%")->count();
-                    $newCount = $count > 0 ? ++$count : '';
-                    $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
+                    if ($this->slug != $media->slug) {
+                        $slug = Str::slug($this->slug);
+                        $count = Media::where('slug', 'LIKE', "{$slug}%")->count();
+                        $newCount = $count > 0 ? ++$count : '';
+                        $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
 
-                    if ($media->media_name != null && empty($this->media_name3)) {
-                        $path_info = pathinfo(public_path('storage/media/' . $media->media_name));
-                        $getExt = $path_info['extension'];
-                        $newImgName = $myslug . "." . $getExt;
-                        $currentPath = (public_path('storage/media/' . $media->media_name));
-                        $newPath = (public_path('storage/media/' . $newImgName));
-                        File::move($currentPath, $newPath); // If Change Slug than change also image name too
+                        if ($media->media_name != null && empty($this->media_name3)) {
+                            $path_info = pathinfo(public_path('storage/media/' . $media->media_name));
+                            $getExt = $path_info['extension'];
+                            $newImgName = $myslug . "." . $getExt;
+                            $currentPath = (public_path('storage/media/' . $media->media_name));
+                            $newPath = (public_path('storage/media/' . $newImgName));
+                            File::move($currentPath, $newPath); // If Change Slug than change also image name too
+                        }
+
+                        $media->update([
+                            'title' => $this->title,
+                            'slug' => $myslug,
+                            'media_name' => $newImgName,
+                            'caption' => $this->caption,
+                            'alt' => $this->alt,
+                            'description' => $this->description,
+                            'media_type' => $this->media_type,
+                            'user_id' => auth()->id(),
+                        ], $validatedDate);
+
+                    } else {
+                        $media->update([
+                            'title' => $this->title,
+                            'slug' => $this->slug,
+                            'caption' => $this->caption,
+                            'alt' => $this->alt,
+                            'description' => $this->description,
+                            'media_type' => $this->media_type,
+                            'user_id' => auth()->id(),
+                        ], $validatedDate);
                     }
-
-                    $media->update([
-                        'title' => $this->title,
-                        'slug' => $myslug,
-                        'media_name' => $newImgName,
-                        'caption' => $this->caption,
-                        'alt' => $this->alt,
-                        'description' => $this->description,
-                        'media_type' => $this->media_type,
-                        'user_id' => auth()->id(),
-                    ], $validatedDate);
-
-                } else {
-                    $media->update([
-                        'title' => $this->title,
-                        'slug' => $this->slug,
-                        'caption' => $this->caption,
-                        'alt' => $this->alt,
-                        'description' => $this->description,
-                        'media_type' => $this->media_type,
-                        'user_id' => auth()->id(),
-                    ], $validatedDate);
-                }
 
                 }
             }

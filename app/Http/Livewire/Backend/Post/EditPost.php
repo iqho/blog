@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Livewire\WithFileUploads;
 use App\Models\Admin\Category;
+use Illuminate\Support\Facades\File;
 
 class EditPost extends Component
 {
@@ -71,72 +72,120 @@ class EditPost extends Component
         }
     }
 
-    public function updatePost(Request $request, $id)
+    public function updatePost(Request $request)
         {
-            date_default_timezone_set("Asia/Dhaka");
-        //    $request->validate([
-        //          'title' => ['required', 'string', 'max:255'],
-        //          //'slug' => ['required', 'string', 'min:2', 'max:255', 'Unique:posts'],
-        //          'short_description' => ['required', 'string', 'min:2', 'max:500'],
-        //          'description' => 'required',
-        //          'meta_description' => ['required', 'string', 'min:2', 'max:500'],
-        //          'publish_status' => ['required','boolean'],
-        //          'featured_image' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
-        //          'category_id' => 'required|numeric',
-        //          'tags' => 'required',
-        //     ]);
-$post = Post::Find($id);
-        $post->update($request->all());
+        date_default_timezone_set("Asia/Dhaka");
 
-            // $slug = Str::slug($request->slug);
-            // $count = Post::where('slug', 'LIKE', "{$slug}%")->count();
-            // $newCount = $count > 0 ? ++$count : '';
-            // $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
+           $request->validate([
+                 'title' => ['required', 'string', 'max:255'],
+                 'slug' => ['required', 'string', 'min:2', 'max:255'],
+                 'short_description' => ['required', 'string', 'min:2', 'max:500'],
+                 'description' => 'required',
+                 'meta_description' => ['required', 'string', 'min:2', 'max:500'],
+                 'publish_status' => ['required','boolean'],
+                 'featured_image' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
+                 'category_id' => 'required|numeric',
+                 'tags' => 'required',
+            ]);
+            $post_id = $request->post_id;
+            if($post_id){
+                $post = Post::findOrFail($post_id);
 
-            // if (!empty($request->featured_image)) {
-            //     $newImageName = $myslug.".".$request->featured_image->extension();
-            //     $request->featured_image->storeAs('post-images', $newImageName, 'public');
-            //     //$imageurl = url('storage') . '/' . $image;
-            // } else {
-            //     $newImageName = "default-feature-image.png";
-            // }
-            //dd($request->post_id);
-            //$post->id = $request->post_id;
-            //$post->id = $request->post_id;
-            //'title' = $request->input('title', $post->title);
-            //$post->slug = $request->input('slug', $post->slug);
-           // $post->slug = $request->slug;
-            // $post->short_description = $request->short_description;
-            // $post->description = $request->description;
-            // $post->meta_description = $request->meta_description;
-            // $post->category_id = $request->category_id;
-            // $post->publish_status = $request->publish_status;
-            // $post->is_sticky = $request->is_sticky ? $request->is_sticky : 0;
-            // $post->allow_comments = $request->allow_comments ? $request->allow_comments : 0;
-            // $post->featured_image = $newImageName;
-            // $post->published_at = date("Y-m-d H:i:s");
-            // $post->user_id = auth()->id();
-            // $post->update();
+                    if (!empty($request->featured_image2)) {
 
-           //dd($post);
+                        if ($request->slug !== $post->slug) {
+                            $slug = Str::slug($request->slug);
+                            $count = Post::where('slug', 'LIKE', "{$slug}%")->count();
+                            $newCount = $count > 0 ? ++$count : '';
+                            $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
+                        } else {
+                            $myslug = $request->slug;
+                        }
 
-            // if($request->has('tags')){
-            //     $tags = explode(",", $request->tags);
-            //     $tags_id = [];
+                        File::delete([public_path('storage/post-images/' . $post->featured_image)]); // Delete Old Image and Store New Image
 
-            //     foreach($tags as $tag){
-            //        // $tag_model = Tag::wh(['title'=>$tag, 'slug'=>Str::slug($tag)]);
-            //         $tag_model = Tag::where('slug', Str::slug($tag))->first();
+                        $newImageName = $myslug . "." . $request->featured_image2->extension();
+                        $request->featured_image2->storeAs('post-images', $newImageName, 'public');
 
-            //         if($tag_model){
-            //             array_push($tags_id, $tag_model->id);
-            //         }
-            //         else{
-            //             array_push($tags_id, (Tag::create(['title'=>$tag, 'slug'=>Str::slug($tag)])));
-            //         }
-            //     }
-            //     $post->tags()->sync($tags_id);
-            // }
+                        $post->update([
+                            'title' => $request->title,
+                            'slug' => $myslug,
+                            'short_description' => $request->short_description,
+                            'description' => $request->description,
+                            'meta_description' => $request->meta_description,
+                            'featured_image' => $newImageName,
+                            'category_id' => $request->category_id,
+                            'publish_status' => $request->publish_status,
+                            'is_sticky' => $request->is_sticky ? $request->is_sticky : 0,
+                            'allow_comments' => $request->allow_comments ? $request->allow_comments : 0,
+                            'published_at' => date("Y-m-d H:i:s"),
+                            'user_id' => auth()->id(),
+                        ]);
+                    }
+                    else{
+                        if ($request->slug !== $post->slug) {
+                            $slug = Str::slug($request->slug);
+                            $count = Post::where('slug', 'LIKE', "{$slug}%")->count();
+                            $newCount = $count > 0 ? ++$count : '';
+                            $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
+
+                            if ($post->featured_image != null && empty($post->featured_image2)) {
+                                $path_info = pathinfo(public_path('storage/post-images/' . $post->featured_image));
+                                $getExt = $path_info['extension'];
+                                $newImgName = $myslug . "." . $getExt;
+                                $currentPath = (public_path('storage/post-images/' . $post->featured_image));
+                                $newPath = (public_path('storage/post-images/' . $newImgName));
+                                File::move($currentPath, $newPath); // If Change Slug than change also image name too
+                            }
+
+                            $post->update([
+                                'title' => $request->title,
+                                'slug' => $myslug,
+                                'short_description' => $request->short_description,
+                                'description' => $request->description,
+                                'meta_description' => $request->meta_description,
+                                'featured_image' => $newImgName,
+                                'category_id' => $request->category_id,
+                                'publish_status' => $request->publish_status,
+                                'is_sticky' => $request->is_sticky ? $request->is_sticky : 0,
+                                'allow_comments' => $request->allow_comments ? $request->allow_comments : 0,
+                                'published_at' => date("Y-m-d H:i:s"),
+                                'user_id' => auth()->id(),
+                            ]);
+                        } else {
+                            $post->update([
+                                'title' => $request->title,
+                                'slug' => $request->slug,
+                                'short_description' => $request->short_description,
+                                'description' => $request->description,
+                                'meta_description' => $request->meta_description,
+                                'category_id' => $request->category_id,
+                                'publish_status' => $request->publish_status,
+                                'is_sticky' => $request->is_sticky ? $request->is_sticky : 0,
+                                'allow_comments' => $request->allow_comments ? $request->allow_comments : 0,
+                                'published_at' => date("Y-m-d H:i:s"),
+                                'user_id' => auth()->id(),
+                            ]);
+                        }
+                    }
+            
+                if($request->has('tags')){
+                    $tags = explode(",", $request->tags);
+                    $tags_id = [];
+
+                    foreach($tags as $tag){
+                        $tag_model = Tag::where('slug', Str::slug($tag))->first();
+                        if($tag_model){
+                            array_push($tags_id, $tag_model->id);
+                        }
+                        else{
+                            $tag_model2 = Tag::create(['title' => $tag, 'slug' => Str::slug($tag)]);
+                            array_push($tags_id, $tag_model2->id);
+                        }
+                    }
+                    $post->tags()->sync($tags_id);
+                }
+            }
 
             return redirect(route('admin-panel.all-posts'))->with('message', 'Post Updated Successfully');
 

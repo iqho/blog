@@ -108,7 +108,7 @@
       </div>
       @endif
 
-      <form action="{{ route('admin-panel.update-post', $post->id) }}" method="post" class="needs-validation"
+      <form action="{{ route('admin-panel.update-post') }}" method="post" class="needs-validation"
         enctype="multipart/form-data" novalidate>
         @csrf
         <div class="row g-0">

@@ -13,7 +13,7 @@ class AllTag extends Component
     }
 
     public function jsonTag(){
-        $tagjson = Tag::orderBy('id', 'desc')->pluck('title')->take(7);
+        $tagjson = Tag::orderBy('id', 'desc')->pluck('title')->all();
         return $tagjson ;
     }
 }
