@@ -15,12 +15,13 @@
             </div>
         </div>
         <!-- Nested row for non-featured blog posts-->
-        <div class="row">
+        <div class="row g-0">
             <div class="col-12">
                 <input class="form-control mb-2" type="text" wire:model="searchTerm" placeholder="Enter Post Title for Search"/>
             </div>
+            @php $count = 0; @endphp
             @foreach ($posts as $post)
-            <div class="col-lg-6">
+            {{-- <div class="col-lg-6">
                 <div class="card mb-4">
                     @if ($post->featured_image)
                     <a href="#!"><img class="card-img-top" style="max-height: 300px" src="{{ asset('storage/post-images/'.$post->featured_image) }}" alt="{{ $post->title }}" /></a>
@@ -37,7 +38,62 @@
                         </div>
                     </div>
                 </div>
+            </div> --}}
+
+            <div class="blog-card g-0 mb-4 {{ (++$count%2 ? "alt" : "") }}" style="margin:0px">
+                <div class="meta">
+                    <div class="photo"
+                        style="background-image: url(https://storage.googleapis.com/chydlx/codepen/blog-cards/image-1.jpg)"></div>
+                    <ul class="details">
+                        <li class="author"><a href="#">John Doe</a></li>
+                        <li class="date">Aug. 24, 2015</li>
+                        <li class="tags">
+                            <ul>
+                                <li><a href="#">Learn</a></li>
+                                <li><a href="#">Code</a></li>
+                                <li><a href="#">HTML</a></li>
+                                <li><a href="#">CSS</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <h1>Learning to Code</h1>
+                    <h2>Opening a door to the future</h2>
+                    <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta
+                        praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.</p>
+                    <p class="read-more">
+                        <a href="#">Read More</a>
+                    </p>
+                </div>
             </div>
+
+            {{-- <div class="blog-card alt g-0">
+                <div class="meta">
+                    <div class="photo"
+                        style="background-image: url(https://storage.googleapis.com/chydlx/codepen/blog-cards/image-2.jpg)"></div>
+                    <ul class="details">
+                        <li class="author"><a href="#">Jane Doe</a></li>
+                        <li class="date">July. 15, 2015</li>
+                        <li class="tags">
+                            <ul>
+                                <li><a href="#">Learn</a></li>
+                                <li><a href="#">Code</a></li>
+                                <li><a href="#">JavaScript</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="description">
+                    <h1>Mastering the Language</h1>
+                    <h2>Java is not the same as JavaScript</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta
+                        praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.</p>
+                    <p class="read-more">
+                        <a href="#">Read More</a>
+                    </p>
+                </div>
+            </div> --}}
             @endforeach
             
 

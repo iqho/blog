@@ -17,42 +17,59 @@
             
             <!-- BEGIN: Custom CSS-->
             <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/bootstrap.css') }}" />
+            <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/card.css') }}" />
+            <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css'>
             
             @stack('page-css')
             @livewireStyles
 
         <!-- Scripts -->
-        
+       <style>
+        @media (max-width: 768px) {
+            .offcanvas-collapse {
+            position: fixed;
+            top: 56px; /* Height of navbar */
+            bottom: 0;
+            right: 100%;
+            width:250px;
+            padding-right: 1rem;
+            padding-left: 1rem;
+            overflow-y: auto;
+            visibility: hidden;
+            background-color: #343a40;
+            transition: transform .3s ease-in-out, visibility .3s ease-in-out;
+            }
+            
+            .offcanvas-collapse.open {
+            visibility: visible;
+            transform: translateX(100%);
+            }
+            }
+            .affix {
+            top:50px;
+            position:fixed;
+            }
+        </style> 
     </head>
     <body>
 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="#!">M Blog</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
-                        class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Blog</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
         <!-- Page header with logo and tagline-->
-        <header class="py-5 bg-light border-bottom mb-4">
+
+        <!-- Page content-->
+        <div class="container">
+
+
             <div class="container">
+                @include('layouts.includes.top-nav')
                 <div class="text-center my-5">
                     <h1 class="fw-bolder">Welcome to M Blog Home</h1>
                     <p class="lead mb-0">Largest Bangladeshi Blog Site</p>
                 </div>
+        
             </div>
-        </header>
-        <!-- Page content-->
-        <div class="container">
+     
+
+
         {{ $slot }}
         </div>
         <!-- Footer-->
@@ -65,6 +82,16 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="{{ asset('frontend/js/scripts.js') }}"></script>
+
+        <script>
+            (function() {
+            'use strict'
+            document.querySelector('#navbarSideCollapse').addEventListener('click', function() {
+            document.querySelector('.offcanvas-collapse').classList.toggle('open')
+            })
+            })()
+ </script>
+
     @livewireScripts
     @stack('page-js')
     </body>
