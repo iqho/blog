@@ -21,86 +21,39 @@
             </div>
             @php $count = 0; @endphp
             @foreach ($posts as $post)
-            {{-- <div class="col-lg-6">
-                <div class="card mb-4">
-                    @if ($post->featured_image)
-                    <a href="#!"><img class="card-img-top" style="max-height: 300px" src="{{ asset('storage/post-images/'.$post->featured_image) }}" alt="{{ $post->title }}" /></a>
-                    @else
-                    <a href="#!"><img class="card-img-top" style="max-height: 300px" src="{{ asset('images/no-image-available.jpg') }}" alt="{{ $post->title }}" /></a>
-                    @endif
-                    <div class="card-body">
-                        <div class="small text-muted">Created by <a href="#">{{ $post->user->name }}</a>  at {{ date('d-M-Y h:i a', strtotime($post->created_at)); }}</div>
-                        <h2 class="card-title h4">{{ $post->title }}</h2>
-                        <p class="card-text">{{ $post->short_description }}</p>
-                        <div class="row g-0 border border-danger d-flex justify-content-center">
-                        <div class="col-12 align-self-center">Category: <a href="#">{{ $post->category->name }}</a> 
-                            <a class="btn btn-primary float-end" href="#!">Read more →</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
 
             <div class="blog-card g-0 mb-4 {{ (++$count%2 ? "alt" : "") }}" style="margin:0px">
                 <div class="meta">
-                    <div class="photo"
-                        style="background-image: url(https://storage.googleapis.com/chydlx/codepen/blog-cards/image-1.jpg)"></div>
+                    @if ($post->featured_image)
+                    <div class="photo" style="background-image: url({{ asset('storage/post-images/'.$post->featured_image) }})"></div>
+                    @else
+                    <div class="photo" style="background-image: url({{ asset('images/no-image-available.jpg') }})"></div>
+                    @endif
                     <ul class="details">
-                        <li class="author"><a href="#">John Doe</a></li>
-                        <li class="date">Aug. 24, 2015</li>
+                        <li class="author"><a href="#">{{ $post->user->name }}</a></li>
+                        <li class="date">{{ date('d-M-Y h:i a', strtotime($post->created_at)); }}</li>
                         <li class="tags">
                             <ul>
-                                <li><a href="#">Learn</a></li>
-                                <li><a href="#">Code</a></li>
-                                <li><a href="#">HTML</a></li>
-                                <li><a href="#">CSS</a></li>
+                                @foreach ($post->tags as $tag)
+                                <li><a href="#">{{ $tag->title }}</a></li>
+                                @endforeach
                             </ul>
                         </li>
                     </ul>
                 </div>
                 <div class="description">
-                    <h1>Learning to Code</h1>
-                    <h2>Opening a door to the future</h2>
-                    <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta
-                        praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.</p>
+                    <h1><a href="#">{{ $post->title }}</a></h1>
+                    <p>{{ $post->short_description}}</p>
                     <p class="read-more">
                         <a href="#">Read More</a>
                     </p>
                 </div>
             </div>
-
-            {{-- <div class="blog-card alt g-0">
-                <div class="meta">
-                    <div class="photo"
-                        style="background-image: url(https://storage.googleapis.com/chydlx/codepen/blog-cards/image-2.jpg)"></div>
-                    <ul class="details">
-                        <li class="author"><a href="#">Jane Doe</a></li>
-                        <li class="date">July. 15, 2015</li>
-                        <li class="tags">
-                            <ul>
-                                <li><a href="#">Learn</a></li>
-                                <li><a href="#">Code</a></li>
-                                <li><a href="#">JavaScript</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <div class="description">
-                    <h1>Mastering the Language</h1>
-                    <h2>Java is not the same as JavaScript</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta
-                        praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.</p>
-                    <p class="read-more">
-                        <a href="#">Read More</a>
-                    </p>
-                </div>
-            </div> --}}
             @endforeach
-            
 
         </div>
         <!-- Pagination-->
-        <nav aria-label="Pagination">
-            <hr class="my-0" />
+        <nav aria-label="Pagination" class="mt-4">
             {{ $posts->onEachSide(2)->links('backend.includes.pagination-custom') }}
         </nav>
     </div>

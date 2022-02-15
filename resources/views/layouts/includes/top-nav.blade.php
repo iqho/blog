@@ -1,38 +1,48 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" data-spy="affix" data-offset-top="50" aria-label="Main navigation">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Offcanvas navbar</a>
-        <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse"
-            aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Notifications</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Switch account</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown"
-                        aria-expanded="false">Settings</a>
-                    <ul class="dropdown-menu" aria-labelledby="dropdown01">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+<header class="headernav sticky-top">
+    <div class="containernav" >
+        <section class="wrapper">
+            <div class="header-item-left">
+                <a href="./index.html" class="brand">MyBrand</a>
+            </div>
+            <!-- Navbar Section -->
+            <div class="header-item-center">
+                <div class="overlay"></div>
+                <nav class="menu" id="menu">
+                    <div class="menu-mobile-header">
+                        <button type="button" class="menu-mobile-arrow"><i class="ion ion-ios-arrow-back"></i></button>
+                        <div class="menu-mobile-title"></div>
+                        <button type="button" class="menu-mobile-close"><i class="ion ion-ios-close"></i></button>
+                    </div>
+                    <ul class="menu-section" style="margin:0px">
+                        <li class="menu-item"><a href="#">Home</a></li>
+                        <li class="menu-item-has-children">
+                            <a href="#">Accounts <i class="ion ion-ios-arrow-down"></i></a>
+                            <div class="menu-subs menu-column-1">
+                                <ul>
+                                    <li><a href="#">Register</a></li>
+                                    <li><a href="#">Questions</a></li>
+                                    <li><a href="#">Privacy Policy</a></li>
+                                    <li><a href="#">Term of Cookies</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="menu-item"><a href="#">Resources</a></li>
+                        <li class="menu-item"><a href="#">Contact Us</a></li>
                     </ul>
-                </li>
-            </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-        </div>
+                </nav>
+            </div>
+
+            <div class="header-item-right">
+                <a href="#" class="menu-icon"><i class="ion ion-md-search"></i></a>
+                <a href="#" class="menu-icon"><i class="ion ion-md-heart"></i></a>
+                <a href="#" class="menu-icon"><i class="ion ion-md-cart"></i></a>
+                <button type="button" class="menu-mobile-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </section>
     </div>
-</nav>
+</header>

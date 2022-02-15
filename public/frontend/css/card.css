@@ -96,13 +96,21 @@
 }
 .blog-card .description h1,
 .blog-card .description h2 {
-  font-family: Poppins, sans-serif;
+  font-family: Solaimanlipi;
 }
 .blog-card .description h1 {
   line-height: 1;
   margin: 0;
-  font-size: 1.7rem;
+  font-size: 22px;
 }
+.blog-card .description h1 a:hover {
+color:rgb(255, 187, 0);
+animation: mymove 5s infinite;
+}
+@keyframes mymove {
+  50% {font-size: 28px;}
+}
+
 .blog-card .description h2 {
   font-size: 1rem;
   font-weight: 300;
