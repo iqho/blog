@@ -2,7 +2,7 @@
     <div class="containernav" >
         <section class="wrapper">
             <div class="header-item-left">
-                <a href="./index.html" class="brand">MyBrand</a>
+                <a href="./index.html" class="brand">M Blog</a>
             </div>
             <!-- Navbar Section -->
             <div class="header-item-center">

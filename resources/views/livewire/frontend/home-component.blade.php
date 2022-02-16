@@ -17,12 +17,11 @@
         <!-- Nested row for non-featured blog posts-->
         <div class="row g-0">
             <div class="col-12">
-                <input class="form-control mb-2" type="text" wire:model="searchTerm" placeholder="Enter Post Title for Search"/>
+                <input class="form-control mb-2" type="text" wire:model="searchTerm" placeholder="Enter Post Title for Live Search"/>
             </div>
-            @php $count = 0; @endphp
             @foreach ($posts as $post)
 
-            <div class="blog-card g-0 mb-4 {{ (++$count%2 ? "alt" : "") }}" style="margin:0px">
+            <div class="blog-card g-0 mb-4" style="margin:0px">
                 <div class="meta">
                     @if ($post->featured_image)
                     <div class="photo" style="background-image: url({{ asset('storage/post-images/'.$post->featured_image) }})"></div>
@@ -31,6 +30,7 @@
                     @endif
                     <ul class="details">
                         <li class="author"><a href="#">{{ $post->user->name }}</a></li>
+                        <li class="date">{{ $post->category->name }}</li>
                         <li class="date">{{ date('d-M-Y h:i a', strtotime($post->created_at)); }}</li>
                         <li class="tags">
                             <ul>

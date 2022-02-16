@@ -53,11 +53,11 @@
         {{-- Main Container  --}}
         <div class="container-fluid mb-5 shadow g-0" style="max-width:1200px">
             @include('layouts.includes.top-nav')
-            <div class="row g-0 text-center mb-4" style="height: 150px; border-bottom:1px solid rgb(212, 212, 212); border-top:1px solid rgb(212, 212, 212">
+            {{-- <div class="row g-0 text-center mb-4" style="height: 150px; border-bottom:1px solid rgb(212, 212, 212); border-top:1px solid rgb(212, 212, 212">
                 <h1 class="fw-bolder">Welcome to M Blog Home</h1>
                 <p class="lead mb-0">Largest Bangladeshi Blog Site</p>
-            </div>
-            <div class="row g-0 ps-4">
+            </div> --}}
+            <div class="row g-0 ps-4 mt-4">
                 {{ $slot }}
             </div>
             <hr>

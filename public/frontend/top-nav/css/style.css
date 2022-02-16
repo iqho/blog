@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap');
 :root {
   --color-black: hsl(0, 0%, 10%);
   --color-white: hsl(0, 0%, 100%);
@@ -41,9 +42,8 @@
   border: none;
   outline: none;
   background: none;
+  text-decoration: none;
 }
-
-
 
 @-webkit-keyframes slideLeft {
   0% {
@@ -103,8 +103,8 @@
 
 .brand {
   font-family: "Rubik", sans-serif;
-  font-size: 1.625rem;
-  font-weight: 600;
+  font-size: 58px;
+  font-weight: 900;
   line-height: 1.25;
   letter-spacing: -1px;
   color: var(--color-pink-600);
@@ -121,8 +121,7 @@
   padding: 0.75rem 0;
   z-index: 100;
   background: var(--color-white);
-  -webkit-box-shadow: var(--shadow-medium);
-          box-shadow: var(--shadow-medium);
+  border-bottom: 3px solid var(--color-pink-600);
 }
 .headernav .wrapper {
   display: -webkit-box;
@@ -142,6 +141,8 @@
           justify-content: space-between;
 }
 .header-item-left {
+    font-size: 36px;
+    font-family: 'Black Ops One', cursive;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -185,24 +186,7 @@
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
-.headernav .menu > ul > li {
-  display: inline-block;
-  line-height: 3.10rem;
-  margin-left: 1.5rem;
-}
-.headernav .menu > ul > li > a {
-  position: relative;
-  font-family: inherit;
-  font-size: 1rem;
-  font-weight: 500;
-  line-height: 1.25;
-  border: none;
-  outline: none;
-  color: var(--color-black);
-  text-transform: capitalize;
-  -webkit-transition: color 0.3s ease;
-  transition: color 0.3s ease;
-}
+
 .headernav .menu > ul > li .menu-subs {
   position: absolute;
   width: 100%;
@@ -306,8 +290,7 @@
 .headernav .menu > ul > li .menu-subs > ul > li > a:hover {
   color: var(--color-pink-700);
 }
-.header-item-right a:hover,
-.headernav .menu > ul > li:hover > a {
+.header-item-right a:hover {
   color: var(--color-pink-700);
 }
 .headernav .menu-mobile-header,
@@ -315,14 +298,62 @@
   display: none;
 }
 
-@media screen and (min-width: 993px) {
+@media screen and (min-width: 769px) {
   .headernav .menu > ul > li.menu-item-has-children:hover .menu-subs {
-    margin-top: 0.75rem;
+    margin-top: 18px;
     opacity: 1;
     visibility: visible;
   }
+  ul.menu-section {
+    display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: -webkit-flex;     /* NEW - Chrome */
+    display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+  }
+    .headernav {
+        padding:0;
+        margin: 2px 0px 0px 0px;
+        }
+    .wrapper {
+        padding:0;
+        margin: 0px;
+        height: 60px;
+        }
+      .headernav .menu > ul > li {
+        display: inline-block;
+        margin: 0px;
+        padding: 0px 0px 0px 0px;
+        border-right: 1px solid rgb(214, 214, 214);
+      }
+      .headernav .menu > ul > li > a {
+        position: relative;
+        font-family: inherit;
+        font-size: 1rem;
+        font-weight: 500;
+        border: none;
+        outline: none;
+        color: var(--color-black);
+        text-transform: capitalize;
+        -webkit-transition: color 0.3s ease;
+        transition: color 0.3s ease;
+        padding: 20px 12px;
+        margin: 0px;
+        /* border-right: 1px solid var(--color-pink-600); */
+        /* background-color:var(--color-pink-600); */
+        }
+
+    .headernav .menu > ul > li > a:hover {
+    background-color:var(--color-pink-600);
+    border-radius: 8px 8px 0px 0px;
+    color: white;
+    padding: 20px 12px;
+    position: relative;
+    }
+
+
 }
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 768px) {
   .header-item-center {
     -webkit-box-flex: 0;
         -ms-flex: 0 0 100%;
@@ -337,6 +368,9 @@
             flex: 0 0 auto;
   }
 
+  .headernav{
+      padding: 0px;
+  }
   .wrapper {
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;
@@ -415,6 +449,16 @@
     margin: 0;
   }
   .headernav .menu > ul > li > a {
+    position: relative;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    outline: none;
+    color: var(--color-black);
+    text-transform: capitalize;
+    -webkit-transition: color 0.3s ease;
+    transition: color 0.3s ease;
     display: block;
     line-height: 3.125rem;
     height: 3.125rem;
