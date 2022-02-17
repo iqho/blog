@@ -11,7 +11,9 @@
 
         <!-- Styles -->
 
-            <!-- BEGIN: Custom CSS-->
+            <!-- Page Random CSS-->
+            <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/styles.css') }}" />
+
             <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/card.css') }}" />
             <link rel="stylesheet" type="text/css" href="{{ asset('frontend/top-nav/css/style.css') }}" />
             <link rel="stylesheet" type="text/css" href="{{ asset('frontend/top-nav/css/ionicon.min.css') }}" />
@@ -21,33 +23,6 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
             @stack('page-css')
             @livewireStyles
-
-        <!-- Scripts -->
-       <style>
-        @media (max-width: 768px) {
-            .offcanvas-collapse {
-            position: fixed;
-            top: 56px; /* Height of navbar */
-            bottom: 0;
-            right: 100%;
-            width:300px;
-            padding-right: 1rem;
-            padding-left: 1rem;
-            overflow-y: auto;
-            visibility: hidden;
-            background-color: #343a40;
-            transition: transform .3s ease-in-out, visibility .3s ease-in-out;
-            border-top:1px solid rgb(212, 212, 212);
-            border-right:1px solid rgb(212, 212, 212);
-            padding-top: 10px;
-            }
-
-            .offcanvas-collapse.open {
-            visibility: visible;
-            transform: translateX(100%);
-            }
-            }
-        </style>
     </head>
     <body>
         {{-- Main Container  --}}
@@ -67,41 +42,16 @@
 
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="{{ asset('frontend/top-nav/js/script.js') }}"></script>
-<script>
-    $(document).ready(function(){
-    var submitIcon = $('.searchbox-icon');
-    var inputBox = $('.searchbox-input');
-    var searchBox = $('.searchbox');
-    var isOpen = false;
-    submitIcon.click(function(){
-    if(isOpen == false){
-    searchBox.addClass('searchbox-open');
-    inputBox.focus();
-    isOpen = true;
-    } else {
-    searchBox.removeClass('searchbox-open');
-    inputBox.focusout();
-    isOpen = false;
-    }
-    });
-    submitIcon.mouseup(function(){
-    return false;
-    });
-    searchBox.mouseup(function(){
-    return false;
-    });
-    $(document).mouseup(function(){
-    if(isOpen == true){
-    $('.searchbox-icon').css('display','block');
-    submitIcon.click();
-    }
-    });
-    });
-</script>
 
-    @livewireScripts
-    @stack('page-js')
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Page Random Script -->
+        <script src="{{ asset('frontend/js/scripts.js') }}"></script>
+
+        <script src="{{ asset('frontend/top-nav/js/script.js') }}"></script>
+        @livewireScripts
+
+        @stack('page-js')
+
     </body>
 </html>

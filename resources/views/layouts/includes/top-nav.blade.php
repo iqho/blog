@@ -22,7 +22,7 @@
                                     <li><a href="#">Register</a></li>
                                     <li><a href="#">Questions</a></li>
                                     <li><a href="#">Privacy Policy</a></li>
-                                    <li><a href="#">Term of Cookies</a></li>
+                                    <li><a href="#">Term of Cookies Term of Cookies</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -34,7 +34,7 @@
 
             <div class="header-item-right">
                 <form class="searchbox">
-                    <input type="search" placeholder="Write Post Title for Search and Press Enter" name="search" class="searchbox-input" required>  
+                    <input type="search" wire:model="searchTerm" placeholder="Write Post Title for Search and Press Enter" name="search" class="searchbox-input" required>
                 </form>
                 <a href="#" class="menu-icon"><i class="ion ion-md-heart"></i></a>
                 <a href="#" class="menu-icon searchbox-icon"><i class="ion ion-md-search"></i></a>
