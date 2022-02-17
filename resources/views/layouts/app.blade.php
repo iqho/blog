@@ -69,7 +69,37 @@
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="{{ asset('frontend/top-nav/js/script.js') }}"></script>
-
+<script>
+    $(document).ready(function(){
+    var submitIcon = $('.searchbox-icon');
+    var inputBox = $('.searchbox-input');
+    var searchBox = $('.searchbox');
+    var isOpen = false;
+    submitIcon.click(function(){
+    if(isOpen == false){
+    searchBox.addClass('searchbox-open');
+    inputBox.focus();
+    isOpen = true;
+    } else {
+    searchBox.removeClass('searchbox-open');
+    inputBox.focusout();
+    isOpen = false;
+    }
+    });
+    submitIcon.mouseup(function(){
+    return false;
+    });
+    searchBox.mouseup(function(){
+    return false;
+    });
+    $(document).mouseup(function(){
+    if(isOpen == true){
+    $('.searchbox-icon').css('display','block');
+    submitIcon.click();
+    }
+    });
+    });
+</script>
 
     @livewireScripts
     @stack('page-js')

@@ -33,9 +33,11 @@
             </div>
 
             <div class="header-item-right">
-                <a href="#" class="menu-icon"><i class="ion ion-md-search"></i></a>
+                <form class="searchbox">
+                    <input type="search" placeholder="Write Post Title for Search and Press Enter" name="search" class="searchbox-input" required>  
+                </form>
                 <a href="#" class="menu-icon"><i class="ion ion-md-heart"></i></a>
-                <a href="#" class="menu-icon"><i class="ion ion-md-cart"></i></a>
+                <a href="#" class="menu-icon searchbox-icon"><i class="ion ion-md-search"></i></a>
                 <button type="button" class="menu-mobile-toggle">
                     <span></span>
                     <span></span>
