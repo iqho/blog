@@ -77,6 +77,11 @@
   margin-right: 10px;
   content: "";
 }
+.blog-card .details .category:before {
+  font-family: FontAwesome;
+  margin-right: 10px;
+  content: "";
+}
 .blog-card .details .tags ul:before {
   font-family: FontAwesome;
   content: "";

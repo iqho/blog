@@ -2,7 +2,7 @@
     <div class="containernav" >
         <section class="wrapper">
             <div class="header-item-left">
-                <a href="./index.html" class="brand">M Blog</a>
+                <a href="{{ url('/') }}" class="brand">M Blog</a>
             </div>
             <!-- Navbar Section -->
             <div class="header-item-center">
@@ -14,19 +14,18 @@
                         <button type="button" class="menu-mobile-close"><i class="ion ion-ios-close"></i></button>
                     </div>
                     <ul class="menu-section" style="margin:0px">
-                        <li class="menu-item"><a href="#">Home</a></li>
+                        <li class="menu-item"><a href="{{ url('/') }}">Home</a></li>
+                        <li class="menu-item"><a href="#">About US</a></li>
+                        <li class="menu-item"><a href="#">Our Vision</a></li>
                         <li class="menu-item-has-children">
                             <a href="#">Accounts <i class="ion ion-ios-arrow-down"></i></a>
                             <div class="menu-subs menu-column-1">
                                 <ul>
-                                    <li><a href="#">Register</a></li>
-                                    <li><a href="#">Questions</a></li>
-                                    <li><a href="#">Privacy Policy</a></li>
-                                    <li><a href="#">Term of Cookies Term of Cookies</a></li>
+                                    <li><a href="{{ url('/login') }}">Login</a></li>
+                                    <li><a href="{{ url('/register') }}">Register</a></li>
                                 </ul>
                             </div>
                         </li>
-                        <li class="menu-item"><a href="#">Resources</a></li>
                         <li class="menu-item"><a href="#">Contact Us</a></li>
                     </ul>
                 </nav>

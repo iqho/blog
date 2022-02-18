@@ -8,7 +8,7 @@ use Livewire\WithPagination;
 use App\Models\Admin\Category;
 use Illuminate\Pagination\Paginator;
 
-class HomeComponent extends Component
+class HomeContent extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
@@ -19,9 +19,9 @@ class HomeComponent extends Component
     {
         $posts = Post::where(function ($sub_query) {$sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
         })->orderBy('id', 'desc')->paginate(10);
-        $categories = Category::orderBy('id', 'desc')->get();
         $recentPost = Post::latest()->get()->take(10);
-        return view('livewire.frontend.home-component', compact('posts', 'recentPost', 'categories'))->layout('layouts.app');
+        $stickyPost = Post::orderBy('id','DESC')->where('is_sticky','1')->get()->take(5);
+        return view('livewire.frontend.home-content', compact('posts', 'recentPost', 'stickyPost',))->layout('layouts.app');
     }
 
     public function setPage($url)
