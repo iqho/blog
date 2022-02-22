@@ -1,11 +1,22 @@
 .carousel-inner a{
-    color: black;
+    color: rgb(255, 255, 255);
+    font-size: 24px;
 }
 .carousel-inner a:hover{
-    color: rgb(255, 0, 0);
+    color: rgb(238, 255, 0);
 }
 .carousel-indicators li {
     width: 10px!important;
     height: 10px!important;
     border-radius: 50%;
   }
+  .carousel-caption {
+      background:linear-gradient(0deg,rgba(0,0,0,0.8) 0%,rgba(0,0,0,.2) 100%);
+      left:0;
+      right:0;
+      bottom:0;
+      padding:10px;
+      text-align:center;
+      border-radius: 5%;
+    }
+

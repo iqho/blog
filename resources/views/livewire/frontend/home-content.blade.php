@@ -14,7 +14,7 @@
                 <div class="carousel-item {{$loop->iteration == 1 ? 'active' : ''}}" data-bs-interval="5000">
                     <img src="{{ asset('storage/post-images/'.$spost->featured_image) }}" style="max-height: 300px" class="d-block w-100" alt="...">
                     <div class="carousel-caption">
-                        <h5><a href="#">{{ $spost->title }}</a></h5>
+                        <h5><a href="{{ route('post.single-post', $spost->slug) }}">{{ $spost->title }}</a></h5>
                     </div>
                 </div>
                 @endforeach
@@ -63,7 +63,7 @@
                 <h1><a href="{{ route('post.single-post', $post->slug) }}">{{ $post->title }}</a></h1>
                 <p>{{ $post->short_description}}</p>
                 <p class="read-more">
-                    <a href="#">Read More</a>
+                    <a href="{{ route('post.single-post', $post->slug) }}">Read More</a>
                 </p>
             </div>
         </div>

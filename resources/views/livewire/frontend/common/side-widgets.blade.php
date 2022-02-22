@@ -18,7 +18,7 @@
                 <div class="col-12">
                     <ul class="list-unstyled mb-0">
                         @foreach ($categories as $category)
-                        <li><i class="fa-solid fa-star-sharp"></i> <a href="#!">{{ $category->name }}</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="#!">{{ $category->name }}</a></li>
                         @endforeach
                     </ul>
                 </div>
