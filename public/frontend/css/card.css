@@ -109,11 +109,11 @@
   font-size: 22px;
 }
 .blog-card .description h1 a:hover {
-color:rgb(255, 187, 0);
+color:rgb(196, 0, 0);
 animation: mymove 5s infinite;
 }
 @keyframes mymove {
-  50% {font-size: 28px;}
+  50% {font-size: 24px;}
 }
 
 .blog-card .description h2 {
@@ -127,9 +127,12 @@ animation: mymove 5s infinite;
   text-align: right;
 }
 .blog-card .description .read-more a {
-  color: #5ad67d;
+  color: #20db55;
   display: inline-block;
   position: relative;
+}
+.blog-card .description .read-more a:hover {
+    color: #d12121;
 }
 .blog-card .description .read-more a:after {
   content: "";
@@ -142,6 +145,7 @@ animation: mymove 5s infinite;
 .blog-card .description .read-more a:hover:after {
   margin-left: 5px;
   opacity: 1;
+  color: #d12121;
 }
 .blog-card p {
   position: relative;

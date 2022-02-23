@@ -18,6 +18,25 @@
                         <li class="menu-item"><a href="#">About US</a></li>
                         <li class="menu-item"><a href="#">Our Vision</a></li>
                         <li class="menu-item-has-children">
+                            @auth
+                            <a href="#">{{ Auth::user()->name }} <i class="ion ion-ios-arrow-down"></i></a>
+                            <div class="menu-subs menu-column-1">
+                                <ul>
+                                    @can("isCommon")
+                                    <li><a target="_blank" href="{{ route('admin-panel.dashboard') }}">Dashboard</a></li>
+                                    <li><a target="_blank" href="{{ route('admin-panel.profile') }}">Profile</a></li>
+                                    <li><a target="_blank" href="{{ route('admin-panel.post-create') }}">Create New Post</a></li>
+                                    @else
+                                    <li><a target="_blank" href="{{ route('user.dashboard') }}">Dashboard</a></li>
+                                    <li><a target="_blank" href="{{ route('user.profile') }}">Profile</a></li>
+                                    @endcan
+                                    <li><a href="javascript:void" onclick="$('#logout-form').submit();"><i class="me-50" data-feather="power"></i> Logout</a></li>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </ul>
+                            </div>
+                            @else
                             <a href="#">Accounts <i class="ion ion-ios-arrow-down"></i></a>
                             <div class="menu-subs menu-column-1">
                                 <ul>
@@ -25,6 +44,7 @@
                                     <li><a href="{{ url('/register') }}">Register</a></li>
                                 </ul>
                             </div>
+                            @endauth
                         </li>
                         <li class="menu-item"><a href="#">Contact Us</a></li>
                     </ul>

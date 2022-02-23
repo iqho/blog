@@ -30,7 +30,15 @@ class EditPost extends Component
         $this->allow_comments = $post->allow_comments;
         $this->featured_image = $post->featured_image;
        // $post->published_at = date("Y-m-d H:i:s");
-       return $this->post = $post;
+       if (auth()->user()->user_type == 1) {
+        return $this->post = $post;
+        }
+       elseif(auth()->id() == $post->user->id){
+        return $this->post = $post;
+       }
+       else{
+           return redirect(route('admin-panel.all-posts'));
+       }
     }
 
     public function render()
@@ -119,7 +127,6 @@ class EditPost extends Component
                             'is_sticky' => $request->is_sticky ? $request->is_sticky : 0,
                             'allow_comments' => $request->allow_comments ? $request->allow_comments : 0,
                             'published_at' => date("Y-m-d H:i:s"),
-                            'user_id' => auth()->id(),
                         ]);
                     }
                     else{
@@ -150,7 +157,6 @@ class EditPost extends Component
                                 'is_sticky' => $request->is_sticky ? $request->is_sticky : 0,
                                 'allow_comments' => $request->allow_comments ? $request->allow_comments : 0,
                                 'published_at' => date("Y-m-d H:i:s"),
-                                'user_id' => auth()->id(),
                             ]);
                         } else {
                             $post->update([
@@ -164,7 +170,6 @@ class EditPost extends Component
                                 'is_sticky' => $request->is_sticky ? $request->is_sticky : 0,
                                 'allow_comments' => $request->allow_comments ? $request->allow_comments : 0,
                                 'published_at' => date("Y-m-d H:i:s"),
-                                'user_id' => auth()->id(),
                             ]);
                         }
                     }

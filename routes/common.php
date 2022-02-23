@@ -18,6 +18,9 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Livewire\Backend\Category\AllCategory;
 use App\Http\Livewire\Backend\Category\TrashedCategory;
 
+use App\Http\Controllers\DashboardController;
+use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
+
 //Media Gallery
 Route::get('/media', AllMedia::class)->name('media');
 Route::get('/media/list-view', AllMediaList::class)->name('media.list-view');
@@ -45,4 +48,6 @@ Route::get('/category', AllCategory::class)->name('category');
 Route::get('/category/trashed-category', TrashedCategory::class)->name('trashedCategory');
 Route::any('/category/create', [CategoryController::class, 'createCategory'])->name('createCategory');
 
-
+// Users
+Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard');
+Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');

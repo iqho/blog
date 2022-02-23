@@ -59,12 +59,13 @@
                     </li>
                 </ul>
             </div>
-            <div class="description">
+            <div class="description pt-1 pb-2" style="min-height: 150px">
                 <h1><a href="{{ route('post.single-post', $post->slug) }}">{{ $post->title }}</a></h1>
-                <p>{{ $post->short_description}}</p>
-                <p class="read-more">
+                <p style="text-align: justify">{{ Str::limit($post->short_description, 130) }}
+                <span class="read-more" style="margin: 0px">
                     <a href="{{ route('post.single-post', $post->slug) }}">Read More</a>
-                </p>
+                </span>
+            </p>
             </div>
         </div>
         @endforeach

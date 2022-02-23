@@ -27,6 +27,7 @@
                                     <th class="not-mobile">Slug</th>
                                     <th class="not-mobile no-sort">Image</th>
                                     <th class="not-mobile">Category</th>
+                                    <th class="not-mobile">Author</th>
                                     <th class="not-mobile no-sort">Action</th>
                                 </tr>
                             </thead>
@@ -35,7 +36,7 @@
                                 @foreach ($data['posts'] as $post)
                                     <tr>
                                         <td>{{ $i++ }}</td>
-                                        <td><a href="{{ route('admin-panel.single-post', $post->slug) }}">{{ $post->title }}</a></td>
+                                        <td><a href="{{ route('post.single-post', $post->slug) }}" target="_blank">{{ $post->title }}</a></td>
                                         <td>{{ $post->slug }}</td>
                                         <td style="padding: 0px; text-align:center">
                                             @if ($post->featured_image)
@@ -44,6 +45,7 @@
                                             @endif
                                         </td>
                                         <td>{{ $post->category->name }}</td>
+                                        <td>{{ $post->users->name }}</td>
                                         <td><div class="d-inline-flex">
                                             <a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4">

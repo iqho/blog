@@ -39,8 +39,14 @@
                     </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
-                    @can('isAdmin')
-                    <a class="dropdown-item" href="{{ route('admin.profile') }}"><i class="me-50" data-feather="user"></i> Profile</a>
+                    @can('isCommon')
+                    <a class="dropdown-item" href="{{ route('admin-panel.profile') }}"><i class="me-50" data-feather="user"></i> Profile</a>
+                    @else
+                    <a class="dropdown-item" href="{{ route('user.profile') }}"><i class="me-50" data-feather="user"></i> Profile</a>
+                    @endcan
+
+                    {{-- @can('isAdmin')
+                    <a class="dropdown-item" href="{{ route('admin-panel.profile') }}"><i class="me-50" data-feather="user"></i> Profile</a>
                     @elsecan('isEditor')
                     <a class="dropdown-item" href="{{ route('editor.profile') }}"><i class="me-50" data-feather="user"></i> Profile</a>
                     @elsecan('isAuthor')
@@ -49,7 +55,7 @@
                     <a class="dropdown-item" href="{{ route('contributor.profile') }}"><i class="me-50" data-feather="user"></i> Profile</a>
                     @else
                     <a class="dropdown-item" href="{{ route('user.profile') }}"><i class="me-50" data-feather="user"></i> Profile</a>
-                    @endcan
+                    @endcan --}}
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#"><i class="me-50" data-feather="settings"></i> Settings</a>
                     <a class="dropdown-item" href="javascript:void" onclick="$('#logout-form').submit();"><i class="me-50" data-feather="power"></i> Logout</a>

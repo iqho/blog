@@ -34,7 +34,12 @@ class AllPost extends Component
 
     public function render()
     {
-        $data['posts'] = Post::with('category')->get();
+        if (auth()->user()->user_type == 1) {
+            $data['posts'] = Post::with('category')->with('users')->get();
+        }
+        else{
+        $data['posts'] = Post::where('user_id', auth()->id())->with('category')->with('users')->get();
+        }
         return view('livewire.backend.post.all-post', compact('data'));
     }
 

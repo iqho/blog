@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Admin\Post;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Jetstream\HasProfilePhoto;
@@ -56,4 +57,10 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'user_id');
+    }
 }
