@@ -47,13 +47,13 @@
                 <div class="photo" style="background-image: url({{ asset('images/no-image-available.jpg') }})"></div>
                 @endif
                 <ul class="details">
-                    <li class="author"><a href="#">{{ $post->user->name }}</a></li>
-                    <li class="category">{{ $post->category->name }}</li>
+                    <li class="author"><a href="{{ route('post.author-post', $post->users->id) }}">{{ $post->users->name }}</a></li>
+                    <li class="category"><a href="{{ route('post.category-post', $post->category->slug) }}">{{ $post->category->name }}</a></li>
                     <li class="date">{{ date('d-M-Y h:i a', strtotime($post->created_at)); }}</li>
                     <li class="tags">
                         <ul>
                             @foreach ($post->tags as $tag)
-                            <li><a href="#">{{ $tag->title }}</a></li>
+                            <li><a href="{{ route('post.tag-post', $tag->slug) }}">{{ $tag->title }}</a></li>
                             @endforeach
                         </ul>
                     </li>

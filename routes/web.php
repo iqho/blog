@@ -2,16 +2,22 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Livewire\Frontend\TagPost;
+use App\Http\Livewire\Frontend\AuthorPost;
+
+use App\Http\Livewire\Frontend\SinglePost;
+use App\Http\Livewire\Frontend\HomeContent;
+use App\Http\Livewire\Frontend\CategoryPost;
 use App\Http\Controllers\DashboardController;
 use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
-
-use App\Http\Livewire\Frontend\HomeContent;
-use App\Http\Livewire\Frontend\SinglePost;
 
 
 // Front End Routes
 Route::get('/', HomeContent::class)->name('home');
 Route::get('/post/{slug}', SinglePost::class)->name('post.single-post');
+Route::get('/post/author/{id}', AuthorPost::class)->name('post.author-post');
+Route::get('/post/category/{slug}', CategoryPost::class)->name('post.category-post');
+Route::get('/post/tag/{slug}', TagPost::class)->name('post.tag-post');
 
 
 
