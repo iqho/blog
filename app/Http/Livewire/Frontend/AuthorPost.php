@@ -19,16 +19,22 @@ class AuthorPost extends Component
 
     public function mount($id)
     {
+       // $check_author = User::where('id', $id)->first();
         return $this->newid = $id;
     }
 
     public function render()
     {
     $author = User::where('id', $this->newid)->first();
+    if($author){
     $author_name = $author->name;
     $posts = Post::where('user_id', $this->newid)->where(function ($sub_query) {
                 $sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
             })->orderBy('id', 'desc')->paginate(10);
+    }
+    else{
+            return abort(404);
+    }
         return view('livewire.frontend.author-post',compact('posts', 'author_name'))->layout('layouts.app');
     }
 

@@ -11,7 +11,13 @@ class SinglePage extends Component
 
     public function mount($slug)
     {
+        $page_slug_exist = Page::where('slug', $slug)->first();
+        if (!$page_slug_exist) {
+            return abort(404);
+        }
+        else{
         return $this->page = Page::where('slug', $slug)->first();
+        }
     }
 
     public function render()

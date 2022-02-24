@@ -15,7 +15,7 @@
                     </div>
                     <ul class="menu-section" style="margin:0px">
                         <li class="menu-item"><a href="{{ url('/') }}">Home</a></li>
-                        <li class="menu-item"><a href="#">About US</a></li>
+                        <li class="menu-item"><a href="{{ url('/page/about-us') }}">About US</a></li>
                         <li class="menu-item"><a href="#">Our Vision</a></li>
                         <li class="menu-item-has-children">
                             @auth
@@ -46,7 +46,7 @@
                             </div>
                             @endauth
                         </li>
-                        <li class="menu-item"><a href="#">Contact Us</a></li>
+                        <li class="menu-item"><a href="{{ url('/page/contact-us') }}">Contact Us</a></li>
                     </ul>
                 </nav>
             </div>

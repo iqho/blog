@@ -11,7 +11,13 @@ class SinglePost extends Component
 
     public function mount($slug)
     {
-        return $this->post = Post::where('slug', $slug)->first();
+        $post_slug_exist = Post::where('slug', $slug)->first();
+        if (!$post_slug_exist) {
+            return abort(404);
+        } else {
+            return $this->post = Post::where('slug', $slug)->first();
+        }
+        
     }
 
     public function render()

@@ -25,10 +25,15 @@ class CategoryPost extends Component
     public function render()
     {
         $category = Category::where('slug', $this->newslug)->first();
-        $cat_name = $category->name;
-        $posts = Post::where('category_id', $category->id)->where(function ($sub_query) {
-            $sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
-        })->orderBy('id', 'desc')->paginate(10);
+        if($category){
+            $cat_name = $category->name;
+            $posts = Post::where('category_id', $category->id)->where(function ($sub_query) {
+                $sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
+            })->orderBy('id', 'desc')->paginate(10);
+        }
+        else{
+        return abort(404);
+        }
         return view('livewire.frontend.category-post', compact('posts', 'cat_name'))->layout('layouts.app');
     }
 

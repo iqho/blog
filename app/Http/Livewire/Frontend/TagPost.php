@@ -26,11 +26,16 @@ class TagPost extends Component
     public function render()
     {
         $tag = Tag::where('slug', $this->newslug)->first();
-        $tag_name = $tag->title;
-       // $get_post_id = PostTag::where('tag_id', $tag->id)->get();
-         $posts = Post::whereHas('tags', function($query) use ($tag_name) {$query->whereTitle($tag_name);})->where(function ($sub_query) {
-            $sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
-        })->orderBy('id', 'desc')->paginate(10);          
+        if($tag){
+            $tag_name = $tag->title;
+        // $get_post_id = PostTag::where('tag_id', $tag->id)->get();
+            $posts = Post::whereHas('tags', function($query) use ($tag_name) {$query->whereTitle($tag_name);})->where(function ($sub_query) {
+                $sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
+            })->orderBy('id', 'desc')->paginate(10);  
+        }else{
+            return abort(404);
+        }
+
         return view('livewire.frontend.tag-post', compact( 'posts', 'tag_name'))->layout('layouts.app');
     }
 

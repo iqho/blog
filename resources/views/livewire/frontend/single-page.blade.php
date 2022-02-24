@@ -1,3 +1,4 @@
+@section('title', $page->title.' | M Blog')
 <div class="col-lg-8 mb-2 g-0">
     <div class="border border-gray g-0">
         <div class="flex-row border-bottom border-gray px-md-3 px-1 py-2">
