@@ -19,6 +19,7 @@ class AllCategory extends Component
     protected $paginationTheme = 'bootstrap';
     public $searchTerm;
     public $currentPage = 1;
+    public $checkMode = false;
 
     public $name, $slug, $image, $image2, $image3, $parent_id, $imageurl, $newImageName;
 
@@ -70,6 +71,7 @@ class AllCategory extends Component
 
     public function generateSlug()
         {
+            $this->checkMode = true;
             $slug = Str::slug($this->name);
             $count = Category::where('slug', 'LIKE', "{$slug}%")->count();
             $newCount = $count > 0 ? ++$count : '';

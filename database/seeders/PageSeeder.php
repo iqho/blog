@@ -38,10 +38,8 @@ class PageSeeder extends Seeder
             'user_id' => 1,
             'publish_status' => 1,
             'is_sticky' => 0,
-            'allow_comments' => 1,
             'views' => 1,
             'page_order' => 1,
-            'published_at' => $date,
         ]);
     }
 }

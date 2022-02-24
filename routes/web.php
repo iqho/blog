@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Frontend\TagPost;
 use App\Http\Livewire\Frontend\AuthorPost;
 
+use App\Http\Livewire\Frontend\SinglePage;
+
 use App\Http\Livewire\Frontend\SinglePost;
 use App\Http\Livewire\Frontend\HomeContent;
 use App\Http\Livewire\Frontend\CategoryPost;
@@ -19,7 +21,8 @@ Route::get('/post/author/{id}', AuthorPost::class)->name('post.author-post');
 Route::get('/post/category/{slug}', CategoryPost::class)->name('post.category-post');
 Route::get('/post/tag/{slug}', TagPost::class)->name('post.tag-post');
 
-
+//Pages
+Route::get('/page/{slug}', SinglePage::class)->name('page.single-page');
 
 
 

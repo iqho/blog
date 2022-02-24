@@ -18,6 +18,7 @@
                         <label for="slug" class="col-form-label">Category Slug (<span class="text-danger">*</span>):</label>
                         <input type="text" class="form-control @error('slug') is-invalid @enderror" name="slug" wire:model="slug" value="{{old('slug')}}" required>
                         @error('slug') <span class="text-danger error">{{ $message }}</span>@enderror
+                        @if ($checkMode)
                         @if ($data['checkSlug'] > 0)
                         <span class="text-danger">Category Slug Not Available</span>
                         @else
@@ -26,6 +27,8 @@
                         <span class="text-success">Category Slug Available</span>
                         @endif
                         @endif
+                        @endif
+
                     </div>
                     <div class="col-12">
                         <label for="image3" class="col-form-label">Category Image ( Optional ):</label>

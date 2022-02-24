@@ -27,8 +27,6 @@ class PageFactory extends Factory
         $newCount = $count > 0 ? ++$count : '';
         $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
 
-        $date = Carbon::parse(now())->format('Y-m-d H:i:s');
-
         return [
             'title' => $title,
             'slug' => $myslug,
@@ -39,10 +37,7 @@ class PageFactory extends Factory
             'user_id' => 1,
             'publish_status' => 1,
             'is_sticky' => 0,
-            'allow_comments' => 1,
             'views' => 1,
-            'page_order' => 1,
-            'published_at' => $date,
         ];
     }
 }

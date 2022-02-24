@@ -3,22 +3,26 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Livewire\Backend\Tag\AllTag;
+use App\Http\Livewire\Backend\Page\AllPage;
 use App\Http\Livewire\Backend\Post\AllPost;
 use App\Http\Livewire\Backend\Post\EditPost;
+use App\Http\Controllers\DashboardController;
+
 use App\Http\Livewire\Backend\Media\AllMedia;
 use App\Http\Livewire\Backend\Tag\TrashedTag;
+use App\Http\Livewire\Backend\Page\CreatePage;
 
 use App\Http\Livewire\Backend\Post\CreatePost;
 use App\Http\Livewire\Backend\Post\SinglePost;
 use App\Http\Livewire\Backend\Post\TrashedPost;
-
 use App\Http\Livewire\Backend\Media\AllMediaList;
 use App\Http\Livewire\Backend\Media\TrashedMedia;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Livewire\Backend\Category\AllCategory;
-use App\Http\Livewire\Backend\Category\TrashedCategory;
 
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Admin\CategoryController;
+
+use App\Http\Livewire\Backend\Category\AllCategory;
+
+use App\Http\Livewire\Backend\Category\TrashedCategory;
 use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 
 //Media Gallery
@@ -51,3 +55,8 @@ Route::any('/category/create', [CategoryController::class, 'createCategory'])->n
 // Users
 Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard');
 Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
+
+// Page
+Route::get('/all-pages', AllPage::class)->name('all-pages');
+Route::get('/page/create', CreatePage::class)->name('page-create');
+Route::post('/page/store', [CreatePage::class, 'storePage'])->name('page-store');

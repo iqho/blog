@@ -7,12 +7,14 @@
             Category: <a href="#" class="d-inline text-decoration-none"> {{ $post->category->name }}</a> , Posted on: {{ date('d M Y, h:i A', strtotime($post->created_at)) }} by <a href="#" class="d-inline text-decoration-none">{{ $post->users->name }}</a>
         </div>
         <div class="flex-row clearfix g-0 px-md-3 px-1" style="text-align: justify;">
+            @if ($post->featured_image)
             <img src="{{ asset('storage/post-images/'.$post->featured_image) }}" alt="{{ $post->title }}"class="img-thumbnail" style="float:left; width:200px; height:180px; margin-right:10px; margin-top:7px">
+            @endif
             <p>{!! html_entity_decode($post->description) !!}</p>
         </div>
         <div class="flex-row g-0 border-top border-gray p-2" style="font-size:17px; font-weight: 600;">
         Tags: @foreach ($post->tags as $tag)
-                <a class="badge bg-secondary text-decoration-none link-light" href="#">{{ $tag->title }}</a>
+                <a class="badge bg-secondary text-decoration-none link-light" href="{{ route('post.tag-post', $tag->slug) }}">{{ $tag->title }}</a>
                 @endforeach
 
                 @auth

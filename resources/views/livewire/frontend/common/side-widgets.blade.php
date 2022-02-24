@@ -15,10 +15,14 @@
         <div class="card-header">Categories</div>
         <div class="card-body">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 side-widget-cat">
                     <ul class="list-unstyled mb-0">
                         @foreach ($categories as $category)
+                        <?php $dash=''; ?>
                         <li><i class="fa-solid fa-angles-right"></i> <a href="{{ route('post.category-post', $category->slug) }}">{{ $category->name }}</a></li>
+                        @if(count($category->subcategory))
+                        @include('livewire.frontend.common.sub-category-list', ['subcategories' => $category->subcategory])
+                        @endif
                         @endforeach
                     </ul>
                 </div>

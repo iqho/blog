@@ -18,17 +18,15 @@ class CreatePagesTable extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->longText('description');
-            $table->string('meta_description')->nullable();
+            $table->text('meta_description')->nullable();
             $table->string('tags')->nullable();
             $table->string('featured_image')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->tinyInteger('publish_status')->default(0);
             $table->tinyInteger('is_sticky')->default(0);
-            $table->tinyInteger('allow_comments')->default(1);
             $table->Integer('views')->default(0);
             $table->Integer('page_order')->default(1);
-            $table->dateTime('published_at');
             $table->timestamps();
             $table->softDeletes();
             $table->charset = 'utf8';

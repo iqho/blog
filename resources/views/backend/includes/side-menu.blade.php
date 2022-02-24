@@ -41,7 +41,7 @@
                 </a>
             </li>
             @endcan
-            
+
             @can('isCommon')
             <li class="@if(Route::is('admin-panel.dashboard') ) active @endif nav-item"><a class="d-flex align-items-center" href="{{ route('admin-panel.dashboard') }}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Home">Home</span></a>
             </li>
@@ -69,14 +69,7 @@
                         {{-- {{ request()->slug }} --}}
                         {{-- @endforeach
                         @endif --}}
-                        @if (request()->slug)
-                        <li class="@if(Route::is('admin-panel.single-post', request()->slug ) ) active @endif nav-item">
-                            <a class="d-flex align-items-center" href="#">
-                                <i class="fas fa-book-open"></i>
-                                <span class="menu-item text-truncate" data-i18n="Collapsed Menu">Single Post</span>
-                            </a>
-                        </li>
-                        @endif
+
                         @if (request()->id)
                         <li class="@if(Route::is('admin-panel.edit-post', request()->id ) ) active @endif nav-item">
                             <a class="d-flex align-items-center" href="#">
@@ -95,6 +88,25 @@
                     </ul>
                 </li>
 
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fa fa-list-alt"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Pages</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
+                    <ul class="menu-content">
+
+                        <li class="@if(Route::is('admin-panel.all-pages') ) active @endif nav-item">
+                            <a class="d-flex align-items-center" href="{{ route('admin-panel.all-pages') }}">
+                                <i class="fa fa-list-alt"></i>
+                                <span class="menu-item text-truncate" data-i18n="Collapsed Menu">All Pages</span>
+                            </a>
+                        </li>
+
+                        <li class="@if(Route::is('admin-panel.page-create') ) active @endif nav-item">
+                            <a class="d-flex align-items-center" href="{{ route('admin-panel.page-create') }}">
+                                <i class="fa fa-list-alt"></i>
+                                <span class="menu-item text-truncate" data-i18n="Collapsed Menu">Create New Page</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
 
                 <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fa fa-list-alt"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Categories</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
                     <ul class="menu-content">
@@ -115,46 +127,41 @@
 
                     </ul>
                 </li>
+
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fas fa-icons"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Media</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
+                    <ul class="menu-content">
+                    <li class="@if(Route::is('admin-panel.media') ) active @endif nav-item">
+                        <a class="d-flex align-items-center" href="{{ route('admin-panel.media') }}">
+                        <i class="fas fa-photo-video"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">All Media</span>
+                        </a>
+                    </li>
+                    <li class="@if(Route::is('admin-panel.media.trashed') ) active @endif nav-item">
+                    <a class="d-flex align-items-center" href="{{ route('admin-panel.media.trashed') }}">
+                    <i class="fa fa-list-alt"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Trashed Media</span>
+                    </a>
+                    </li>
+                    </ul>
+                    </li>
+
+
+                    <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fas fa-icons"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Tags</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
+                        <ul class="menu-content">
+                            <li class="@if(Route::is('admin-panel.all-tags') ) active @endif nav-item">
+                                <a class="d-flex align-items-center" href="{{ route('admin-panel.all-tags') }}">
+                                <i class="fas fa-photo-video"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">All Tags</span>
+                                </a>
+                            </li>
+                            <li class="@if(Route::is('admin-panel.tag.trashed-tag') ) active @endif nav-item">
+                            <a class="d-flex align-items-center" href="{{ route('admin-panel.tag.trashed-tag') }}">
+                            <i class="fa fa-list-alt"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Trashed Media</span>
+                            </a>
+                            </li>
+                        </ul>
+                    </li>
             @else
                 <li class="@if(Route::is('user.dashboard') ) active @endif nav-item"><a class="d-flex align-items-center" href="{{ route('user.dashboard') }}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Home">Home</span></a>
             </li>
             @endcan
-
-            <!-- Common Route List -->
-            @can('isCommon')
-
-            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fas fa-icons"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Media</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
-            <ul class="menu-content">
-            <li class="@if(Route::is('admin-panel.media') ) active @endif nav-item">
-                <a class="d-flex align-items-center" href="{{ route('admin-panel.media') }}">
-                <i class="fas fa-photo-video"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">All Media</span>
-                </a>
-            </li>
-            <li class="@if(Route::is('admin-panel.media.trashed') ) active @endif nav-item">
-            <a class="d-flex align-items-center" href="{{ route('admin-panel.media.trashed') }}">
-            <i class="fa fa-list-alt"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Trashed Media</span>
-            </a>
-            </li>
-            </ul>
-            </li>
-
-
-            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fas fa-icons"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Tags</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
-                <ul class="menu-content">
-                <li class="@if(Route::is('admin-panel.all-tags') ) active @endif nav-item">
-                    <a class="d-flex align-items-center" href="{{ route('admin-panel.all-tags') }}">
-                    <i class="fas fa-photo-video"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">All Tags</span>
-                    </a>
-                </li>
-                <li class="@if(Route::is('admin-panel.tag.trashed-tag') ) active @endif nav-item">
-                <a class="d-flex align-items-center" href="{{ route('admin-panel.tag.trashed-tag') }}">
-                <i class="fa fa-list-alt"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Trashed Media</span>
-                </a>
-                </li>
-                </ul>
-                </li>
-            @endcan
-
 
             {{-- <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Pages</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
                 <ul class="menu-content">
