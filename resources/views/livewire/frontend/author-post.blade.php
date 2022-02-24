@@ -22,7 +22,7 @@
                     <li class="tags">
                         <ul>
                             @foreach ($post->tags as $tag)
-                            <li><a href="#">{{ $tag->title }}</a></li>
+                            <li><a href="{{ route('post.tag-post', $tag->slug) }}">{{ $tag->title }}</a></li>
                             @endforeach
                         </ul>
                     </li>
@@ -38,7 +38,7 @@
             </div>
         </div>
         @empty
-               <h3 class="text-danger mx-auto w-100 text-center">No Posts Found by this Author !</h3> 
+               <h3 class="text-danger mx-auto w-100 text-center">No Posts Found by this Author !</h3>
         @endforelse
 
     </div>
@@ -47,3 +47,4 @@
         {{ $posts->onEachSide(2)->links('backend.includes.pagination-custom') }}
     </nav>
 </div>
+

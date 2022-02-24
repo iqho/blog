@@ -22,7 +22,7 @@
                     <li class="tags">
                         <ul>
                             @foreach ($post->tags as $tag)
-                            <li><a href="#">{{ $tag->title }}</a></li>
+                            <li><a href="{{ route('post.tag-post', $tag->slug) }}">{{ $tag->title }}</a></li>
                             @endforeach
                         </ul>
                     </li>

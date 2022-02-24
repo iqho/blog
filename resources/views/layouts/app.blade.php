@@ -6,7 +6,7 @@
         <link rel="shortcut icon" href="http://www.mbd24.com/wp-content/themes/mbd24/images/comon/favicon.ico" />
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>@yield('title')</title>
+        <title>@yield('title', 'Welcome to M Blog')</title>
 
         <!-- Fonts -->
 
