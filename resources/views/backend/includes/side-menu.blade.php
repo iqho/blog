@@ -33,6 +33,9 @@
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+            @can('isCommon')
+            <li class="@if(Route::is('admin-panel.dashboard') ) active @endif nav-item"><a class="d-flex align-items-center" href="{{ route('admin-panel.dashboard') }}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Home">Home</span></a>
+            </li>
             @can('isAdmin')
             <li class="@if(Route::is('admin.all-users') ) active @endif nav-item">
                 <a class="d-flex align-items-center" href="{{ route('admin.all-users') }}">
@@ -41,10 +44,6 @@
                 </a>
             </li>
             @endcan
-
-            @can('isCommon')
-            <li class="@if(Route::is('admin-panel.dashboard') ) active @endif nav-item"><a class="d-flex align-items-center" href="{{ route('admin-panel.dashboard') }}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Home">Home</span></a>
-            </li>
 
                 <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fa fa-clone"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Posts</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
                     <ul class="menu-content">
@@ -55,6 +54,14 @@
                                 <span class="menu-item text-truncate" data-i18n="Collapsed Menu">All Post</span>
                             </a>
                         </li>
+                        @can('isAdmin')
+                        <li class="@if(Route::is('admin.my-posts') ) active @endif nav-item">
+                            <a class="d-flex align-items-center" href="{{ route('admin.my-posts') }}">
+                                <i class="far fa-sticky-note"></i>
+                                <span class="menu-item text-truncate" data-i18n="Collapsed Menu">My Post</span>
+                            </a>
+                        </li>
+                        @endcan
                         <li class="@if(Route::is('admin-panel.post-create') ) active @endif nav-item">
                             <a class="d-flex align-items-center" href="{{ route('admin-panel.post-create') }}">
                                 <i class="far fa-sticky-note"></i>
@@ -102,6 +109,21 @@
                             <a class="d-flex align-items-center" href="{{ route('admin-panel.page-create') }}">
                                 <i class="fa fa-list-alt"></i>
                                 <span class="menu-item text-truncate" data-i18n="Collapsed Menu">Create New Page</span>
+                            </a>
+                        </li>
+
+                        @if (request()->id)
+                        <li class="@if(Route::is('admin-panel.edit-page', request()->id ) ) active @endif nav-item">
+                            <a class="d-flex align-items-center" href="#">
+                                <i class="fas fa-book-open"></i>
+                                <span class="menu-item text-truncate" data-i18n="Collapsed Menu">Edit Page Details</span>
+                            </a>
+                        </li>
+                        @endif
+                        <li class="@if(Route::is('admin-panel.trashed-pages') ) active @endif nav-item">
+                            <a class="d-flex align-items-center" href="{{ route('admin-panel.trashed-pages') }}">
+                                <i class="fas fa-trash-alt"></i>
+                                <span class="menu-item text-truncate" data-i18n="Collapsed Menu">Trashed Page</span>
                             </a>
                         </li>
 

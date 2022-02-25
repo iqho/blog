@@ -23,6 +23,8 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Livewire\Backend\Category\AllCategory;
 
 use App\Http\Livewire\Backend\Category\TrashedCategory;
+use App\Http\Livewire\Backend\Page\EditPage;
+use App\Http\Livewire\Backend\Page\TrashedPage;
 use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 
 //Media Gallery
@@ -60,3 +62,6 @@ Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
 Route::get('/all-pages', AllPage::class)->name('all-pages');
 Route::get('/page/create', CreatePage::class)->name('page-create');
 Route::post('/page/store', [CreatePage::class, 'storePage'])->name('page-store');
+Route::get('/page/edit/{id}', EditPage::class)->name('edit-page');
+Route::post('/page/edit/store', [EditPage::class, 'updatePage'])->name('update-page');
+Route::get('/page/trashed-pages', TrashedPage::class)->name('trashed-pages');

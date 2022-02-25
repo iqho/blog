@@ -38,20 +38,17 @@ Route::get('/page/{slug}', SinglePage::class)->name('page.single-page');
 
 // Route Group for Editor
 Route::group(['prefix' => 'editor', 'as' => 'editor.', 'middleware' => ['auth:sanctum', 'verified', 'is_editor']], function () {
-    Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
-    Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
+
 });
 
 // Route Group for Author
 Route::group(['prefix' => 'author', 'as' => 'author.', 'middleware' => ['auth:sanctum', 'verified', 'is_author']], function () {
-    Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
-    Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
+
 });
 
 // Route Group for Contributor
 Route::group(['prefix' => 'contributor', 'as' => 'contributor.', 'middleware' => ['auth:sanctum', 'verified', 'is_contributor']], function () {
-    Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard'); // admin.dashboard
-    Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
+
 });
 
 

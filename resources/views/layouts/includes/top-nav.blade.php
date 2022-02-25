@@ -14,9 +14,9 @@
                         <button type="button" class="menu-mobile-close"><i class="ion ion-ios-close"></i></button>
                     </div>
                     <ul class="menu-section" style="margin:0px">
-                        <li class="menu-item"><a href="{{ url('/') }}">Home</a></li>
-                        <li class="menu-item"><a href="{{ url('/page/about-us') }}">About US</a></li>
-                        <li class="menu-item"><a href="#">Our Vision</a></li>
+                        <li class="menu-item"><a class="@if(Request::is('/')) active @endif" href="{{ url('/') }}">Home</a></li>
+                        <li class="menu-item"><a class="@if(Request::is('page/about-us')) active @endif" href="{{ url('/page/about-us') }}">About US</a></li>
+                        <li class="menu-item"><a class="{{ Request::is('page/our-vision') ? 'active' : '' }}" href="{{ url('/page/our-vision') }}">Our Vision</a></li>
                         <li class="menu-item-has-children">
                             @auth
                             <a href="#">{{ Auth::user()->name }} <i class="ion ion-ios-arrow-down"></i></a>
@@ -46,7 +46,7 @@
                             </div>
                             @endauth
                         </li>
-                        <li class="menu-item"><a href="{{ url('/page/contact-us') }}">Contact Us</a></li>
+                        <li class="menu-item"><a class="@if(Request::is('page/contact-us')) active @endif" href="{{ url('/page/contact-us') }}">Contact Us</a></li>
                     </ul>
                 </nav>
             </div>

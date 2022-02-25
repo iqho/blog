@@ -1,12 +1,13 @@
-<div>
-    @section('title','Show All Post')
+<x-backend-layout>
+    @section('title','Show All My Post')
+    
     <section id="responsive-datatable">
         <div class="row">
             <div class="col-12">
                 <div class="card p-1">
                     <div class="card-header border-bottom">
                         <div class="row w-100">
-                            <div class="col-6"><h1 class="card-title" style="font-size: 28px">Display All Post</h1></div>
+                            <div class="col-6"><h1 class="card-title" style="font-size: 28px">Display All My Post</h1></div>
                             <div class="col-6"><a class="btn btn-primary" href="{{ route('admin-panel.post-create') }}">Create New Post</a></div>
                         </div>
 
@@ -76,24 +77,13 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th class="min-mobile">#</th>
-                                    <th class="min-mobile">Title</th>
-                                    <th class="not-mobile">Slug</th>
-                                    <th class="not-mobile no-sort">Image</th>
-                                    <th class="not-mobile">Category</th>
-                                    <th class="not-mobile">Author</th>
-                                    <th class="not-mobile no-sort">Action</th>
-                                </tr>
-                            </tfoot>
                           </table>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-</div>
+
 
 @push('page-js')
 <script>
@@ -129,3 +119,4 @@
 } );
 </script>
 @endpush
+</x-backend-layout>

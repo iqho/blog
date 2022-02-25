@@ -178,28 +178,27 @@
           <div class="col-md-3 ps-md-1">
             <div class="shadow rounded">
               <div class="card border-success mb-1">
-                <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">
-                  Feature Image</h4>
-                <div class="card-body text-success" style="padding: 8px;">
+                    <h4 class="card-header bg-success text-white border-bottom-success" style="padding: 8px; margin:0px;">
+                    Feature Image</h4>
+                    <div class="card-body text-success" style="padding: 8px;">
+                        @if ($featured_image2)
+                        <img src="{{ $featured_image2->temporaryUrl() }}" style="max-height: 300px" class="img-fluid img-thumbnail rounded">
+                        @else
+                        @if ($featured_image)
+                        <img src="{{ asset('storage/post-images/'.$featured_image) }}" style="max-height: 300px" class="img-fluid img-thumbnail rounded">
+                        @else
+                        <img src="{{ asset('images/no-image-available.jpg') }}" style="max-height: 300px"
+                            class="img-fluid img-thumbnail rounded">
+                        @endif
+                        @endif
 
-                  @if ($featured_image2)
-                  <img src="{{ $featured_image2->temporaryUrl() }}" style="max-height: 300px" class="img-fluid img-thumbnail rounded">
-                  @else
-                  @if ($featured_image)
-                  <img src="{{ asset('storage/post-images/'.$featured_image) }}" style="max-height: 300px" class="img-fluid img-thumbnail rounded">
-                  @else
-                  <img src="{{ asset('images/no-image-available.jpg') }}" style="max-height: 300px"
-                    class="img-fluid img-thumbnail rounded">
-                  @endif
-                  @endif
-
-                  <div wire:loading wire:target="featured_image2" class="text-success">Uploading...</div>
-                  <input type="file" class="form-control mt-1 @error('featured_image2') is-invalid @enderror"
-                    name="featured_image2" accept="image/*" id="featured_image2" wire:model="featured_image2"
-                    onchange="return checkImageExtention()">
-                  @error('featured_image2') <span class="text-danger error">{{ $message }}</span>@enderror
-                  <div id="error-msg" class="text-danger"></div>
-                </div>
+                        <div wire:loading wire:target="featured_image2" class="text-success">Uploading...</div>
+                        <input type="file" class="form-control mt-1 @error('featured_image2') is-invalid @enderror"
+                            name="featured_image2" accept="image/*" id="featured_image2" wire:model="featured_image2"
+                            onchange="return checkImageExtention()">
+                        @error('featured_image2') <span class="text-danger error">{{ $message }}</span>@enderror
+                        <div id="error-msg" class="text-danger"></div>
+                    </div>
               </div>
 
               <div class="accordion border border-gray" id="accordionPanelsStayOpenExample">

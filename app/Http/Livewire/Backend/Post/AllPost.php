@@ -43,4 +43,10 @@ class AllPost extends Component
         return view('livewire.backend.post.all-post', compact('data'));
     }
 
+    public function MyPost()
+    {
+        $data['posts'] = Post::where('user_id', auth()->id())->with('category')->with('users')->get();
+        return view('livewire.backend.post.my-post', compact('data'));
+    }
+
 }

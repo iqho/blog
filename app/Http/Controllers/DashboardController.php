@@ -9,6 +9,6 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
     public function show(){
-        return view('backend.pages.dashboard');
+        return view('livewire.backend.dashboard');
     }
 }

@@ -1,6 +1,6 @@
 <div>
     @section('title','Show All Trashed Post')
-    
+
     <section id="responsive-datatable">
         <div class="row">
             <div class="col-12">
@@ -23,6 +23,7 @@
                                     <th class="not-mobile">Slug</th>
                                     <th class="not-mobile no-sort">Image</th>
                                     <th class="not-mobile">Category</th>
+                                    <th class="not-mobile">Author</th>
                                     <th class="not-mobile no-sort">Action</th>
                                 </tr>
                             </thead>
@@ -31,11 +32,12 @@
                                 @foreach ($data['posts'] as $post)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td><a href="{{ route('admin.single-post', $post->slug) }}">{{ $post->title }}</a>
+                                    <td><a href="{{ route('post.single-post', $post->slug) }}">{{ $post->title }}</a>
                                     </td>
                                     <td>{{ $post->slug }}</td>
                                     <td>{{ $post->image }}</td>
                                     <td>{{ $post->category->name }}</td>
+                                    <td>{{ $post->users->name }}</td>
                                     <td>
                                         <div class="d-inline-flex">
                                             <a class="pe-1 dropdown-toggle hide-arrow text-primary"
@@ -60,7 +62,7 @@
                                                                 <rect x="1" y="3" width="22" height="5"></rect>
                                                                 <line x1="10" y1="12" x2="14" y2="12"></line>
                                                             </svg>Restore Post</a>
-                                                    
+
                                                         <a href="#" class="dropdown-item delete-record"
                                                             onclick="confirm('Confirm ! You Want to Delete This Post Parmanently ?') || event.stopImmediatePropagation()"
                                                             wire:click.prevent="parmanentDelete({{ $post->id }})">
@@ -74,7 +76,7 @@
                                                             </svg>Parmanent Delete</a>
                                                     </div>
                                         </div>
-                                        <a href="{{ route('admin.single-post', $post->slug) }}" class="item-edit">
+                                        <a target="_blank"href="{{ route('post.single-post', $post->slug) }}" class="item-edit">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round"
@@ -111,3 +113,4 @@
 } );
 </script>
 @endpush
+
