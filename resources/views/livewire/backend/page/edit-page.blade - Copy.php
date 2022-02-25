@@ -219,37 +219,38 @@
                             <label class="form-check-label" for="isStiky">Is Stiky</label>
                           </div>
 
-                          <div class="form-check form-check-danger col-sm-12 g-0 mb-2">
-                            <input type="checkbox" class="form-check-input" name="is_nav" wire:model="is_nav" value="1"
-                              id="is_nav">
+                          {{-- <div class="form-check form-check-danger col-sm-12 g-0 mb-2">
+                            <input type="checkbox" class="form-check-input" name="is_nav" wire:model="is_nav"
+                              value="1" id="is_nav">
                             <label class="form-check-label" for="is_nav">Add to Nav Menu</label>
                           </div>
 
                           <div class="col-sm-12 g-0">
-                            <label class="form-input-label" style="margin-bottom: 5px;" for="page_order">Enter Pager
-                              Order Number</label>
+                            <label class="form-input-label" style="margin-bottom: 5px;" for="page_order">Enter Pager Order Number</label>
                             <input type="number" class="form-control" name="page_order" wire:model="page_order"
                               id="page_order">
-                          </div>
+                          </div> --}}
                         </div>
                         <hr style="margin-top: 0px; margin: 8px;" />
                         <div class="col-12">
-                            Select Publish Status:
-                            <div class="row custom-options-checkable g-0" style="margin-top: 5px">
-                              <div class="col-md-6" style="margin:0px; padding: 2px">
-                                <input class="custom-option-item-check" type="radio" name="publish_status" id="customOptionsCheckableRadios1"
-                                  value="1" wire:model="publish_status">
-                                <label class="custom-option-item text-center" for="customOptionsCheckableRadios1" style="padding: 6px">Publish
-                                </label>
-                              </div>
-                              <div class="col-md-6" style="margin:0px; padding: 2px">
-                                <input class="custom-option-item-check" type="radio" name="publish_status" id="customOptionsCheckableRadios2"
-                                  value="0" wire:model="publish_status">
-                                <label class="custom-option-item text-center" for="customOptionsCheckableRadios2" style="padding: 6px">
-                                  Draft
-                                </label>
-                              </div>
+                          Select Publish Status:
+                          <div class="row custom-options-checkable g-0" style="margin-top: 5px">
+                            <div class="col-md-6" style="margin:0px; padding: 2px">
+                              <input class="custom-option-item-check" type="radio" name="publish_status"
+                                id="customOptionsCheckableRadios1" value="1" checked>
+                              <label class="custom-option-item text-center" for="customOptionsCheckableRadios1"
+                                style="padding: 6px">Publish
+                              </label>
                             </div>
+                            <div class="col-md-6" style="margin:0px; padding: 2px">
+                              <input class="custom-option-item-check" type="radio" name="publish_status"
+                                id="customOptionsCheckableRadios2" value="0">
+                              <label class="custom-option-item text-center" for="customOptionsCheckableRadios2"
+                                style="padding: 6px">
+                                Draft
+                              </label>
+                            </div>
+                          </div>
                         </div>
 
                       </div>

@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Admin\Page;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -49,6 +51,10 @@ class AppServiceProvider extends ServiceProvider
          Gate::define('isCommon', function($user) {
             return $user->user_type != '0';
          });
+
+
+        $navPage = Page::where('is_nav', 1)->orderBy('page_order','asc')->get()->take(5);
+        View::share('navPage', $navPage);
 
     }
 }

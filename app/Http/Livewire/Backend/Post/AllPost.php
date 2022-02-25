@@ -21,7 +21,7 @@ class AllPost extends Component
         $post = Post::findOrFail($id);
         $post->delete();
         //session()->flash('message', 'Post Move to Trashed Successfully.');
-        return redirect(route('admin.all-post'))->with('message', 'Post Move to Trashed Successfully.');
+        return redirect(route('admin-panel.all-post'))->with('message', 'Post Move to Trashed Successfully.');
     }
 
     public function parmanentDelete($id)
@@ -29,7 +29,7 @@ class AllPost extends Component
         $post = Post::findOrFail($id);
         File::delete([public_path('storage/post-image/' . $post->featured_image)]);
         $post->forceDelete();
-        return redirect(route('admin.all-post'))->with('message', 'Post Parmanently Deleted !');
+        return redirect(route('admin-panel.all-post'))->with('message', 'Post Parmanently Deleted !');
     }
 
     public function render()

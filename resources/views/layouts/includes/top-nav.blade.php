@@ -17,6 +17,7 @@
                         <li class="menu-item"><a class="@if(Request::is('/')) active @endif" href="{{ url('/') }}">Home</a></li>
                         <li class="menu-item"><a class="@if(Request::is('page/about-us')) active @endif" href="{{ url('/page/about-us') }}">About US</a></li>
                         <li class="menu-item"><a class="{{ Request::is('page/our-vision') ? 'active' : '' }}" href="{{ url('/page/our-vision') }}">Our Vision</a></li>
+                        <li class="menu-item"><a class="@if(Request::is('page/contact-us')) active @endif" href="{{ url('/page/contact-us') }}">Contact Us</a></li>
                         <li class="menu-item-has-children">
                             @auth
                             <a href="#">{{ Auth::user()->name }} <i class="ion ion-ios-arrow-down"></i></a>
@@ -30,7 +31,8 @@
                                     <li><a target="_blank" href="{{ route('user.dashboard') }}">Dashboard</a></li>
                                     <li><a target="_blank" href="{{ route('user.profile') }}">Profile</a></li>
                                     @endcan
-                                    <li><a href="javascript:void" onclick="$('#logout-form').submit();"><i class="me-50" data-feather="power"></i> Logout</a></li>
+                                    <li><a href="javascript:void" onclick="$('#logout-form').submit();"><i class="me-50"
+                                                data-feather="power"></i> Logout</a></li>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
@@ -46,7 +48,16 @@
                             </div>
                             @endauth
                         </li>
-                        <li class="menu-item"><a class="@if(Request::is('page/contact-us')) active @endif" href="{{ url('/page/contact-us') }}">Contact Us</a></li>
+                        <li class="menu-item-has-children">
+                        <a href="#">More Pages <i class="ion ion-ios-arrow-down"></i></a>
+                        <div class="menu-subs menu-column-1">
+                            <ul>
+                                @foreach ($navPage as $page)
+                                    <li><a href="{{ route('page.single-page', $page->slug) }}">{{ $page->title }}</a>
+                                @endforeach
+                            </ul>
+                        </div>
+                        </li>
                     </ul>
                 </nav>
             </div>

@@ -24,6 +24,7 @@ class CreatePagesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->tinyInteger('publish_status')->default(0);
+            $table->tinyInteger('is_nav')->default(0);
             $table->tinyInteger('is_sticky')->default(0);
             $table->Integer('views')->default(0);
             $table->Integer('page_order')->default(1);

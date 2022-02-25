@@ -45,6 +45,7 @@ class CreatePage extends Component
                  'title' => ['required', 'string', 'max:255'],
                  'slug' => ['required', 'string', 'min:2', 'max:255', 'Unique:posts'],
                  'description' => 'required',
+                 'page_order' => 'required',
                  'meta_description' => ['required', 'string', 'min:2', 'max:500'],
                  'publish_status' => ['required','boolean'],
                  'featured_image' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
@@ -71,6 +72,8 @@ class CreatePage extends Component
             $post->meta_description = $request->meta_description;
             $post->publish_status = $request->publish_status;
             $post->is_sticky = $request->is_sticky ? $request->is_sticky : 0;
+            $post->is_nav = $request->is_nav ? $request->is_nav : 0;
+            $post->page_order = $request->page_order;
             $post->featured_image = $newImageName;
             $post->tags = $request->tags;
             $post->user_id = auth()->id();

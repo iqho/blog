@@ -4,7 +4,7 @@
             <h2>{{ $post->title }}</h2>
         </div>
         <div class="flex-row border-bottom border-gray px-md-3 px-1 py-1 g-0 fst-italic" style="font-size:17px; font-weight: 600;">
-            Category: <a href="#" class="d-inline text-decoration-none"> {{ $post->category->name }}</a> , Posted on: {{ date('d M Y, h:i A', strtotime($post->created_at)) }} by <a href="#" class="d-inline text-decoration-none">{{ $post->users->name }}</a>
+            Category: <a href="{{ route('post.category-post', $post->category->slug) }}" class="d-inline text-decoration-none"> {{ $post->category->name }}</a> , Posted on: {{ date('d M Y, h:i A', strtotime($post->created_at)) }} by <a href="{{ route('post.author-post', $post->users->id) }}" class="d-inline text-decoration-none">{{ $post->users->name }}</a>
         </div>
         <div class="flex-row clearfix g-0 px-md-3 px-1" style="text-align: justify;">
             @if ($post->featured_image)

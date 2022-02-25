@@ -139,6 +139,7 @@ class EditPage extends Component
                         'tags' => $request->tags,
                     ]);
                 } else {
+                    //dd($request->publish_status);
                     $page->update([
                         'title' => $request->title,
                         'slug' => $request->slug,
@@ -147,9 +148,10 @@ class EditPage extends Component
                         'publish_status' => $request->publish_status,
                         'is_sticky' => $request->is_sticky ? $request->is_sticky : 0,
                         'is_nav' => $request->is_nav ? $request->is_nav : 0,
-                        'page_order' => $request->page_order,
+                        'page_order' => 1,
                         'tags' => $request->tags,
                     ]);
+                    //dd($request->is_nav_menu);
                 }
             }
         }

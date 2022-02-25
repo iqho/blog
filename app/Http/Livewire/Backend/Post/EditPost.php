@@ -144,6 +144,9 @@ class EditPost extends Component
                                 $newPath = (public_path('storage/post-images/' . $newImgName));
                                 File::move($currentPath, $newPath); // If Change Slug than change also image name too
                             }
+                            else{
+                            $newImgName = null;
+                            }
 
                             $post->update([
                                 'title' => $request->title,

@@ -12,7 +12,7 @@ class Page extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['title', 'slug', 'description', 'meta_description', 'tags', 'featured_image', 'user_id', 'publish_status', 'is_sticky', 'views', 'page_order'];
+    protected $fillable = ['title', 'slug', 'description', 'meta_description', 'tags', 'featured_image', 'user_id', 'publish_status', 'is_sticky', 'is_nav', 'views', 'page_order'];
 
     public function users()
     {

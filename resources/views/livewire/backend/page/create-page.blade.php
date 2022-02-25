@@ -189,11 +189,23 @@
                                     <div class="accordion-body">
                                           <div class="form-group">
                                             <div class="row g-0 mt-1">
-                                                <div class="form-check form-check-success col-sm-12 g-0">
+                                                <div class="form-check form-check-success col-sm-12 g-0 mb-1">
                                                 <input type="checkbox" class="form-check-input" name="is_sticky" value="1" id="is_sticky">
                                                 <label class="form-check-label" for="isStiky">Is Stiky</label>
                                                 </div>
                                             </div>
+
+                                            <div class="form-check form-check-danger col-sm-12 g-0 mb-1">
+                                                <input type="checkbox" class="form-check-input" name="is_nav" value="1" id="is_nav">
+                                                <label class="form-check-label" for="is_nav">Add to Nav Menu</label>
+                                            </div>
+                                            
+                                            <div class="col-sm-12 g-0">
+                                              <label class="form-input-label" style="margin-bottom: 5px;" for="page_order">Enter Pager
+                                                Order Number</label>
+                                              <input type="number" class="form-control" name="page_order" id="page_order">
+                                            </div>
+                                            
                                             <hr style="margin-top: 0px; margin: 8px;"/>
                                             <div class="col-12">
                                                 Select Publish Status:
