@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\File;
 class EditPost extends Component
 {
     use WithFileUploads;
-    public $title, $slug, $short_description, $description, $meta_description, $category_id, $publish_status, $is_sticky, $allow_comments, $featured_image, $featured_image2, $post;
+    public $title, $slug, $short_description, $description, $meta_description, $category_id, $publish_status, $is_sticky, $allow_comments, $featured_image, $featured_image2, $post, $post_order;
     public $checkMode = false;
 
     public function mount($id){
@@ -27,9 +27,9 @@ class EditPost extends Component
         $this->category_id = $post->category_id;
         $this->publish_status = $post->publish_status;
         $this->is_sticky = $post->is_sticky;
+        $this->post_order = $post->post_order;
         $this->allow_comments = $post->allow_comments;
         $this->featured_image = $post->featured_image;
-       // $post->published_at = date("Y-m-d H:i:s");
        if (auth()->user()->user_type == 1) {
         return $this->post = $post;
         }
@@ -79,87 +79,66 @@ class EditPost extends Component
                  'category_id' => 'required|numeric',
                  'tags' => 'required',
             ]);
+
             $post_id = $request->post_id;
+
             if($post_id){
                 $post = Post::findOrFail($post_id);
 
-                    if (!empty($request->featured_image2)) {
+                if ($request->slug !== $post->slug) {
+                    $slug = Str::slug($request->slug);
+                    $count = Post::where('slug', 'LIKE', "{$slug}%")->count();
+                    $newCount = $count > 0 ? ++$count : '';
+                    $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
 
-                        if ($request->slug !== $post->slug) {
-                            $slug = Str::slug($request->slug);
-                            $count = Post::where('slug', 'LIKE', "{$slug}%")->count();
-                            $newCount = $count > 0 ? ++$count : '';
-                            $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
-                        } else {
-                            $myslug = $request->slug;
+                    if(!empty($request->featured_image2)) {
+                        if($post->featured_image !== null) {
+                            File::delete([public_path('storage/post-images/' . $post->featured_image)]);
                         }
-
-                        File::delete([public_path('storage/post-images/' . $post->featured_image)]); // Delete Old Image and Store New Image
-
-                        $newImageName = $myslug . "." . $request->featured_image2->extension();
-                        $request->featured_image2->storeAs('post-images', $newImageName, 'public');
-
-                        $post->update([
-                            'title' => $request->title,
-                            'slug' => $myslug,
-                            'short_description' => $request->short_description,
-                            'description' => $request->description,
-                            'meta_description' => $request->meta_description,
-                            'featured_image' => $newImageName,
-                            'category_id' => $request->category_id,
-                            'publish_status' => $request->publish_status,
-                            'is_sticky' => $request->is_sticky ? $request->is_sticky : 0,
-                            'allow_comments' => $request->allow_comments ? $request->allow_comments : 0,
-                            'published_at' => date("Y-m-d H:i:s"),
-                        ]);
+                        $newImgName = $myslug . "." . $request->featured_image2->extension();
+                        $request->featured_image2->storeAs('post-images', $newImgName, 'public');
+                    }
+                    elseif($post->featured_image !== null) {
+                        $path_info = pathinfo(public_path('storage/post-images/' . $post->featured_image));
+                        $getExt = $path_info['extension'];
+                        $newImgName = $myslug . "." . $getExt;
+                        $currentPath = (public_path('storage/post-images/' . $post->featured_image));
+                        $newPath = (public_path('storage/post-images/' . $newImgName));
+                        File::move($currentPath, $newPath); // If Change Slug than change also image name too
                     }
                     else{
-                        if ($request->slug !== $post->slug) {
-                            $slug = Str::slug($request->slug);
-                            $count = Post::where('slug', 'LIKE', "{$slug}%")->count();
-                            $newCount = $count > 0 ? ++$count : '';
-                            $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
-
-                            if ($post->featured_image != null && empty($post->featured_image2)) {
-                                $path_info = pathinfo(public_path('storage/post-images/' . $post->featured_image));
-                                $getExt = $path_info['extension'];
-                                $newImgName = $myslug . "." . $getExt;
-                                $currentPath = (public_path('storage/post-images/' . $post->featured_image));
-                                $newPath = (public_path('storage/post-images/' . $newImgName));
-                                File::move($currentPath, $newPath); // If Change Slug than change also image name too
-                            }
-                            else{
-                            $newImgName = null;
-                            }
-
-                            $post->update([
-                                'title' => $request->title,
-                                'slug' => $myslug,
-                                'short_description' => $request->short_description,
-                                'description' => $request->description,
-                                'meta_description' => $request->meta_description,
-                                'featured_image' => $newImgName,
-                                'category_id' => $request->category_id,
-                                'publish_status' => $request->publish_status,
-                                'is_sticky' => $request->is_sticky ? $request->is_sticky : 0,
-                                'allow_comments' => $request->allow_comments ? $request->allow_comments : 0,
-                                'published_at' => date("Y-m-d H:i:s"),
-                            ]);
-                        } else {
-                            $post->update([
-                                'title' => $request->title,
-                                'slug' => $request->slug,
-                                'short_description' => $request->short_description,
-                                'description' => $request->description,
-                                'meta_description' => $request->meta_description,
-                                'category_id' => $request->category_id,
-                                'publish_status' => $request->publish_status,
-                                'is_sticky' => $request->is_sticky ? $request->is_sticky : 0,
-                                'allow_comments' => $request->allow_comments ? $request->allow_comments : 0,
-                                'published_at' => date("Y-m-d H:i:s"),
-                            ]);
-                        }
+                        $newImgName = NULL;
                     }
+                }
+                else {
+                    $myslug = $request->slug;
+
+                    if(!empty($request->featured_image2)) {
+                        if($post->featured_image !== null) {
+                            File::delete([public_path('storage/post-images/' . $post->featured_image)]);
+                        }
+                        $newImgName = $myslug . "." . $request->featured_image2->extension();
+                        $request->featured_image2->storeAs('post-images', $newImgName, 'public');
+                    }
+                    else{
+                        $newImgName = $post->featured_image;
+                    }
+                }
+
+                $post->update([
+                    'title' => $request->title,
+                    'slug' => $myslug,
+                    'short_description' => $request->short_description,
+                    'description' => $request->description,
+                    'meta_description' => $request->meta_description,
+                    'featured_image' => $newImgName,
+                    'is_sticky' => $request->is_sticky ? $request->is_sticky : 0,
+                    'allow_comments' => $request->allow_comments ? $request->allow_comments : 0,
+                    'post_order' => $request->post_order ? $request->post_order : 1,
+                    'publish_status' => $request->publish_status,
+                    'category_id' => $request->category_id,
+                    'published_at' => date("Y-m-d H:i:s"),
+                ]);
 
                 if($request->has('tags')){
                     $tags = explode(",", $request->tags);

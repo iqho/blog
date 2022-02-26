@@ -226,7 +226,7 @@
                           </div>
 
                           <div class="col-sm-12 g-0">
-                            <label class="form-input-label" style="margin-bottom: 5px;" for="page_order">Enter Pager
+                            <label class="form-input-label" style="margin-bottom: 5px;" for="page_order">Enter Page
                               Order Number</label>
                             <input type="number" class="form-control" name="page_order" wire:model="page_order"
                               id="page_order">

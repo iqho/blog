@@ -225,6 +225,14 @@
                             <label class="form-check-label" for="allow_comments">Allow Comments</label>
                           </div>
                         </div>
+
+                        <div class="col-sm-12 g-0 mt-1">
+                        <label class="form-input-label" style="margin-bottom: 5px;" for="post_order">Enter Post
+                            Order Number</label>
+                        <input type="number" class="form-control" name="post_order" wire:model="post_order"
+                            id="post_order">
+                        </div>
+
                         <hr style="margin-top: 0px; margin: 8px;" />
                         <div class="col-12">
                           Select Publish Status:

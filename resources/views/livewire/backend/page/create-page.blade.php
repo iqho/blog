@@ -199,13 +199,13 @@
                                                 <input type="checkbox" class="form-check-input" name="is_nav" value="1" id="is_nav">
                                                 <label class="form-check-label" for="is_nav">Add to Nav Menu</label>
                                             </div>
-                                            
+
                                             <div class="col-sm-12 g-0">
-                                              <label class="form-input-label" style="margin-bottom: 5px;" for="page_order">Enter Pager
+                                              <label class="form-input-label" style="margin-bottom: 5px;" for="page_order">Enter Page
                                                 Order Number</label>
                                               <input type="number" class="form-control" name="page_order" id="page_order">
                                             </div>
-                                            
+
                                             <hr style="margin-top: 0px; margin: 8px;"/>
                                             <div class="col-12">
                                                 Select Publish Status:

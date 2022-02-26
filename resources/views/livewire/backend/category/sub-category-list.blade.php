@@ -1,6 +1,6 @@
 <?php $dash.='-- '; ?>
 @foreach($subcategories as $subcategory)
-    <?php $_SESSION['i']=$_SESSION['i']+1; ?>
+    <?php $_SESSION['i']=$_SESSION['i']-1; ?>
     <tr>
         <td>{{$_SESSION['i']}}</td>
         <td>{{$dash}}{{$subcategory->name}}</td>

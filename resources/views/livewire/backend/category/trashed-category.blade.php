@@ -80,9 +80,6 @@
                                         </button>
                                     </td>
                                 </tr>
-                                @if(count($category->subcategory))
-                                    @include('livewire.backend.category.sub-category-list', ['subcategories' => $category->subcategory])
-                                @endif
                             @endforeach
                         @else
                             <tr>

@@ -39,13 +39,10 @@ class CreatePage extends Component
 
     public function storePage(Request $request)
         {
-            date_default_timezone_set("Asia/Dhaka");
-
            $request->validate([
                  'title' => ['required', 'string', 'max:255'],
-                 'slug' => ['required', 'string', 'min:2', 'max:255', 'Unique:posts'],
+                 'slug' => ['required', 'string', 'min:2', 'max:255', 'Unique:pages'],
                  'description' => 'required',
-                 'page_order' => 'required',
                  'meta_description' => ['required', 'string', 'min:2', 'max:500'],
                  'publish_status' => ['required','boolean'],
                  'featured_image' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
@@ -60,24 +57,23 @@ class CreatePage extends Component
             if (!empty($request->featured_image)) {
                 $newImageName = $myslug.".".$request->featured_image->extension();
                 $request->featured_image->storeAs('page-images', $newImageName, 'public');
-                //$imageurl = url('storage') . '/' . $image;
             } else {
-                $newImageName = "default-feature-image.png";
+                $newImageName = null;
             }
 
-            $post = new Page;
-            $post->title = $request->title;
-            $post->slug = $request->slug;
-            $post->description = $request->description;
-            $post->meta_description = $request->meta_description;
-            $post->publish_status = $request->publish_status;
-            $post->is_sticky = $request->is_sticky ? $request->is_sticky : 0;
-            $post->is_nav = $request->is_nav ? $request->is_nav : 0;
-            $post->page_order = $request->page_order;
-            $post->featured_image = $newImageName;
-            $post->tags = $request->tags;
-            $post->user_id = auth()->id();
-            $post->save();
+            $page = new Page;
+            $page->title = $request->title;
+            $page->slug = $request->slug;
+            $page->description = $request->description;
+            $page->meta_description = $request->meta_description;
+            $page->publish_status = $request->publish_status;
+            $page->is_sticky = $request->is_sticky ? $request->is_sticky : 0;
+            $page->is_nav = $request->is_nav ? $request->is_nav : 0;
+            $page->page_order = $request->page_order ? $request->page_order : 1;
+            $page->featured_image = $newImageName;
+            $page->tags = $request->tags;
+            $page->user_id = auth()->id();
+            $page->save();
 
             return redirect(route('admin-panel.all-pages'))->with('message', 'Page Created Successfully');
 

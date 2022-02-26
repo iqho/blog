@@ -19,7 +19,7 @@ class TrashedCategory extends Component
     public function render()
     {
 
-        $data['categories'] = Category::onlyTrashed()->where(function ($sub_query) {
+        $data['categories'] = Category::onlyTrashed()->where('parent_id', null)->where(function ($sub_query) {
             $sub_query->where('name', 'like', '%' . $this->searchTerm . '%');
         })->orderBy('id', 'desc')->paginate(10);
 
@@ -45,21 +45,9 @@ class TrashedCategory extends Component
     public function delete($id)
     {
         $category = Category::onlyTrashed()->findOrFail($id);
-        if(count($category->subcategory))
-        {
-            $subcategories = $category->subcategory;
-            foreach($subcategories as $cat)
-            {
-                $cat = Category::onlyTrashed()->findOrFail($cat->id);
-                $cat->parent_id = null;
-                $cat->save();
-            }
-        }
-
-        File::delete([public_path('storage/category-image/'. $category->image)]);
+        File::delete([public_path('storage/category-images/'. $category->image)]);
         $category->forceDelete();
-        session()->flash('message', 'Category Deleted Successfully.');
+        session()->flash('message', 'Category Parmanently Deleted Successfully.');
     }
-    
-    
+
 }

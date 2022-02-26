@@ -19,6 +19,8 @@ class CreatePost extends Component
     public $slug;
     public $description;
     public $featured_image;
+    public $post;
+
 
     public function render()
     {
@@ -100,6 +102,7 @@ class CreatePost extends Component
             $post->category_id = $request->category_id;
             $post->publish_status = $request->publish_status;
             $post->is_sticky = $request->is_sticky ? $request->is_sticky : 0;
+            $post->post_order = $request->post_order ? $request->post_order : 0;
             $post->allow_comments = $request->allow_comments ? $request->allow_comments : 0;
             $post->featured_image = $newImageName;
             $post->published_at = date("Y-m-d H:i:s");

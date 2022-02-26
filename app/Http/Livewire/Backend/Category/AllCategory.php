@@ -25,9 +25,7 @@ class AllCategory extends Component
 
     public function render()
         {
-            $data['categories'] = Category::where('parent_id', null)->where(function ($sub_query) {
-                    $sub_query->where('name', 'like', '%' . $this->searchTerm . '%');
-                })->orderBy('id', 'desc')->paginate(10);
+            $data['categories'] = Category::where('parent_id', null)->orderBy('id', 'desc')->get();
 
             $data['catOption'] = Category::where('parent_id', null)->orderBy('id', 'desc')->get();
 
@@ -67,6 +65,7 @@ class AllCategory extends Component
             $this->reset('image3');
             $this->parent_id = '';
             $this->resetErrorBag();
+            $this->checkMode = false;
         }
 
     public function generateSlug()
@@ -126,6 +125,7 @@ class AllCategory extends Component
     public function cancel()
     {
        $this->resetInputFields();
+       $this->emit('categoryUpdate');
     }
 
     public function updateCategory()
@@ -147,49 +147,57 @@ class AllCategory extends Component
                     $newCount = $count > 0 ? ++$count : '';
                     $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
 
-                    if($category->image != null && empty($this->image3)){
-                    // This Section for Only when slug change with image name change otherwise keep old slug name image
-                    $path_info = pathinfo(public_path('storage/category-images/'. $category->image));
-                    $getExt = $path_info['extension'];
-                    $newImgName = $myslug.".".$getExt;
-                    $currentPath = (public_path('storage/category-image/'. $category->image));
-                    $newPath = (public_path('storage/category-image/'. $newImgName));
-                    File::move($currentPath, $newPath); // If Change Slug than change also image name too
+                    if (!empty($this->image3)) {
+                        if($category->image !== null) {
+                            File::delete([public_path('storage/category-images/'. $category->image)]);
+                        }
+                        $newImageName = $myslug.".".$this->image3->extension();
+                        $this->image3->storeAs('category-images', $newImageName, 'public');
+                    }
+                    elseif($category->image !== null) {
+                        $path_info = pathinfo(public_path('storage/category-images/'. $category->image));
+                        $getExt = $path_info['extension'];
+                        $newImageName = $myslug.".".$getExt;
+                        $currentPath = (public_path('storage/category-images/'. $category->image));
+                        $newPath = (public_path('storage/category-images/'. $newImageName));
+                        File::move($currentPath, $newPath); // If Change Slug than change also image name too
+                    }
+                    else{
+                        $newImageName = NULL;
                     }
                 }
                 else{
                     $myslug = $this->slug;
+
+                    if (!empty($this->image3)) {
+                        if($category->image !== null) {
+                            File::delete([public_path('storage/category-images/'. $category->image)]);
+                        }
+                        $newImageName = $myslug.".".$this->image3->extension();
+                        $this->image3->storeAs('category-images', $newImageName, 'public');
+                    }
+                    else{
+                        $newImageName = $category->image;
+                    }
                 }
 
-                if (!empty($this->image3)) {
+                if( $this->parent_id !== "$category->id"){
+                    $category->update([
+                        'name' => $this->name,
+                        'slug' => $myslug,
+                        'image' => $newImageName,
+                        'created_by' => auth()->id(),
+                        'parent_id' => $this->parent_id ? $this->parent_id : NULL,
+                    ], $validatedDate);
 
-                File::delete([public_path('storage/category-image/'. $category->image)]); // Delete Old Image and Store New Image
-
-                $newImageName = $myslug.".".$this->image3->extension();
-                $this->image3->storeAs('category-image', $newImageName, 'public');
-                //$image = url('storage') . '/' . $image3;
-
-                $category->update([
-                    'name' => $this->name,
-                    'slug' => $myslug,
-                    'image' => $newImageName,
-                    'created_by' => auth()->id(),
-                    'parent_id' => $this->parent_id ? $this->parent_id : NULL,
-                ], $validatedDate);
+                    $this->resetInputFields();
+                    session()->flash('message', 'Category Updated Successfully.');
+                    $this->emit('categoryUpdate');
                 }
                 else{
-                $category->update([
-                    'name' => $this->name,
-                    'slug' => $myslug,
-                    'created_by' => auth()->id(),
-                    'parent_id' => $this->parent_id ? $this->parent_id : NULL,
-                ], $validatedDate);
+                    session()->flash('message22', 'Selected Category and Selected Parent Category are Same Not Allow ! Please Select Another Parent Category');
                 }
-
-            $this->resetInputFields();
-            session()->flash('message', 'Category Updated Successfully.');
-            $this->emit('categoryUpdate'); // Close model to using to jquery
-             }
+            }
 
         }
 

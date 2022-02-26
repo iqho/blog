@@ -25,7 +25,7 @@
 
                 @auth
                 @if (Auth::user()->id === $page->users->id)
-            <a class="d-inline text-decoration-none float-end" href="{{ route('admin-panel.edit-post', $page->id) }}" target="_blank">Edit</a>
+            <a class="d-inline text-decoration-none float-end" href="{{ route('admin-panel.edit-page', $page->id) }}" target="_blank">Edit</a>
                 @endif
                 @endauth
         </div>

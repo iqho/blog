@@ -48,16 +48,18 @@
                             </div>
                             @endauth
                         </li>
-                        <li class="menu-item-has-children">
-                        <a href="#">More Pages <i class="ion ion-ios-arrow-down"></i></a>
-                        <div class="menu-subs menu-column-1">
-                            <ul>
-                                @foreach ($navPage as $page)
-                                    <li><a href="{{ route('page.single-page', $page->slug) }}">{{ $page->title }}</a>
-                                @endforeach
-                            </ul>
-                        </div>
-                        </li>
+                        @if ($navPage->count() > 0)
+                            <li class="menu-item-has-children">
+                            <a href="#">More Pages <i class="ion ion-ios-arrow-down"></i></a>
+                            <div class="menu-subs menu-column-1">
+                                <ul>
+                                    @foreach ($navPage as $page)
+                                        <li><a href="{{ route('page.single-page', $page->slug) }}">{{ $page->title }}</a>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            </li>
+                        @endif
                     </ul>
                 </nav>
             </div>

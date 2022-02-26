@@ -17,9 +17,8 @@
     @include('livewire.backend.category.update-category')
     <div class="card">
       <div class="card-header">
-        <div class="col-md-7 text-center"><h1>List of All Category</h1></div>
-        <div class="col-md-2 text-center"><a href="#" class="btn btn-primary" data-bs-toggle="modal" data-id="1" data-bs-target="#addCategoryModal" style="padding: 14px">Add New Category</a></div>
-        <div class="col-md-3 justify-content-end"> <input type="text" class="form-control" placeholder="Search Users" wire:model="searchTerm" /></div>
+        <div class="col-md-9 text-center"><h1>List of All Category</h1></div>
+        <div class="col-md-3 d-flex justify-content-end"><a href="#" class="btn btn-primary float-right" data-bs-toggle="modal" data-id="1" data-bs-target="#addCategoryModal" style="padding: 14px">Add New Category</a></div>
       </div>
       <div class="card-body">
         <div class="card-text table-responsive">
@@ -30,7 +29,7 @@
               </div>
             @endif
         <div class="table-responsive">
-          <table class="table table-striped table-hover border border-bottom-1 mb-1" style="width:100%">
+          <table id="postsTable" class="table table-striped table-hover border border-bottom-1 mb-1" style="width:100%">
             <thead>
               <tr>
                 <th >SL</th>
@@ -46,10 +45,10 @@
             </thead>
             <tbody>
               @if($data['categories']->count() > 0)
-              <?php $_SESSION['i'] = 0; ?>
+              <?php $_SESSION['i'] = $data['categories']->count(); ?>
               @foreach ($data['categories'] as $key => $category)
                   <?php $dash=''; ?>
-                  <?php $_SESSION['i']=$_SESSION['i']+1; ?>
+                  <?php $_SESSION['i']=$_SESSION['i']-1; ?>
              <tr>
                 <td>{{ $_SESSION['i'] }}</td>
                 <td>{{ $category->name }}</td>
@@ -97,7 +96,6 @@
             </tbody>
           </table>
         </div>
-          {{ $data['categories']->onEachSide(2)->links('backend.includes.pagination-custom') }}
       </div>
     </div>
     @push('page-js')
@@ -105,9 +103,11 @@
       window.livewire.on('storeCategory', () => {
             $('#addCategoryModal').modal('hide');
             document.getElementById("image").value = null;
+            window.location.reload(true);
         });
       window.livewire.on('categoryUpdate', () => {
-        $('#updateCategoryModal').modal('hide');
+            $('#updateCategoryModal').modal('hide');
+            window.location.reload(true);
         });
 
         function checkImageExtention() {
@@ -141,6 +141,18 @@
               return false;
           }
          }
-    </script>
-    @endpush
+
+            $(document).ready(function() {
+            $('#postsTable').DataTable( {
+                "order": false,
+                "pageLength": 25,
+                "columnDefs": [ {
+                "targets" : 'no-sort',
+                "orderable": false,
+                }]
+            } );
+        } );
+</script>
+@endpush
+
     </div>

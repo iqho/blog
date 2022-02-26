@@ -13,28 +13,32 @@ use Illuminate\Support\Facades\File;
 class EditPage extends Component
 {
     use WithFileUploads;
-    public $title, $slug, $description, $featured_image, $featured_image2, $publish_status, $is_sticky, $is_nav, $page_order, $page;
+    public $title, $slug, $description, $featured_image, $featured_image2, $publish_status, $is_sticky, $is_nav, $page_order, $page, $tags;
     public $checkMode = false;
 
 
     public function mount($id)
     {
-        $page = Page::withTrashed()->where('id', $id)->first();
+        $page = Page::where('id', $id)->first();
         $this->title = $page->title;
         $this->slug = $page->slug;
         $this->description = $page->description;
         $this->meta_description = $page->meta_description;
-        $this->publish_status = $page->publish_status;
-        $this->is_sticky = $page->is_sticky;
-        $this->page_order = $page->page_order;
-        $this->is_nav = $page->is_nav;
         $this->featured_image = $page->featured_image;
+        $this->is_sticky = $page->is_sticky;
+        $this->is_nav = $page->is_nav;
+        $this->page_order = $page->page_order;
+        $this->publish_status = $page->publish_status;
+        $this->tags = $page->tags;
+
 
         if (auth()->user()->user_type == 1) {
             return $this->page = $page;
-        } elseif (auth()->id() == $page->user->id) {
+        }
+        elseif (auth()->id() == $page->user->id) {
             return $this->page = $page;
-        } else {
+        }
+        else {
             return redirect(route('admin-panel.all-pages'));
         }
     }
@@ -64,7 +68,6 @@ class EditPage extends Component
 
     public function updatePage(Request $request)
     {
-        date_default_timezone_set("Asia/Dhaka");
 
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
@@ -75,83 +78,65 @@ class EditPage extends Component
             'featured_image' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
             'tags' => 'required',
         ]);
+
         $page_id = $request->page_id;
+
         if ($page_id) {
             $page = Page::findOrFail($page_id);
-            // dd($request->is_navMenu);
 
-            if (!empty($request->featured_image2)) {
+            if ($request->slug !== $page->slug) {
+                $slug = Str::slug($request->slug);
+                $count = Page::where('slug', 'LIKE', "{$slug}%")->count();
+                $newCount = $count > 0 ? ++$count : '';
+                $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
 
-                if ($request->slug !== $page->slug) {
-                    $slug = Str::slug($request->slug);
-                    $count = Page::where('slug', 'LIKE', "{$slug}%")->count();
-                    $newCount = $count > 0 ? ++$count : '';
-                    $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
-                } else {
-                    $myslug = $request->slug;
-                }
-
-                File::delete([public_path('storage/page-images/' . $page->featured_image)]); // Delete Old Image and Store New Image
-
-                $newImageName = $myslug . "." . $request->featured_image2->extension();
-                $request->featured_image2->storeAs('page-images', $newImageName, 'public');
-
-                $page->update([
-                    'title' => $request->title,
-                    'slug' => $myslug,
-                    'description' => $request->description,
-                    'meta_description' => $request->meta_description,
-                    'featured_image' => $newImageName,
-                    'publish_status' => $request->publish_status,
-                    'is_sticky' => $request->is_sticky ? $request->is_sticky : 0,
-                    'page_order' => $request->page_order,
-                    'is_nav' => $request->is_nav ? $request->is_nav : 0,
-                    'tags' => $request->tags,
-                ]);
-            } else {
-                if ($request->slug !== $page->slug) {
-                    $slug = Str::slug($request->slug);
-                    $count = Page::where('slug', 'LIKE', "{$slug}%")->count();
-                    $newCount = $count > 0 ? ++$count : '';
-                    $myslug = $newCount > 0 ? "$slug-$newCount" : $slug;
-
-                    if ($page->featured_image != null && empty($page->featured_image2)) {
-                        $path_info = pathinfo(public_path('storage/page-images/' . $page->featured_image));
-                        $getExt = $path_info['extension'];
-                        $newImgName = $myslug . "." . $getExt;
-                        $currentPath = (public_path('storage/page-images/' . $page->featured_image));
-                        $newPath = (public_path('storage/page-images/' . $newImgName));
-                        File::move($currentPath, $newPath); // If Change Slug than change also image name too
-                    } else {
-                        $newImgName = null;
+                if(!empty($request->featured_image2)) {
+                    if($page->featured_image !== null) {
+                        File::delete([public_path('storage/page-images/' . $page->featured_image)]);
                     }
-
-                    $page->update([
-                        'title' => $request->title,
-                        'slug' => $myslug,
-                        'description' => $request->description,
-                        'meta_description' => $request->meta_description,
-                        'featured_image' => $newImgName,
-                        'publish_status' => $request->publish_status,
-                        'is_sticky' => $request->is_sticky ? $request->is_sticky : 0,
-                        'page_order' => $request->page_order,
-                        'is_nav' => $request->is_nav ? $request->is_nav : 0,
-                        'tags' => $request->tags,
-                    ]);
-                } else {
-                    $page->update([
-                        'title' => $request->title,
-                        'slug' => $request->slug,
-                        'description' => $request->description,
-                        'meta_description' => $request->meta_description,
-                        'publish_status' => $request->publish_status,
-                        'is_sticky' => $request->is_sticky ? $request->is_sticky : 0,
-                        'is_nav' => $request->is_nav ? $request->is_nav : 0,
-                        'page_order' => $request->page_order,
-                        'tags' => $request->tags,
-                    ]);
+                    $newImgName = $myslug . "." . $request->featured_image2->extension();
+                    $request->featured_image2->storeAs('page-images', $newImgName, 'public');
+                }
+                elseif($page->featured_image !== null) {
+                    $path_info = pathinfo(public_path('storage/page-images/' . $page->featured_image));
+                    $getExt = $path_info['extension'];
+                    $newImgName = $myslug . "." . $getExt;
+                    $currentPath = (public_path('storage/page-images/' . $page->featured_image));
+                    $newPath = (public_path('storage/page-images/' . $newImgName));
+                    File::move($currentPath, $newPath); // If Change Slug than change also image name too
+                }
+                else{
+                    $newImgName = NULL;
                 }
             }
+            else {
+                $myslug = $request->slug;
+
+                if(!empty($request->featured_image2)) {
+                    if($page->featured_image !== null) {
+                        File::delete([public_path('storage/page-images/' . $page->featured_image)]);
+                    }
+                    $newImgName = $myslug . "." . $request->featured_image2->extension();
+                    $request->featured_image2->storeAs('page-images', $newImgName, 'public');
+                }
+                else{
+                    $newImgName = $page->featured_image;
+                }
+            }
+
+            $page->update([
+                'title' => $request->title,
+                'slug' => $myslug,
+                'description' => $request->description,
+                'meta_description' => $request->meta_description,
+                'featured_image' => $newImgName,
+                'is_sticky' => $request->is_sticky ? $request->is_sticky : 0,
+                'is_nav' => $request->is_nav ? $request->is_nav : 0,
+                'page_order' => $request->page_order ? $request->page_order : 1,
+                'publish_status' => $request->publish_status,
+                'tags' => $request->tags,
+            ]);
+
         }
 
         return redirect(route('admin-panel.all-pages'))->with('message', 'Page Updated Successfully');

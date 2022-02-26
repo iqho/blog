@@ -7,6 +7,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" wire:click.prevent="cancel()" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+
+                @if (session()->has('message22'))
+                <div class="alert alert-danger alert-dismissible fade show p-1" role="alert">
+                    {{ session('message22') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                @endif
+
                 <form>
                 @csrf
                     <div class="col-12">
@@ -39,7 +47,7 @@
                         <div class="row">
                         @if($image2)
                         <div class="col-6 text-center w-50">
-                            Current Image: <br><img src="{{ asset('storage/category-image/'.$image2) }}" style="width: 100px; height:80px;">
+                            Current Image: <br><img src="{{ asset('storage/category-images/'.$image2) }}" style="width: 100px; height:80px;">
                         </div>
                         @else
                         @endif
