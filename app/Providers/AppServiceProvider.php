@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Admin\Page;
+use App\Models\Admin\Post;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
@@ -55,6 +56,5 @@ class AppServiceProvider extends ServiceProvider
 
         $navPage = Page::where('is_nav', 1)->orderBy('page_order','asc')->get()->take(5);
         View::share('navPage', $navPage);
-
     }
 }

@@ -242,12 +242,12 @@
 .headernav .menu-mobile-toggle {
     display: none;
 }
+
 /* Navbar Search Box */
 .searchbox {
     position: absolute;
     margin: 0px;
     width: 0%;
-    height: 50px;
     float: right;
     overflow: hidden;
     -webkit-transition: width 0.3s;
@@ -255,6 +255,7 @@
     -ms-transition: width 0.3s;
     -o-transition: width 0.3s;
     transition: width 0.3s;
+    margin-top:-2px;
 }
 
 .searchbox-input {
@@ -264,7 +265,7 @@
     outline: 0;
     background: #ffffff;
     width: 100%;
-    height: 50px;
+    height: 62px;
     margin: 0;
     padding: 0px 0px 0px 30px;
     font-size: 18px;
@@ -594,10 +595,14 @@
         visibility: visible;
     }
 
+    .searchbox {
+    margin-top:-2px;
+    }
     .searchbox-input {
     padding: 0px 0px 0px 10px;
     font-size: 15px;
     color: rgb(0, 0, 0);
+    height: 50px;
     }
     .searchbox-open {
         width: 94%;

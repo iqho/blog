@@ -5,8 +5,8 @@ namespace App\Http\Livewire\Frontend;
 use Livewire\Component;
 use App\Models\Admin\Post;
 use Livewire\WithPagination;
-use App\Models\Admin\Category;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Http\Request;
 
 class HomeContent extends Component
 {
@@ -30,5 +30,13 @@ class HomeContent extends Component
         Paginator::currentPageResolver(function () {
             return $this->currentPage;
         });
+    }
+
+    
+    public function searchPost(Request $request)
+    {
+        $query = $request->get('query');
+        $filterResult = Post::where('title', 'LIKE', '%' . $query . '%')->get();
+        return response()->json($filterResult);
     }
 }

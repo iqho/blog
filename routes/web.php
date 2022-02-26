@@ -24,6 +24,8 @@ Route::get('/post/tag/{slug}', TagPost::class)->name('post.tag-post');
 //Pages
 Route::get('/page/{slug}', SinglePage::class)->name('page.single-page');
 
+Route::get('post/search', [HomeContent::class, 'searchPost'])->name('post.search-post');
+
 
 
 

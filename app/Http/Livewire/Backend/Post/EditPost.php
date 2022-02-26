@@ -64,22 +64,6 @@ class EditPost extends Component
         return $this->slug = $myslug;
     }
 
-
-    // Ck Image Upload Code
-    public function imageUpload(Request $request)
-    {
-        date_default_timezone_set("Asia/Dhaka");
-        if ($request->hasFile('upload')) {
-           // $originName = $request->file('upload')->getClientOriginalName();
-            //$fileName = pathinfo($originName, PATHINFO_FILENAME);
-            $extension = $request->file('upload')->getClientOriginalExtension();
-            $fileName = date("His-dmY") . '.' . $extension;
-            $request->file('upload')->move(public_path('media'), $fileName);
-            $url = asset('media/' . $fileName);
-            return response()->json(['fileName' => $fileName, 'uploaded'=> 1, 'url' => $url]);
-        }
-    }
-
     public function updatePost(Request $request)
         {
         date_default_timezone_set("Asia/Dhaka");
