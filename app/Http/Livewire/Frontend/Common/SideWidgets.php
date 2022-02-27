@@ -10,8 +10,9 @@ class SideWidgets extends Component
 {
     public function render()
     {
-       $recentPost = Post::orderBy('id', 'desc')->get()->take(10);
+       $recentPost = Post::orderBy('id', 'desc')->get()->take(20);
+       $mostView = Post::orderBy('views', 'desc')->get()->take(20);
        $categories = Category::where('parent_id', null)->with('posts')->orderBy('id', 'desc')->get();
-        return view('livewire.frontend.common.side-widgets', compact('categories', 'recentPost'));
+        return view('livewire.frontend.common.side-widgets', compact('categories', 'recentPost', 'mostView'));
     }
 }

@@ -35,7 +35,7 @@
                                 @foreach ($data['posts'] as $post)
                                     <tr>
                                         <td>{{ $i++ }}</td>
-                                        <td><a href="{{ route('post.single-post', $post->slug) }}" target="_blank">{{ $post->title }}</a></td>
+                                        <td><a href="{{ route('post.single-post', [$post->category->slug, $post->slug]) }}" target="_blank">{{ $post->title }}</a></td>
                                         <td>{{ $post->slug }}</td>
                                         <td style="padding: 0px; text-align:center">
                                             @if ($post->featured_image)

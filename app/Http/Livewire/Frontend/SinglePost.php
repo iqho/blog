@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Frontend;
 
 use Livewire\Component;
 use App\Models\Admin\Post;
+use Illuminate\Support\Facades\Session;
 
 class SinglePost extends Component
 {
@@ -15,6 +16,11 @@ class SinglePost extends Component
         if (!$post_slug_exist) {
             return abort(404);
         } else {
+            $pid = $post_slug_exist->id;
+            if (!(Session::get('id') == $pid)) {
+                Post::where('id', $pid)->increment('views');
+                Session::put('id', $pid);
+            }
             return $this->post = Post::where('slug', $slug)->with('category')->first();
         }
 

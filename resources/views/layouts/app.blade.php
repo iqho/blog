@@ -31,10 +31,10 @@
     </head>
     <body>
         {{-- Main Container  --}}
-        <div class="container-fluid mb-5 shadow g-0" style="max-width:1200px">
+        <div class="container-fluid mb-5 shadow g-0 mx-auto" style="max-width:1200px">
             @include('livewire.frontend.common.top-nav')
             <livewire:frontend.common.top-banner />
-            <div class="row" style="padding: 0px; margin:0px">
+            <div class="row w-100 g-0">
                 <!-- Blog Post Content-->
                 {{ $slot }}
                 <!-- Side widgets-->

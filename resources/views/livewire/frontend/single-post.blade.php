@@ -24,10 +24,10 @@
         Tags: @foreach ($post->tags as $tag)
                 <a class="badge bg-secondary text-decoration-none link-light" href="{{ route('post.tag-post', $tag->slug) }}">{{ $tag->title }}</a>
                 @endforeach
-
+                 <span class="ms-1 d-inline float-end"><i class="fa-solid fa-eye" alt="{{ __('Views') }}" title="{{ __('Views') }}"></i> {{ $post->views }}</span>
                 @auth
                 @if (Auth::user()->id === $post->users->id)
-            <a class="d-inline text-decoration-none float-end" href="{{ route('admin-panel.edit-post', $post->id) }}" target="_blank">Edit</a>
+            <div class="d-inline text-decoration-none float-end me-1"><a class="text-decoration-none" href="{{ route('admin-panel.edit-post', $post->id) }}" target="_blank"><i class="fa-solid fa-pen-to-square"></i></a></div>
                 @endif
                 @endauth
         </div>

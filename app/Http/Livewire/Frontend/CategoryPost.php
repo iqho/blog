@@ -3,11 +3,12 @@
 namespace App\Http\Livewire\Frontend;
 
 use Livewire\Component;
+use App\Models\Admin\Page;
 use App\Models\Admin\Post;
 use Livewire\WithPagination;
 use App\Models\Admin\Category;
-use App\Models\Admin\Page;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Session;
 
 class CategoryPost extends Component
 {
@@ -38,6 +39,12 @@ class CategoryPost extends Component
         }
         elseif($check_page){
         $this->pageMode = true;
+
+        if (!(Session::get('id') == $check_page->id)) {
+            Page::where('id', $check_page->id)->increment('views');
+            Session::put('id', $check_page->id);
+        }
+
         $pages = Page::where('slug', $this->slug)->first();
         return view('livewire.frontend.category-post', compact('pages'))->layout('layouts.app');
        }

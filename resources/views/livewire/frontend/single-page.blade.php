@@ -28,7 +28,7 @@
                 @foreach ($sep_tag as $tag)
                  <a class="badge bg-secondary text-decoration-none link-light p-2">{{ $tag }}</a>
                 @endforeach
-
+                <span class="ms-1 d-inline float-end"><i class="fa-solid fa-eye" alt="{{ __('Views') }}" title="{{ __('Views') }}"></i> {{ $pages->views }}</span>
                 @auth
                 @if (Auth::user()->id === $pages->users->id)
             <a class="d-inline text-decoration-none float-end" href="{{ route('admin-panel.edit-page', $pages->id) }}" target="_blank">Edit</a>

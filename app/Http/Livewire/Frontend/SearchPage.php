@@ -42,7 +42,7 @@ class SearchPage extends Component
         $this->searchTerm = $request->get('term');
         $result = Post::where(function ($sub_query) {
             $sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
-        })->orderBy('id', 'desc')->get()->take(10);
+        })->with('category')->orderBy('id', 'desc')->get()->take(10);
         return response()->json($result);
     }
 

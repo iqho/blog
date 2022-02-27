@@ -95,7 +95,8 @@
                var resp = $.map(data,function(item){
                     return {
                     url: item.slug,
-                    value: item.title
+                    value: item.title,
+                    value2:item.category.slug
                     }
                });
 
@@ -105,9 +106,9 @@
     },
 
     select: function( event, ui ) {
-    window.location.href = '/post/'+ui.item.url+'/';
+    window.location.href = '/'+ui.item.value2+'/'+ui.item.url+'/';
     },
-    minLength: 2
+    minLength: 1
  });
 });
 </script>

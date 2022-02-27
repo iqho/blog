@@ -32,7 +32,7 @@
                                 @foreach ($data['posts'] as $post)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td><a href="{{ route('post.single-post', $post->slug) }}">{{ $post->title }}</a>
+                                    <td><a href="{{ route('post.single-post', [$post->category->slug, $post->slug]) }}">{{ $post->title }}</a>
                                     </td>
                                     <td>{{ $post->slug }}</td>
                                     <td>{{ $post->image }}</td>
@@ -76,7 +76,7 @@
                                                             </svg>Parmanent Delete</a>
                                                     </div>
                                         </div>
-                                        <a target="_blank"href="{{ route('post.single-post', $post->slug) }}" class="item-edit">
+                                        <a target="_blank"href="{{ route('post.single-post', [$post->category->slug, $post->slug]) }}" class="item-edit">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round"

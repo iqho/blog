@@ -175,7 +175,7 @@
                             </li>
                             <li class="@if(Route::is('admin-panel.tag.trashed-tag') ) active @endif nav-item">
                             <a class="d-flex align-items-center" href="{{ route('admin-panel.tag.trashed-tag') }}">
-                            <i class="fa fa-list-alt"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Trashed Media</span>
+                            <i class="fa fa-list-alt"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Trashed Tag</span>
                             </a>
                             </li>
                         </ul>

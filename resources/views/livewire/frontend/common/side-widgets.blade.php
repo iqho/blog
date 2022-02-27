@@ -22,14 +22,14 @@
             <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <ul class="g-0">
                 @foreach ($recentPost as $post)
-                    <li><a href="#"><i class="fa-solid fa-caret-right"></i> {{ $post->title }}</a></li>
+                    <li><a href="{{ route('post.single-post', [$post->category->slug, $post->slug]) }}"><i class="fa-solid fa-caret-right"></i> {{ $post->title }}</a> {{ Carbon\Carbon::parse($post->created_at)->subMinutes()->locale('en_BD')->diffForHumans()}}</li>
                 @endforeach
                 </ul>
             </div>
             <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 <ul class="g-0">
-                @foreach ($recentPost as $post)
-                    <li><a href="#"><i class="fa-solid fa-caret-right"></i> {{ $post->title }}</a></li>
+                @foreach ($mostView as $post)
+                    <li><a href="{{ route('post.single-post', [$post->category->slug, $post->slug]) }}"><i class="fa-solid fa-caret-right"></i> {{ $post->title }} </a>({{ $post->views }})</li>
                 @endforeach
                 </ul>
             </div>
