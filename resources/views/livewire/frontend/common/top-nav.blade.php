@@ -65,8 +65,8 @@
             </div>
 
             <div class="header-item-right">
-                <form class="searchbox">
-                    <input type="search" wire:model="searchTerm" placeholder="Write Post Title for Search and Press Enter" name="search" class="searchbox-input" required>
+                <form action="{{ route('post.search-post') }}" method="GET" class="searchbox">
+                    <input type="search" id="search_title" placeholder="Write Post Title for Search and Press Enter" name="q" class="searchbox-input" required>
                 </form>
                 <a href="#" class="menu-icon"><i class="ion ion-md-heart"></i></a>
                 <a href="#" class="menu-icon searchbox-icon"><i class="ion ion-md-search"></i></a>
@@ -80,3 +80,35 @@
         </section>
     </div>
 </header>
+@push('page-js')
+<script>
+    $(document).ready(function() {
+    $( "#search_title" ).autocomplete({
+        source: function(request, response) {
+            $.ajax({
+            url: "{{route('post.autocomplete-search')}}",
+            data: {
+                    term : request.term
+             },
+            dataType: "json",
+            success: function(data){
+               var resp = $.map(data,function(item){
+                    return {
+                    url: item.slug,
+                    value: item.title
+                    }
+               });
+
+               response(resp);
+            }
+        });
+    },
+
+    select: function( event, ui ) {
+    window.location.href = '/post/'+ui.item.url+'/';
+    },
+    minLength: 2
+ });
+});
+</script>
+@endpush

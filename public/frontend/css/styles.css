@@ -35,3 +35,12 @@
 .side-widget-cat ul li:hover, .side-widget-cat ul li a:hover {
    color: rgb(218, 0, 0);
 }
+
+/* Searchbar Autocomplete Background Color Change*/
+.ui-menu .ui-menu-item-wrapper {
+border-bottom: 1px solid #e0e0e0;
+}
+.ui-menu .ui-menu-item-wrapper:hover, .ui-menu .ui-menu-item-wrapper.ui-state-active {
+    color: #ffffff;
+    background: #005064;
+}

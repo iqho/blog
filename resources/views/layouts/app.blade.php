@@ -22,13 +22,17 @@
             <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/bootstrap.css') }}" />
             <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.0.0/css/all.css"/>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+            <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
+            <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+            
             @stack('page-css')
             @livewireStyles
     </head>
     <body>
         {{-- Main Container  --}}
         <div class="container-fluid mb-5 shadow g-0" style="max-width:1200px">
-            @include('layouts.includes.top-nav')
+            @include('livewire.frontend.common.top-nav')
             <livewire:frontend.common.top-banner />
             <div class="row g-0 ps-4 mt-4">
                 <div class="row">

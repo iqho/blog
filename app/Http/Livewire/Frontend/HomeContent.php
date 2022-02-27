@@ -6,7 +6,6 @@ use Livewire\Component;
 use App\Models\Admin\Post;
 use Livewire\WithPagination;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Http\Request;
 
 class HomeContent extends Component
 {
@@ -18,7 +17,7 @@ class HomeContent extends Component
     public function render()
     {
         $posts = Post::where(function ($sub_query) {$sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
-        })->orderBy('id', 'desc')->paginate(10);
+        })->orderBy('id', 'desc')->paginate(25);
         $recentPost = Post::latest()->get()->take(10);
         $stickyPost = Post::orderBy('id','DESC')->where('is_sticky','1')->get()->take(5);
         return view('livewire.frontend.home-content', compact('posts', 'recentPost', 'stickyPost',))->layout('layouts.app');
@@ -30,13 +29,5 @@ class HomeContent extends Component
         Paginator::currentPageResolver(function () {
             return $this->currentPage;
         });
-    }
-
-    
-    public function searchPost(Request $request)
-    {
-        $query = $request->get('query');
-        $filterResult = Post::where('title', 'LIKE', '%' . $query . '%')->get();
-        return response()->json($filterResult);
     }
 }

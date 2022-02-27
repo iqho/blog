@@ -11,6 +11,7 @@ use App\Http\Livewire\Frontend\SinglePost;
 use App\Http\Livewire\Frontend\HomeContent;
 use App\Http\Livewire\Frontend\CategoryPost;
 use App\Http\Controllers\DashboardController;
+use App\Http\Livewire\Frontend\SearchPage;
 use App\Models\Admin\Post;
 use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 
@@ -28,24 +29,8 @@ Route::get('/post/tag/{slug}', TagPost::class)->name('post.tag-post');
 //Pages
 Route::get('/page/{slug}', SinglePage::class)->name('page.single-page');
 
-Route::get('post/search', [HomeContent::class, 'searchPost'])->name('post.search-post');
-
-Route::view('search/ss', 'livewire.frontend.search');
-
-Route::get('/autocomplete-search', function(Request $request){
-
-    $search = $request->get('term');
-
-    $result = Post::where('title', 'LIKE', '%'. $search. '%')->get();
-
-    return response()->json($result);
-
-})->name('autocomplete');
-
-
-
-
-
+Route::get('/search', SearchPage::class)->name('post.search-post');
+Route::get('/autocomplete-search', [SearchPage::class, 'autocompleteSearch'])->name('post.autocomplete-search');
 
 
 
