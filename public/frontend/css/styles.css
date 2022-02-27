@@ -1,3 +1,7 @@
+.g-0{
+    padding: 0px!important;
+    margin: 0px!important;
+}
 .carousel-inner a{
     color: rgb(255, 255, 255);
     font-size: 24px;
@@ -44,3 +48,30 @@ border-bottom: 1px solid #e0e0e0;
     color: #ffffff;
     background: #005064;
 }
+
+/* Breadcrumb*/
+.sugg ol.breadcrumb {
+    flex-wrap: unset;
+    white-space: nowrap;
+  }
+
+  .sugg ol.breadcrumb > li:not(:first-child):not(:last-child){
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* breakdown to hide it on small devices */
+  @media (max-width: 576px) {
+    .sugg ol.breadcrumb > li:not(:first-child):not(:last-child){
+      visibility: hidden;
+      width: 0;
+      padding: 0;
+
+    }
+    .sugg ol.breadcrumb > li:last-child:before {
+      content: var(--bs-breadcrumb-divider, "/ ... /");
+    }
+     .sugg ol.breadcrumb > li:last-child {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }

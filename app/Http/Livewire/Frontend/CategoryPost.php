@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Admin\Post;
 use Livewire\WithPagination;
 use App\Models\Admin\Category;
+use App\Models\Admin\Page;
 use Illuminate\Pagination\Paginator;
 
 class CategoryPost extends Component
@@ -15,26 +16,35 @@ class CategoryPost extends Component
     public $searchTerm;
     public $currentPage = 1;
 
-    public $newslug;
+    public $slug;
+    public $pageMode = false;
 
     public function mount($slug)
     {
-        return $this->newslug = $slug;
+        return $this->slug = $slug;
     }
 
     public function render()
     {
-        $category = Category::where('slug', $this->newslug)->first();
-        if($category){
-            $cat_name = $category->name;
-            $posts = Post::where('category_id', $category->id)->where(function ($sub_query) {
+        $check_category = Category::where('slug', $this->slug)->first();
+        $check_page = Page::where('slug', $this->slug)->first();
+        if($check_category){
+            $this->pageMode = false;
+            $cat_name = $check_category->name;
+            $posts = Post::where('category_id', $check_category->id)->where(function ($sub_query) {
                 $sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
             })->orderBy('id', 'desc')->paginate(10);
+        return view('livewire.frontend.category-post', compact('posts', 'cat_name'))->layout('layouts.app');
         }
+        elseif($check_page){
+        $this->pageMode = true;
+        $pages = Page::where('slug', $this->slug)->first();
+        return view('livewire.frontend.category-post', compact('pages'))->layout('layouts.app');
+       }
         else{
         return abort(404);
         }
-        return view('livewire.frontend.category-post', compact('posts', 'cat_name'))->layout('layouts.app');
+
     }
 
     public function setPage($url)
@@ -44,5 +54,4 @@ class CategoryPost extends Component
             return $this->currentPage;
         });
     }
-
 }

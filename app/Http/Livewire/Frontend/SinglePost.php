@@ -15,9 +15,9 @@ class SinglePost extends Component
         if (!$post_slug_exist) {
             return abort(404);
         } else {
-            return $this->post = Post::where('slug', $slug)->first();
+            return $this->post = Post::where('slug', $slug)->with('category')->first();
         }
-        
+
     }
 
     public function render()

@@ -1,4 +1,4 @@
-<div class="col-lg-8">
+<div class="col-lg-8 ps-4">
     <!-- Featured Blog Post Carousel -->
     <div class="card mb-4">
         <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel" style="height: 300px">
@@ -14,7 +14,7 @@
                 <div class="carousel-item {{$loop->iteration == 1 ? 'active' : ''}}" data-bs-interval="5000">
                     <img src="{{ asset('storage/post-images/'.$spost->featured_image) }}" style="max-height: 300px" class="d-block w-100" alt="...">
                     <div class="carousel-caption">
-                        <h5><a href="{{ route('post.single-post', $spost->slug) }}">{{ $spost->title }}</a></h5>
+                        <h5><a href="{{ route('post.single-post', [$spost->category->slug, $spost->slug]) }}">{{ $spost->title }}</a></h5>
                     </div>
                 </div>
                 @endforeach
@@ -48,7 +48,7 @@
                 @endif
                 <ul class="details">
                     <li class="author"><a href="{{ route('post.author-post', $post->users->id) }}">{{ $post->users->name }}</a></li>
-                    <li class="category"><a href="{{ route('post.category-post', $post->category->slug) }}">{{ $post->category->name }}</a></li>
+                    <li class="category"><a href="{{ route('post-category', $post->category->slug) }}">{{ $post->category->name }}</a></li>
                     <li class="date">{{ date('d-M-Y h:i a', strtotime($post->created_at)); }}</li>
                     <li class="tags">
                         <ul>
@@ -60,10 +60,10 @@
                 </ul>
             </div>
             <div class="description pt-1 pb-2" style="min-height: 150px">
-                <h1><a href="{{ route('post.single-post', $post->slug) }}">{{ $post->title }}</a></h1>
+                <h1><a href="{{ route('post.single-post', [$post->category->slug, $post->slug]) }}">{{ $post->title }}</a></h1>
                 <p style="text-align: justify">{{ Str::limit($post->short_description, 130) }}
                 <span class="read-more" style="margin: 0px">
-                    <a href="{{ route('post.single-post', $post->slug) }}">Read More</a>
+                    <a href="{{ route('post.single-post', [$post->category->slug, $post->slug]) }}">Read More</a>
                 </span>
             </p>
             </div>

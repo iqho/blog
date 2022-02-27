@@ -15,9 +15,9 @@
                     </div>
                     <ul class="menu-section" style="margin:0px">
                         <li class="menu-item"><a class="@if(Request::is('/')) active @endif" href="{{ url('/') }}">Home</a></li>
-                        <li class="menu-item"><a class="@if(Request::is('page/about-us')) active @endif" href="{{ url('/page/about-us') }}">About US</a></li>
-                        <li class="menu-item"><a class="{{ Request::is('page/our-vision') ? 'active' : '' }}" href="{{ url('/page/our-vision') }}">Our Vision</a></li>
-                        <li class="menu-item"><a class="@if(Request::is('page/contact-us')) active @endif" href="{{ url('/page/contact-us') }}">Contact Us</a></li>
+                        <li class="menu-item"><a class="@if(Request::is('/about-us')) active @endif" href="{{ url('/about-us') }}">About US</a></li>
+                        <li class="menu-item"><a class="{{ Request::is('/our-vision') ? 'active' : '' }}" href="{{ url('/our-vision') }}">Our Vision</a></li>
+                        <li class="menu-item"><a class="@if(Request::is('/contact-us')) active @endif" href="{{ url('/contact-us') }}">Contact Us</a></li>
                         <li class="menu-item-has-children">
                             @auth
                             <a href="#">{{ Auth::user()->name }} <i class="ion ion-ios-arrow-down"></i></a>
@@ -54,7 +54,7 @@
                             <div class="menu-subs menu-column-1">
                                 <ul>
                                     @foreach ($navPage as $page)
-                                        <li><a href="{{ route('page.single-page', $page->slug) }}">{{ $page->title }}</a>
+                                        <li><a href="{{ route('post-category', $page->slug) }}">{{ $page->title }}</a>
                                     @endforeach
                                 </ul>
                             </div>

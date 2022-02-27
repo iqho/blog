@@ -5,32 +5,24 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Frontend\TagPost;
 use App\Http\Livewire\Frontend\AuthorPost;
 
-use App\Http\Livewire\Frontend\SinglePage;
-
 use App\Http\Livewire\Frontend\SinglePost;
 use App\Http\Livewire\Frontend\HomeContent;
 use App\Http\Livewire\Frontend\CategoryPost;
 use App\Http\Controllers\DashboardController;
 use App\Http\Livewire\Frontend\SearchPage;
-use App\Models\Admin\Post;
 use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
-
-
-use Illuminate\Http\Request;
 
 
 // Front End Routes
 Route::get('/', HomeContent::class)->name('home');
-Route::get('/post/{slug}', SinglePost::class)->name('post.single-post');
+Route::get('/{category}/{slug}', SinglePost::class)->name('post.single-post');
 Route::get('/post/author/{id}', AuthorPost::class)->name('post.author-post');
-Route::get('/post/category/{slug}', CategoryPost::class)->name('post.category-post');
+Route::get('/{slug}', CategoryPost::class)->name('post-category'); // Single Page Details Include with this route
+
 Route::get('/post/tag/{slug}', TagPost::class)->name('post.tag-post');
 
-//Pages
-Route::get('/page/{slug}', SinglePage::class)->name('page.single-page');
-
-Route::get('/search', SearchPage::class)->name('post.search-post');
-Route::get('/autocomplete-search', [SearchPage::class, 'autocompleteSearch'])->name('post.autocomplete-search');
+Route::get('/post/nav/search', SearchPage::class)->name('post.search-post');
+Route::get('/post/nav/autocomplete-search', [SearchPage::class, 'autocompleteSearch'])->name('post.autocomplete-search');
 
 
 

@@ -25,7 +25,7 @@
 
             <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
             <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-            
+
             @stack('page-css')
             @livewireStyles
     </head>
@@ -34,13 +34,11 @@
         <div class="container-fluid mb-5 shadow g-0" style="max-width:1200px">
             @include('livewire.frontend.common.top-nav')
             <livewire:frontend.common.top-banner />
-            <div class="row g-0 ps-4 mt-4">
-                <div class="row">
-                    <!-- Blog Post Content-->
-                    {{ $slot }}
-                    <!-- Side widgets-->
-                    <livewire:frontend.common.side-widgets />
-                </div>
+            <div class="row" style="padding: 0px; margin:0px">
+                <!-- Blog Post Content-->
+                {{ $slot }}
+                <!-- Side widgets-->
+                <livewire:frontend.common.side-widgets />
             </div>
             <div class="row g-0 text-center border border-top" style="height: 50px">
                 <p class="m-0 justify-content-center align-self-center">Copyright &copy; M Blog 2022</p>
