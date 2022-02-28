@@ -1,5 +1,5 @@
 @section('title', $keyword.' | M Blog')
-<div class="col-lg-8 mb-2 g-0 ps-4">
+<div class="col-lg-8 mb-2 g-0">
     <nav aria-label="breadcrumb" class="border border-gray g-0 mb-2 p-1 pb-2 ps-4 sugg">
         <ol class="breadcrumb" style="margin: 0px;">
           <li class="breadcrumb-item"><a href="{{ url('/') }}"><i class="fa-solid fa-house-window"></i></a></li>

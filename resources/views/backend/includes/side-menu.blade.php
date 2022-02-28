@@ -45,7 +45,7 @@
             </li>
             @endcan
 
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fa fa-clone"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Posts</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fa fa-clone"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Posts</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">4</span></a>
                     <ul class="menu-content">
 
                         <li class="@if(Route::is('admin-panel.all-posts') ) active @endif nav-item">
@@ -95,7 +95,7 @@
                     </ul>
                 </li>
 
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fa fa-list-alt"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Pages</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fa fa-list-alt"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Pages</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">3</span></a>
                     <ul class="menu-content">
 
                         <li class="@if(Route::is('admin-panel.all-pages') ) active @endif nav-item">
@@ -180,6 +180,22 @@
                             </li>
                         </ul>
                     </li>
+
+                    <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fas fa-icons"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Widget</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
+                        <ul class="menu-content">
+                            <li class="@if(Route::is('admin-panel.all-widgets') ) active @endif nav-item">
+                                <a class="d-flex align-items-center" href="{{ route('admin-panel.all-widgets') }}">
+                                <i class="fas fa-photo-video"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">All Widgets</span>
+                                </a>
+                            </li>
+                            <li class="@if(Route::is('admin-panel.all-trashed-widgets') ) active @endif nav-item">
+                            <a class="d-flex align-items-center" href="{{ route('admin-panel.all-trashed-widgets') }}">
+                            <i class="fa fa-list-alt"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Trashed Widgets</span>
+                            </a>
+                            </li>
+                        </ul>
+                    </li>
+
             @else
                 <li class="@if(Route::is('user.dashboard') ) active @endif nav-item"><a class="d-flex align-items-center" href="{{ route('user.dashboard') }}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Home">Home</span></a>
             </li>

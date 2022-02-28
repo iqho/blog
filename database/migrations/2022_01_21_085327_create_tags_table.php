@@ -18,6 +18,7 @@ class CreateTagsTable extends Migration
             $table->string('title')->nullable();
             $table->string('slug')->unique()->nullable();
             $table->string('meta_description')->nullable();
+            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

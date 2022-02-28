@@ -5,26 +5,27 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Backend\Tag\AllTag;
 use App\Http\Livewire\Backend\Page\AllPage;
 use App\Http\Livewire\Backend\Post\AllPost;
+use App\Http\Livewire\Backend\Page\EditPage;
 use App\Http\Livewire\Backend\Post\EditPost;
-use App\Http\Controllers\DashboardController;
 
+use App\Http\Livewire\Backend\Widget\Widget;
+use App\Http\Controllers\DashboardController;
 use App\Http\Livewire\Backend\Media\AllMedia;
+
 use App\Http\Livewire\Backend\Tag\TrashedTag;
 use App\Http\Livewire\Backend\Page\CreatePage;
-
 use App\Http\Livewire\Backend\Post\CreatePost;
-use App\Http\Livewire\Backend\Post\SinglePost;
-use App\Http\Livewire\Backend\Post\TrashedPost;
-use App\Http\Livewire\Backend\Media\AllMediaList;
-use App\Http\Livewire\Backend\Media\TrashedMedia;
-
-use App\Http\Controllers\Admin\CategoryController;
-
-use App\Http\Livewire\Backend\Category\AllCategory;
-
-use App\Http\Livewire\Backend\Category\TrashedCategory;
-use App\Http\Livewire\Backend\Page\EditPage;
 use App\Http\Livewire\Backend\Page\TrashedPage;
+
+use App\Http\Livewire\Backend\Post\TrashedPost;
+
+use App\Http\Livewire\Backend\Media\AllMediaList;
+
+use App\Http\Livewire\Backend\Media\TrashedMedia;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Livewire\Backend\Category\AllCategory;
+use App\Http\Livewire\Backend\Category\TrashedCategory;
+use App\Http\Livewire\Backend\Widget\TrashedWidget;
 use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 
 //Media Gallery
@@ -64,3 +65,7 @@ Route::post('/page/store', [CreatePage::class, 'storePage'])->name('page-store')
 Route::get('/page/edit/{id}', EditPage::class)->name('edit-page');
 Route::post('/page/edit/store', [EditPage::class, 'updatePage'])->name('update-page');
 Route::get('/page/trashed-pages', TrashedPage::class)->name('trashed-pages');
+
+// Side Widget
+Route::get('/widget/all-widgets', Widget::class)->name('all-widgets');
+Route::get('/widget/all-trashed-widgets', TrashedWidget::class)->name('all-trashed-widgets');

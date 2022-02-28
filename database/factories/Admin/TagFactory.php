@@ -30,7 +30,6 @@ class TagFactory extends Factory
             'title' => $title,
             'slug' => $myslug,
             'meta_description' => $this->faker->sentence(),
-            'tag_order' => 1,
             'user_id' => 1,
         ];
     }

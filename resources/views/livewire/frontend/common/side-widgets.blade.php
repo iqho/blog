@@ -9,7 +9,7 @@
 }
 </style>
 
-<div class="col-lg-4">
+<div class="col-lg-4 ps-3">
     <div class="card mb-4 border-0">
         <div class="card-header border-0" style="padding:0px;">
             <ul class="m-0 nav nav-fill nav-justified nav-tabs" id="myTab" role="tablist">
@@ -57,11 +57,16 @@
             </div>
         </div>
     </div>
-    <!-- Side widget-->
-    <div class="card mb-4">
-            <div class="card-header">Side Widget</div>
-            <div class="card-body">You can put anything you want inside of these side widgets. They are easy to use,
-                and feature the Bootstrap 5 card component!
-            </div>
-    </div>
+
+
+    @if ($rightWidgets->count() > 0)
+        @foreach ($rightWidgets as $rightwidget)
+        <div class="card mb-4">
+                <div class="card-header">{{ $rightwidget->title }}</div>
+                <div class="card-body"> {!! eval('?>'.Blade::compileString($rightwidget->body)) !!} </div>
+        </div>
+        @endforeach
+    @endif
+
+
 </div>

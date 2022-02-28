@@ -31,7 +31,6 @@ class TagSeeder extends Seeder
             'title' => $title,
             'slug' => $myslug,
             'meta_description' => $faker->sentence(),
-            'tag_order' => 1,
             'user_id' => 1,
         ]);
     }

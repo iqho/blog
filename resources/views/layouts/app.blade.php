@@ -34,7 +34,7 @@
         <div class="container-fluid mb-5 shadow g-0 mx-auto" style="max-width:1200px">
             @include('livewire.frontend.common.top-nav')
             <livewire:frontend.common.top-banner />
-            <div class="row w-100 g-0">
+            <div class="row w-100 g-0 px-4 py-2">
                 <!-- Blog Post Content-->
                 {{ $slot }}
                 <!-- Side widgets-->
