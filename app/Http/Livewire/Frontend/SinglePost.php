@@ -21,7 +21,7 @@ class SinglePost extends Component
                 Post::where('id', $pid)->increment('views');
                 Session::put('id', $pid);
             }
-            return $this->post = Post::where('slug', $slug)->with('category')->first();
+            return $this->post = Post::where('slug', $slug)->with('comments')->with('category')->first();
         }
 
     }

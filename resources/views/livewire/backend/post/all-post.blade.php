@@ -44,7 +44,13 @@
                                             @endif
                                         </td>
                                         <td>{{ $post->category->name }}</td>
-                                        <td>{{ $post->users->name }}</td>
+                                        <td>
+                                            @if(!empty($post->users->name))
+                                            {{ $post->users->name }}
+                                            @else
+                                                Post Author Not Found !
+                                            @endif
+                                            </td>
                                         <td><div class="d-inline-flex">
                                             <a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4">

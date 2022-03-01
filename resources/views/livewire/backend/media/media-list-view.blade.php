@@ -91,7 +91,13 @@
                                                     data-clipboard-target="#{{ $media->slug }}">Copy</a></span>
                                         </div>
                                     </td>
-                                    <td class="text-center">{{ $media->users->name }}</td>
+                                    <td class="text-center">
+                                        @if(!empty($media->users->name))
+                                        {{ $media->users->name }}
+                                        @else
+                                            Media Author Not Found !
+                                        @endif
+                                    </td>
                                     <td class="text-center">
                                         <div class="d-inline-flex">
                                             <a class="pe-1 dropdown-toggle hide-arrow text-primary"

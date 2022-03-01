@@ -17,9 +17,9 @@ class CreateCommentsTable extends Migration
             $table->bigIncrements('id');
             $table->foreignId('post_id')->constrained('posts')->cascadeOnDelete();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->bigInteger('parent_id');
+            $table->integer('parent_id')->nullable();
             $table->longText('comment_body');
-            $table->tinyInteger('comment_status')->default(0);
+            $table->tinyInteger('comment_status')->default(1);
             $table->ipAddress('commenter_ip')->nullable();
             $table->tinyInteger('is_sticky')->default(0);
             $table->timestamps();

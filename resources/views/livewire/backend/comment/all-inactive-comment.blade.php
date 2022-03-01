@@ -1,4 +1,4 @@
-<div>
+<x-backend-layout>
     @section('title','Show All Comments')
     <section id="responsive-datatable">
         <div class="row">
@@ -6,7 +6,7 @@
                 <div class="card p-1">
                     <div class="card-header border-bottom">
                         <div class="row w-100">
-                            <div class="col"><h1 class="card-title" style="font-size: 28px">Display All Comments</h1></div>
+                            <div class="col"><h1 class="card-title" style="font-size: 28px">Display All Inactive Comments</h1></div>
                         </div>
 
                     </div>
@@ -30,7 +30,6 @@
                             <tbody>
                                 @php $i = $all_comments->count(); @endphp
                                 @foreach ($all_comments as $comment)
-                                <?php $dash=''; ?>
                                     <tr>
                                         <td style="text-align: center">{{ $i-- }}</td>
                                         <td><a href="{{ route('post.single-post', [$comment->posts->category->slug, $comment->posts->slug]) }}" target="_blank">{{ $comment->posts->title }}</a></td>
@@ -71,11 +70,6 @@
                                                             </a>
                                         </td>
                                     </tr>
-
-                                    @if(count($comment->subcomment))
-                                    @include('livewire.backend.comment.sub-comment', ['subcomments' => $comment->subcomments])
-                                    @endif
-
                                 @endforeach
                             </tbody>
                           </table>
@@ -84,8 +78,6 @@
             </div>
         </div>
     </section>
-</div>
-
 @push('page-js')
 <script>
     $(document).ready(function() {
@@ -100,3 +92,4 @@
 } );
 </script>
 @endpush
+</x-backend-layout>

@@ -95,19 +95,19 @@
                     </ul>
                 </li>
 
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fa fa-list-alt"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Pages</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">3</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fas fa-file-alt"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Pages</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">3</span></a>
                     <ul class="menu-content">
 
                         <li class="@if(Route::is('admin-panel.all-pages') ) active @endif nav-item">
                             <a class="d-flex align-items-center" href="{{ route('admin-panel.all-pages') }}">
-                                <i class="fa fa-list-alt"></i>
+                                <i class="fas fa-file-alt"></i>
                                 <span class="menu-item text-truncate" data-i18n="Collapsed Menu">All Pages</span>
                             </a>
                         </li>
 
                         <li class="@if(Route::is('admin-panel.page-create') ) active @endif nav-item">
                             <a class="d-flex align-items-center" href="{{ route('admin-panel.page-create') }}">
-                                <i class="fa fa-list-alt"></i>
+                                <i class="fas fa-file-alt"></i>
                                 <span class="menu-item text-truncate" data-i18n="Collapsed Menu">Create New Page</span>
                             </a>
                         </li>
@@ -159,14 +159,14 @@
                     </li>
                     <li class="@if(Route::is('admin-panel.media.trashed') ) active @endif nav-item">
                     <a class="d-flex align-items-center" href="{{ route('admin-panel.media.trashed') }}">
-                    <i class="fa fa-list-alt"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Trashed Media</span>
+                    <i class="fas fa-trash-alt"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Trashed Media</span>
                     </a>
                     </li>
                     </ul>
                     </li>
 
 
-                    <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fas fa-icons"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Tags</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
+                    <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fas fa-tags"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Tags</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
                         <ul class="menu-content">
                             <li class="@if(Route::is('admin-panel.all-tags') ) active @endif nav-item">
                                 <a class="d-flex align-items-center" href="{{ route('admin-panel.all-tags') }}">
@@ -175,13 +175,13 @@
                             </li>
                             <li class="@if(Route::is('admin-panel.tag.trashed-tag') ) active @endif nav-item">
                             <a class="d-flex align-items-center" href="{{ route('admin-panel.tag.trashed-tag') }}">
-                            <i class="fa fa-list-alt"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Trashed Tag</span>
+                            <i class="fas fa-trash-alt"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Trashed Tag</span>
                             </a>
                             </li>
                         </ul>
                     </li>
 
-                    <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fas fa-icons"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Widget</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
+                    <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fas fa-border-all"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Widget</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
                         <ul class="menu-content">
                             <li class="@if(Route::is('admin-panel.all-widgets') ) active @endif nav-item">
                                 <a class="d-flex align-items-center" href="{{ route('admin-panel.all-widgets') }}">
@@ -190,7 +190,27 @@
                             </li>
                             <li class="@if(Route::is('admin-panel.all-trashed-widgets') ) active @endif nav-item">
                             <a class="d-flex align-items-center" href="{{ route('admin-panel.all-trashed-widgets') }}">
-                            <i class="fa fa-list-alt"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Trashed Widgets</span>
+                            <i class="fas fa-trash-alt"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Trashed Widgets</span>
+                            </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fas fa-comments"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Comments</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">3</span></a>
+                        <ul class="menu-content">
+                            <li class="@if(Route::is('admin-panel.all-comments') ) active @endif nav-item">
+                                <a class="d-flex align-items-center" href="{{ route('admin-panel.all-comments') }}">
+                                <i class="fas fa-comments"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">All Comments</span>
+                                </a>
+                            </li>
+                            <li class="@if(Route::is('admin-panel.all-inactive-comments') ) active @endif nav-item">
+                                <a class="d-flex align-items-center" href="{{ route('admin-panel.all-inactive-comments') }}">
+                                <i class="fas fa-comments"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">All Inactive Comments</span>
+                                </a>
+                            </li>
+                            <li class="@if(Route::is('admin-panel.all-trashed-comments') ) active @endif nav-item">
+                            <a class="d-flex align-items-center" href="{{ route('admin-panel.all-trashed-comments') }}">
+                            <i class="fas fa-trash-alt"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Trashed Comments</span>
                             </a>
                             </li>
                         </ul>

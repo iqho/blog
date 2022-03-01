@@ -25,6 +25,8 @@ use App\Http\Livewire\Backend\Media\TrashedMedia;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Livewire\Backend\Category\AllCategory;
 use App\Http\Livewire\Backend\Category\TrashedCategory;
+use App\Http\Livewire\Backend\Comment\AllComment;
+use App\Http\Livewire\Backend\Comment\TrashedComment;
 use App\Http\Livewire\Backend\Widget\TrashedWidget;
 use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 
@@ -69,3 +71,9 @@ Route::get('/page/trashed-pages', TrashedPage::class)->name('trashed-pages');
 // Side Widget
 Route::get('/widget/all-widgets', Widget::class)->name('all-widgets');
 Route::get('/widget/all-trashed-widgets', TrashedWidget::class)->name('all-trashed-widgets');
+
+// Comments
+Route::get('/comments/all-comments', AllComment::class)->name('all-comments');
+Route::get('/comments/all-inactive-comments', [AllComment::class, 'inactiveComments'])->name('all-inactive-comments');
+Route::get('/comments/all-trashed-comments', TrashedComment::class)->name('all-trashed-comments');
+

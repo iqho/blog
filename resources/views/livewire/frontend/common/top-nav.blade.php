@@ -15,9 +15,9 @@
                     </div>
                     <ul class="menu-section" style="margin:0px">
                         <li class="menu-item"><a class="@if(Request::is('/')) active @endif" href="{{ url('/') }}">Home</a></li>
-                        <li class="menu-item"><a class="@if(Request::is('/about-us')) active @endif" href="{{ url('/about-us') }}">About US</a></li>
+                        <li class="menu-item"><a class="@if(Request::url() == url('/about-us')) active @endif" href="{{ url('/about-us') }}">About US</a></li>
                         <li class="menu-item"><a class="{{ Request::is('/our-vision') ? 'active' : '' }}" href="{{ url('/our-vision') }}">Our Vision</a></li>
-                        <li class="menu-item"><a class="@if(Request::is('/contact-us')) active @endif" href="{{ url('/contact-us') }}">Contact Us</a></li>
+                        <li class="menu-item"><a class="@if(Request::url() == url('/contact-us')) active @endif" href="{{ url('/contact-us') }}">Contact Us</a></li>
                         <li class="menu-item-has-children">
                             @auth
                             <a href="#">{{ Auth::user()->name }} <i class="ion ion-ios-arrow-down"></i></a>

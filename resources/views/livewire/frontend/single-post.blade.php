@@ -31,6 +31,17 @@
                 @endif
                 @endauth
         </div>
+        <div class="flex-row g-0 border-top border-gray p-2 text-left" style="font-size:17px; font-weight: 600;">
+            @forelse ($post->comments as $comment)
+            <?php $dash=''; ?>
+            {{ $comment->comment_body }} <br>
+            @if(count($comment->subcomment))
+            @include('livewire.frontend.sub-comment', ['subcomments' => $comment->subcomment])
+            @endif
+            @empty
+            <h6>No Comments</h6>
+            @endforelse
+        </div>
     </div>
 
 </div>

@@ -38,7 +38,7 @@
 
     <!-- Categories widget-->
     <div class="card mb-4">
-        <div class="card-header">Categories</div>
+        <div class="card-header text-center" style="font-size:20px; font-weight:600;">Categories</div>
         <div class="card-body">
             <div class="row">
                 <div class="col-12 side-widget-cat">
@@ -61,8 +61,8 @@
 
     @if ($rightWidgets->count() > 0)
         @foreach ($rightWidgets as $rightwidget)
-        <div class="card mb-4">
-                <div class="card-header">{{ $rightwidget->title }}</div>
+        <div class="card mb-4 text-center">
+                <div class="card-header" style="font-size:20px; font-weight:600;">{{ $rightwidget->title }}</div>
                 <div class="card-body"> {!! eval('?>'.Blade::compileString($rightwidget->body)) !!} </div>
         </div>
         @endforeach
