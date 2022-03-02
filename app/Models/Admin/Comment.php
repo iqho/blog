@@ -12,6 +12,8 @@ class Comment extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $dates = ['deleted_at'];
+
     protected $fillable = ['post_id', 'user_id', 'parent_id', 'comment_body', 'commenter_ip', 'is_sticky'];
 
     public function users()
@@ -22,6 +24,11 @@ class Comment extends Model
     public function posts()
     {
         return $this->belongsTo(Post::class, 'post_id');
+    }
+
+    public function replies()
+    {
+        return $this->hasMany(Comment::class, 'parent_id');
     }
 
     public function subcomment()

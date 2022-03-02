@@ -12,8 +12,9 @@ class Media extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['title', 'slug', 'media_name', 'caption', 'alt', 'description', 'media_type', 'extension', 'user_id'];
     protected $dates = ['deleted_at'];
+
+    protected $fillable = ['title', 'slug', 'media_name', 'caption', 'alt', 'description', 'media_type', 'extension', 'user_id'];
 
     public function users()
     {

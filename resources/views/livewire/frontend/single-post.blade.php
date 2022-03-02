@@ -31,16 +31,24 @@
                 @endif
                 @endauth
         </div>
-        <div class="flex-row g-0 border-top border-gray p-2 text-left" style="font-size:17px; font-weight: 600;">
-            @forelse ($post->comments as $comment)
-            <?php $dash=''; ?>
-            {{ $comment->comment_body }} <br>
-            @if(count($comment->subcomment))
-            @include('livewire.frontend.sub-comment', ['subcomments' => $comment->subcomment])
-            @endif
-            @empty
-            <h6>No Comments</h6>
-            @endforelse
+        <div class="flex-row g-0 border-top border-gray p-2 text-left p-md-4" style="font-size:17px; font-weight: 600;">
+            <div class="col mt-3 border border-success p-3">
+            @include('livewire.frontend.sub-comment', ['comments' => $post->comments, 'post_id' => $post->id])
+            </div>
+            <div class="col mt-3 border border-success">
+            <h5 class="w-100 bg-success text-white p-2 g-0">Add New Comment</h5>
+            <form method="post" action="{{ route('comments.store')}}">
+                @csrf
+                <div class="form-group m-2">
+                    <textarea class="form-control" name="comment_body" placeholder="Write Your Comment Here"></textarea>
+                    <input type="hidden" name="post_id" value="{{ $post->id }}" />
+                </div>
+                <div class="form-group mt-1">
+                    <input type="submit" class="btn btn-success m-2" value="Add Comment" />
+                </div>
+            </form>
+            </div>
+
         </div>
     </div>
 

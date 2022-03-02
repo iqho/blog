@@ -9,6 +9,7 @@ use App\Http\Livewire\Frontend\SinglePost;
 use App\Http\Livewire\Frontend\HomeContent;
 use App\Http\Livewire\Frontend\CategoryPost;
 use App\Http\Controllers\DashboardController;
+use App\Http\Livewire\Backend\Comment\AllComment;
 use App\Http\Livewire\Frontend\SearchPage;
 use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 
@@ -24,7 +25,7 @@ Route::get('/post/tag/{slug}', TagPost::class)->name('post.tag-post');
 Route::get('/post/nav/search', SearchPage::class)->name('post.search-post');
 Route::get('/post/nav/autocomplete-search', [SearchPage::class, 'autocompleteSearch'])->name('post.autocomplete-search');
 
-
+Route::post('/post/comment/store', [AllComment::class, 'store'])->name('comments.store');
 
 
 

@@ -13,6 +13,8 @@ class Tag extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $dates = ['deleted_at'];
+
     protected $fillable = ['title', 'slug', 'meta_description', 'tag_order', 'user_id'];
 
 

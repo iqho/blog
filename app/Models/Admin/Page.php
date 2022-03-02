@@ -12,6 +12,8 @@ class Page extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $dates = ['deleted_at'];
+
     protected $fillable = ['title', 'slug', 'description', 'meta_description', 'tags', 'featured_image', 'user_id', 'publish_status', 'is_sticky', 'is_nav', 'views', 'page_order'];
 
     public function users()

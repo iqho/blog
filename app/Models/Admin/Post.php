@@ -14,6 +14,8 @@ class Post extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $dates = ['deleted_at'];
+
     protected $fillable = ['title', 'slug', 'short_description', 'description', 'meta_description', 'featured_image', 'category_id', 'user_id', 'publish_status', 'is_sticky', 'allow_comments', 'views', 'post_order', 'published_at'];
 
 
@@ -34,7 +36,7 @@ class Post extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class, 'post_id', 'id');
+        return $this->hasMany(Comment::class, 'post_id', 'id')->whereNull('parent_id');
     }
 
     public function getRouteKeyName()
