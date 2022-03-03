@@ -81,7 +81,7 @@ border-bottom: 1px solid #e0e0e0;
 }
 
 .display-comment .comment-text {
-    font-size: 12px;
+    font-size: 14px;
     margin: 0px;
 }
 
@@ -105,3 +105,85 @@ border-bottom: 1px solid #e0e0e0;
     cursor: pointer
 }
 
+.display-comment .triangle {
+    position: relative;
+    box-sizing: border-box;
+    background: #fff;
+    border: 1px solid #fafafa;
+    padding: 2px 2px 3px 5px;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+  }
+.display-comment .triangle::after{
+      z-index: -10;
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      margin-left: 0;
+      bottom: 0;
+      top: calc(15px - 5px);
+      left:0;
+      box-sizing: border-box;
+      border: 5px solid #fff;
+      border-color: transparent transparent #fff #fff;
+      transform-origin: 0 0;
+      transform: rotate(45deg);
+      box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+    }
+.display-comment .triangle::before{
+      z-index: 10;
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      margin-left: 0;
+      bottom: 0;
+      top: calc(15px - 5px);
+      left:0;
+      box-sizing: border-box;
+      border: 5px solid black;
+      border-color: transparent transparent #fff #fff;
+      transform-origin: 0 0;
+      transform: rotate(45deg);
+    }
+
+.comment-textarea-triangle {
+        position: relative;
+        box-sizing: border-box;
+        background: #fff;
+        border: 1px solid #fafafa;
+        box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 2px;
+      }
+.comment-textarea-triangle::after{
+          z-index: -10;
+          content: "";
+          position: absolute;
+          width: 0;
+          height: 0;
+          margin-left: 0;
+          bottom: 0;
+          top: calc(15px - 5px);
+          left:0;
+          box-sizing: border-box;
+          border: 5px solid #fff;
+          border-color: transparent transparent #fff #fff;
+          transform-origin: 0 0;
+          transform: rotate(45deg);
+          box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 2px;
+        }
+.comment-textarea-triangle::before{
+          z-index: 10;
+          content: "";
+          position: absolute;
+          width: 0;
+          height: 0;
+          margin-left: 0;
+          bottom: 0;
+          top: calc(15px - 5px);
+          left:0;
+          box-sizing: border-box;
+          border: 5px solid black;
+          border-color: transparent transparent #fff #fff;
+          transform-origin: 0 0;
+          transform: rotate(45deg);
+        }

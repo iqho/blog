@@ -34,36 +34,40 @@
 
         <div class="flex-row g-0 border-top border-gray p-2 text-left px-md-3" style="font-size:17px; font-weight: 600;">
             <div class="col mt-1 px-3">
+                @auth
+                <div class="col mt-3">
+                    <h5 class="w-100 p-2 g-0 ps-4 ms-3">Write New Comment</h5>
+                    <form method="post" action="{{ route('comments.store')}}" style="width: 100%">
+                        @csrf
+                        <div class="d-flex flex-row align-items-start">
+                        <img class="rounded-circle" title="{{ Auth::user()->name }}" src="{{ Auth::user()->profile_photo_url }}
+                        " width="40" height="35">
+                        <div class="comment-textarea-triangle w-100 p-1" style="margin-left:10px">
+                        <textarea class="form-control ms-1 shadow-none textarea border-0 p-0" wire:model="comment_body" name="comment_body" placeholder="Write Your Comment Here" rows="3"></textarea>
+                        <input type="hidden" name="post_id" wire:model="post_id" value="{{ $post->id }}" />
+                        </div>
+                        </div>
+                        <div class="m-2 d-flex justify-content-end">
+                            <button class="btn btn-primary btn-sm shadow-none me-1" type="button" wire:click="store">Post Comment</button>
+                        </div>
+                    </form>
+                </div>
+                @else
+                <div class="p-2 ms-5"><h6>Please <a href="{{ url('/login') }}">Login</a> first for write a new comments</h6></div>
+                @endauth
+
                 @if ($post->comments->count() > 0)
                 @php
-                  $total_comments = App\Models\Admin\Comment::where('post_id', 22)->count();
+                $total_comments = App\Models\Admin\Comment::where('post_id', $post->id)->count();
                 @endphp
-                <h5 class="mb-2 ps-2 pb-2 border-bottom border-gray">All Comments ({{ $total_comments }})</h5>
-                @include('livewire.frontend.sub-comment', ['comments' => $post->comments, 'post_id' => $post->id])    
+                <h5 class="mb-2 ps-2 pb-2 mt-2 border-bottom border-gray">All Comments ({{ $total_comments }})</h5>
+                @include('livewire.frontend.sub-comment', ['comments' => $post->comments, 'post_id' => $post->id])
                 @else
-                <h5 class="w-100 text-center mb-2 pb-2 border-bottom border-gray">No Comments</h5>                
+                <h5 class="w-100 text-center m-2 border-top pt-2 border-gray">No Comments</h5>
                 @endif
-
             </div>
-            @auth
-            <div class="col mt-3 border border-success">
-                <h5 class="w-100 bg-success text-white p-2 g-0">Add New Comment</h5>
-                <form method="post" action="{{ route('comments.store')}}">
-                    @csrf
-                    <div class="form-group m-2">
-                        <textarea class="form-control" name="comment_body" placeholder="Write Your Comment Here"></textarea>
-                        <input type="hidden" name="post_id" value="{{ $post->id }}" />
-                    </div>
-                    <div class="form-group mt-1">
-                         <input type="submit" class="btn btn-success mx-2 mb-2" value="Add Comment" />
-                    </div>
-                </form>
-            </div>
-            @else 
-            <h6 class="m-2">Please <a href="{{ url('/login') }}">Login</a> First for Add Comment</h6>
-            @endauth
         </div>
-        
+
     </div>
 </div>
 
@@ -80,3 +84,4 @@
         });
     });
 </script>
+
