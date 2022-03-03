@@ -76,36 +76,32 @@ border-bottom: 1px solid #e0e0e0;
     }
   }
 
-
-.date {
+.display-comment .date {
     font-size: 11px
 }
 
-.comment-text {
+.display-comment .comment-text {
     font-size: 12px;
     margin: 0px;
 }
 
-.fs-12 {
+.display-comment .fs-12 {
     font-size: 12px
 }
 
-.shadow-none {
+.display-comment .shadow-none {
     box-shadow: none
 }
 
-.name {
+.display-comment .name {
     color: #007bff
 }
 
-.cursor:hover {
+.display-comment .cursor:hover {
     color: blue
 }
 
-.cursor {
+.display-comment .cursor {
     cursor: pointer
 }
 
-.textarea {
-    resize: none
-}

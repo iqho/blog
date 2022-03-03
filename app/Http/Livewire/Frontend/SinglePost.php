@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Frontend;
 
+use App\Models\Admin\Comment;
 use Livewire\Component;
 use App\Models\Admin\Post;
 use Illuminate\Support\Facades\Session;
