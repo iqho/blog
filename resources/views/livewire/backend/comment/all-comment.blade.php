@@ -36,10 +36,10 @@
                                         <td><a href="{{ route('post.single-post', [$comment->posts->category->slug, $comment->posts->slug]) }}" target="_blank">{{ $comment->posts->title }}</a></td>
                                         <td style="padding: 0px 4px;">{{ $comment->comment_body }}</td>
                                         <td>
-                                            @if(!empty($comment->users->name))
-                                            {{ $comment->users->name }}
+                                            @if(!empty($comment->user->name))
+                                            {{ $comment->user->name }}
                                             @else
-                                                Comment Author Not Found !
+                                                Comment Author Not Found
                                             @endif
                                             </td>
                                         <td><div class="d-inline-flex">

@@ -48,10 +48,10 @@
                                   <td>{{ $tag->slug }}</td>
                                   <td>{{ $tag->meta_description }}</td>
                                   <td>
-                                      @if(!empty($tag->users->name))
-                                          {{ $tag->users->name }}
+                                      @if(!empty($tag->user->name))
+                                          {{ $tag->user->name }}
                                       @else
-                                          Creator Not Found !
+                                          Creator Not Found 
                                       @endif
                                   </td>
                                   <td style="text-align:center">{{ date('d-M-Y h:i a', strtotime($tag->created_at)); }}</td>

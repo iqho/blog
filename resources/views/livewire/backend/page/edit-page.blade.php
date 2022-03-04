@@ -127,7 +127,7 @@
             <div class="col-12 w-100">
               <label class="form-label" for="basic-addon-title">Post Slug</label>
               <div class="input-group">
-                <span class="input-group-text" id="slug">{{ url('/posts') }}/</span>
+                <span class="input-group-text" id="slug">{{ url('/') }}/</span>
                 <input type="text" class="form-control" name="slug" wire:model="slug" value="{{ old('slug') }}"
                   required />
                 @error('slug') <span class="text-danger error col-12">{{ $message }}</span>@enderror

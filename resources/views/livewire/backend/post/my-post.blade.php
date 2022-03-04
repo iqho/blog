@@ -1,6 +1,6 @@
 <x-backend-layout>
     @section('title','Show All My Post')
-    
+
     <section id="responsive-datatable">
         <div class="row">
             <div class="col-12">
@@ -45,7 +45,7 @@
                                             @endif
                                         </td>
                                         <td>{{ $post->category->name }}</td>
-                                        <td>{{ $post->users->name }}</td>
+                                        <td>{{ $post->user->name }}</td>
                                         <td><div class="d-inline-flex">
                                             <a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4">

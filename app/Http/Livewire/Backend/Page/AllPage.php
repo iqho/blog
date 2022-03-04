@@ -11,11 +11,12 @@ class AllPage extends Component
 
     public function render()
     {
+
         if (auth()->user()->user_type == 1) {
-            $data['pages'] = Page::with('users')->get();
+            $data['pages'] = Page::with('user')->get();
         }
         else{
-        $data['pages'] = Page::where('user_id', auth()->id())->with('users')->get();
+        $data['pages'] = Page::where('user_id', auth()->id())->with('user')->get();
         }
         return view('livewire.backend.page.all-page', compact('data'));
     }

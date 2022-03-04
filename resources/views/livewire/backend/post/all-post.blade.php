@@ -45,8 +45,8 @@
                                         </td>
                                         <td>{{ $post->category->name }}</td>
                                         <td>
-                                            @if(!empty($post->users->name))
-                                            {{ $post->users->name }}
+                                            @if(!empty($post->user->name))
+                                            {{ $post->user->name }}
                                             @else
                                                 Post Author Not Found !
                                             @endif

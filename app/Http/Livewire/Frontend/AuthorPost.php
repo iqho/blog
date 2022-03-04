@@ -29,13 +29,13 @@ class AuthorPost extends Component
     if($author){
     $author_name = $author->name;
     $posts = Post::where('user_id', $this->newid)->where(function ($sub_query) {
-                $sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
+                 $sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
             })->orderBy('id', 'desc')->paginate(10);
     }
     else{
             return abort(404);
     }
-        return view('livewire.frontend.author-post',compact('posts', 'author_name'))->layout('layouts.app');
+        return view('livewire.frontend.author-post', compact('posts', 'author_name'))->layout('layouts.app');
     }
 
     public function setPage($url)

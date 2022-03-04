@@ -32,12 +32,12 @@
                                 @foreach ($data['posts'] as $post)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td><a href="{{ route('post.single-post', [$post->category->slug, $post->slug]) }}">{{ $post->title }}</a>
+                                    <td><a href="{{ route('post.single-post', [$post->category->slug, $post->slug]) }}" target="_blank">{{ $post->title }}</a>
                                     </td>
                                     <td>{{ $post->slug }}</td>
                                     <td>{{ $post->image }}</td>
                                     <td>{{ $post->category->name }}</td>
-                                    <td>{{ $post->users->name }}</td>
+                                    <td>{{ $post->user->name }}</td>
                                     <td>
                                         <div class="d-inline-flex">
                                             <a class="pe-1 dropdown-toggle hide-arrow text-primary"

@@ -44,8 +44,8 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if(!empty($page->users->name))
-                                            {{ $page->users->name }}
+                                            @if(!empty($page->user->name))
+                                            {{ $page->user->name }}
                                             @else
                                                 Page Author Not Found !
                                             @endif

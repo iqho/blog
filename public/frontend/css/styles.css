@@ -187,3 +187,14 @@ border-bottom: 1px solid #e0e0e0;
           transform-origin: 0 0;
           transform: rotate(45deg);
         }
+
+.all-recent-btn{
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    color: darkblue;
+    border-bottom: 1px dashed darkblue;
+}
+.all-recent-btn:hover{
+color: brown;
+}

@@ -16,7 +16,7 @@ class Comment extends Model
 
     protected $fillable = ['post_id', 'user_id', 'parent_id', 'comment_body', 'commenter_ip', 'is_sticky'];
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }

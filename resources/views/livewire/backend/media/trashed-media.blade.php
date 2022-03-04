@@ -86,7 +86,7 @@ for ( $i = 0; $bytes >= 1024 && $i < ( count( $label ) -1 ); $bytes /=1024, $i++
                                     </td>
                                     <td><a href="#" data-bs-toggle="modal" data-bs-target="#detailsTrashedMediaModal" wire:click.prevent="details({{ $media->id }})">{{ $media->slug }}</a></td>
                                     <td class="text-center"><a href="#" data-bs-toggle="modal" data-bs-target="#detailsTrashedMediaModal" wire:click="details({{ $media->id }})"><img src="{{ asset('storage/media/'.$media->media_name) }}" width="40" height="40" alt="{{ $media->title }}"></a></td>
-                                    <td class="text-center">{{ $media->users->name }}</td>
+                                    <td class="text-center">{{ $media->user->name }}</td>
                                     <td class="text-center" style="text-align: center; min-width: 200px">
 
                                         <button type="button" wire:click="restore({{ $media->id }})" onclick="confirm('Confirm ! You Want to Restore This Media ?') || event.stopImmediatePropagation()" class="btn btn-relief-success waves-effect waves-float waves-light" style="margin: 2px; padding: 10px">

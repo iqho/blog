@@ -27,10 +27,10 @@ class TrashedPost extends Component
     public function render()
     {
         if (auth()->user()->user_type == 1) {
-            $data['posts'] = Post::onlyTrashed()->with('category')->with('users')->get();
+            $data['posts'] = Post::onlyTrashed()->with('category')->with('user')->get();
         }
         else{
-        $data['posts'] = Post::onlyTrashed()->where('user_id', auth()->id())->with('category')->with('users')->get();
+        $data['posts'] = Post::onlyTrashed()->where('user_id', auth()->id())->with('category')->with('user')->get();
         }
 
         //$data['posts'] = Post::onlyTrashed()->with('category')->get();

@@ -35,17 +35,17 @@ class AllPost extends Component
     public function render()
     {
         if (auth()->user()->user_type == 1) {
-            $data['posts'] = Post::with('category')->with('users')->get();
+            $data['posts'] = Post::with('category')->with('user')->get();
         }
         else{
-        $data['posts'] = Post::where('user_id', auth()->id())->with('category')->with('users')->get();
+        $data['posts'] = Post::where('user_id', auth()->id())->with('category')->with('user')->get();
         }
         return view('livewire.backend.post.all-post', compact('data'));
     }
 
     public function MyPost()
     {
-        $data['posts'] = Post::where('user_id', auth()->id())->with('category')->with('users')->get();
+        $data['posts'] = Post::where('user_id', auth()->id())->with('category')->with('user')->get();
         return view('livewire.backend.post.my-post', compact('data'));
     }
 

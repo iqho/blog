@@ -130,6 +130,7 @@ animation: mymove 5s infinite;
   color: #20db55;
   display: inline-block;
   position: relative;
+  text-decoration: none;
 }
 .blog-card .description .read-more a:hover {
     color: #d12121;

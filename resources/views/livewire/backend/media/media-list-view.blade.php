@@ -92,8 +92,8 @@
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        @if(!empty($media->users->name))
-                                        {{ $media->users->name }}
+                                        @if(!empty($media->user->name))
+                                        {{ $media->user->name }}
                                         @else
                                             Media Author Not Found !
                                         @endif

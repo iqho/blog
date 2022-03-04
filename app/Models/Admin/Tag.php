@@ -18,7 +18,7 @@ class Tag extends Model
     protected $fillable = ['title', 'slug', 'meta_description', 'tag_order', 'user_id'];
 
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }

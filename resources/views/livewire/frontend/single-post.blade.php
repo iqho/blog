@@ -12,7 +12,7 @@
             <h2>{{ $post->title }}</h2>
         </div>
         <div class="flex-row border-bottom border-gray px-md-3 px-1 py-1 g-0 fst-italic" style="font-size:17px; font-weight: 600;">
-            Category: <a href="{{ route('post-category', $post->category->slug) }}" class="d-inline text-decoration-none"> {{ $post->category->name }}</a> , Posted on: {{ date('d M Y, h:i A', strtotime($post->created_at)) }} by <a href="{{ route('post.author-post', $post->users->id) }}" class="d-inline text-decoration-none">{{ $post->users->name }}</a>
+            By <a href="{{ route('post.author-post', $post->user->id) }}" class="d-inline text-decoration-none">{{ $post->user->name }}</a> in <a href="{{ route('post-category', $post->category->slug) }}" class="d-inline text-decoration-none"> {{ $post->category->name }}</a> at {{ date('d M Y, h:i A', strtotime($post->created_at)) }}
         </div>
         <div class="flex-row clearfix g-0 px-md-3 px-1" style="text-align: justify;">
             @if ($post->featured_image)
@@ -26,7 +26,7 @@
             @endforeach
             <span class="ms-1 d-inline float-end"><i class="fa-solid fa-eye" alt="{{ __('Views') }}" title="{{ __('Views') }}"></i> {{ $post->views }}</span>
             @auth
-            @if (Auth::user()->id === $post->users->id)
+            @if (Auth::user()->id === $post->user->id)
             <div class="d-inline text-decoration-none float-end me-1"><a class="text-decoration-none" href="{{ route('admin-panel.edit-post', $post->id) }}" target="_blank"><i class="fa-solid fa-pen-to-square"></i></a></div>
             @endif
             @endauth

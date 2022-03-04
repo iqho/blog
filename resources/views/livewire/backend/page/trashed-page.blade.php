@@ -40,7 +40,7 @@
                                             style="width: 40px; height:35px">
                                         @endif
                                     </td>
-                                    <td>{{ $page->users->name }}</td>
+                                    <td>{{ $page->user->name }}</td>
                                     <td>
                                         <div class="d-inline-flex">
                                             <a class="p-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><i class="fas fa-sliders-h"></i></a>
@@ -48,7 +48,7 @@
                                                 <a href="#" class="dropdown-item"
                                                     onclick="confirm('Confirm Restore This Page ?') || event.stopImmediatePropagation()"
                                                     wire:click.prevent="restorePage({{ $page->id }})"><i class="fas fa-retweet"></i> Restore Page</a>
-                                
+
                                                 <a href="#" class="dropdown-item"
                                                     onclick="confirm('Confirm Delete This Page Parmanently ?') || event.stopImmediatePropagation()"
                                                     wire:click.prevent="parmanentDelete({{ $page->id }})">
@@ -89,3 +89,4 @@
 } );
 </script>
 @endpush
+

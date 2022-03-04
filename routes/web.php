@@ -9,6 +9,8 @@ use App\Http\Livewire\Frontend\SinglePost;
 use App\Http\Livewire\Frontend\HomeContent;
 use App\Http\Livewire\Frontend\CategoryPost;
 use App\Http\Controllers\DashboardController;
+use App\Http\Livewire\Frontend\MostPopular;
+use App\Http\Livewire\Frontend\MostRecent;
 use App\Http\Livewire\Frontend\SearchPage;
 use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 
@@ -25,6 +27,8 @@ Route::get('/post/nav/search', SearchPage::class)->name('post.search-post');
 Route::get('/post/nav/autocomplete-search', [SearchPage::class, 'autocompleteSearch'])->name('post.autocomplete-search');
 
 Route::post('/post/comment/store', [SinglePost::class, 'storeReply'])->name('comments.store');
+Route::get('/post/most-recent/all', MostRecent::class)->name('post.all-most-recent-post');
+Route::get('/post/most-popular/all', MostPopular::class)->name('post.all-most-popular-post');
 
 
 

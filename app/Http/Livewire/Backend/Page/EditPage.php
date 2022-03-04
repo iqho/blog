@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\File;
 class EditPage extends Component
 {
     use WithFileUploads;
-    public $title, $slug, $description, $featured_image, $featured_image2, $publish_status, $is_sticky, $is_nav, $page_order, $page, $tags;
+    public $title, $slug, $description, $featured_image, $featured_image2, $publish_status, $is_sticky, $is_nav, $page_order, $page, $tags, $current_slug;
     public $checkMode = false;
 
 
@@ -31,23 +31,24 @@ class EditPage extends Component
         $this->publish_status = $page->publish_status;
         $this->tags = $page->tags;
 
+        $this->current_slug = $page->slug;
+
 
         if (auth()->user()->user_type == 1) {
             return $this->page = $page;
         }
         elseif (auth()->id() == $page->user->id) {
-            return $this->page = $page;
+            return [$this->page = $page, $this->current_slug];
         }
         else {
             return redirect(route('admin-panel.all-pages'));
         }
     }
 
-
     public function render()
     {
         $data['checkEmpty'] = Str::length($this->slug);
-        $data['checkSlug'] = Page::where('slug', '=', Str::slug($this->slug))->exists();
+        $data['checkSlug'] = Page::where('slug', '=', Str::slug($this->slug))->where('slug', '!=', $this->current_slug)->exists();
 
         return view('livewire.backend.page.edit-page', compact('data'));
     }

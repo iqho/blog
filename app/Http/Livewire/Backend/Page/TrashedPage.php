@@ -11,9 +11,9 @@ class TrashedPage extends Component
     public function render()
     {
         if (auth()->user()->user_type == 1) {
-            $data['pages'] = Page::onlyTrashed()->with('users')->get();
+            $data['pages'] = Page::onlyTrashed()->with('user')->get();
         } else {
-            $data['pages'] = Page::onlyTrashed()->where('user_id', auth()->id())->with('users')->get();
+            $data['pages'] = Page::onlyTrashed()->where('user_id', auth()->id())->with('user')->get();
         }
         return view('livewire.backend.page.trashed-page', compact('data'));
     }

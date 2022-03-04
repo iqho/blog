@@ -23,7 +23,7 @@
                 <div class="photo" style="background-image: url({{ asset('images/no-image-available.jpg') }})"></div>
                 @endif
                 <ul class="details">
-                    <li class="author">{{ $post->users->name }}</li>
+                    <li class="author">{{ $post->user->name }}</li>
                     <li class="category"><a href="{{ route('post-category', $post->category->slug) }}">{{ $post->category->name }}</a></li>
                     <li class="date">{{ date('d-M-Y h:i a', strtotime($post->created_at)); }}</li>
                     <li class="tags">
@@ -33,6 +33,7 @@
                             @endforeach
                         </ul>
                     </li>
+                    <li><i class="fa-solid fa-eye" alt="{{ __('Views') }}" title="{{ __('Views') }}"></i> {{ $post->views }} {{ __('Views') }}</li>
                 </ul>
             </div>
             <div class="description pt-1 pb-2" style="min-height: 150px">

@@ -1,15 +1,13 @@
-@section('title', $tag_name. ' | M Blog' )
+@section('title', 'All Most Recent Post | M Blog' )
 <div class="col-lg-8 mb-2 g-0">
     <nav aria-label="breadcrumb" class="border border-gray g-0 mb-2 p-1 pb-2 ps-4 sugg">
         <ol class="breadcrumb" style="margin: 0px;">
           <li class="breadcrumb-item"><a href="{{ url('/') }}"><i class="fa-solid fa-house-window"></i></a></li>
-          <li class="breadcrumb-item active" aria-current="page">{{ $tag_name }}</li>
+          <li class="breadcrumb-item active" aria-current="page">All Most Recent Post</li>
         </ol>
     </nav>
     <!-- Nested row for all blog posts-->
     <div class="row g-0">
-        <div class="col w-100 text-center mb-3" style="font-size: 22px;">All Post from Tag: <span
-                style="font-weight: 600">{{ $tag_name }}</span></div>
         <div class="col-12 mb-4">
             <input class="form-control form-control-lg" type="text" wire:model="searchTerm"
                 placeholder="Enter Post Title for Live Search" />
@@ -47,7 +45,7 @@
             </div>
         </div>
         @empty
-        <h3 class="text-danger mx-auto w-100 text-center">No Posts Found by this Author !</h3>
+               <h3 class="text-danger mx-auto w-100 text-center">No Posts Found by this Author !</h3>
         @endforelse
 
     </div>
@@ -56,3 +54,4 @@
         {{ $posts->onEachSide(2)->links('backend.includes.pagination-custom') }}
     </nav>
 </div>
+
