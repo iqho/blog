@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'is_author' => \App\Http\Middleware\Admin\IsAuthor::class,
         'is_editor' => \App\Http\Middleware\Admin\IsEditor::class,
         'is_contributor' => \App\Http\Middleware\Admin\IsContributor::class,
+        'is_admin_editor' => \App\Http\Middleware\Admin\IsAdminEditor::class,
     ];
 }

@@ -30,12 +30,21 @@ class AllMedia extends Component
 
     public function render()
         {
-        $data['media'] = Media::where('user_id', auth()->id())->where(function ($sub_query) {
-            $sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
-        })->orderBy('id', 'desc')->paginate(50);
+
+        if (auth()->user()->user_type == 1 || auth()->user()->user_type == 2) {
+            $data['media'] = Media::where(function ($sub_query) {
+                $sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
+            })->orderBy('id', 'desc')->paginate(50);
+        } else {
+            $data['media'] = Media::where('user_id', auth()->id())->where(function ($sub_query) {
+                $sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
+            })->orderBy('id', 'desc')->paginate(50);
+        }
+
 
         $data['checkEmpty'] = Str::length($this->slug);
         $data['checkslug'] = Media::where('slug', '=', $this->slug)->exists();
+
         return view('livewire.backend.media.media', compact('data'));
         }
 
@@ -283,5 +292,13 @@ class AllMedia extends Component
         File::delete([public_path('storage/media/'. $media->media_name)]);
         $media->forceDelete();
         session()->flash('message', 'Media Deleted Successfully.');
+    }
+
+    public function MyMedia()
+    {
+        $data['media'] = Media::where('user_id', auth()->id())->where(function ($sub_query) {
+            $sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
+        })->orderBy('id', 'desc')->paginate(50);
+        return view('livewire.backend.media.my-media', compact('data'));
     }
 }

@@ -108,8 +108,18 @@
       </div>
       @endif
 
-      <form action="{{ route('admin-panel.update-post') }}" method="post" class="needs-validation"
+      @canany(['isAdmin', 'isEditor'])
+        <form action="{{ route('admin-panel.update-post') }}" method="post" class="needs-validation"
         enctype="multipart/form-data" novalidate>
+        @endcanany
+        @can('isAuthor')
+        <form action="{{ route('author.update-post') }}" method="post" class="needs-validation" enctype="multipart/form-data"
+        novalidate>
+        @else
+        <form action="{{ route('contributor.update-post') }}" method="post" class="needs-validation"
+        enctype="multipart/form-data" novalidate>
+        @endcan
+
         @csrf
         <div class="row g-0">
           <div class="col-md-9 shadow rounded p-1">

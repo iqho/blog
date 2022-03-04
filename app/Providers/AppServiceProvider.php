@@ -54,7 +54,8 @@ class AppServiceProvider extends ServiceProvider
          });
 
 
-        $navPage = Page::where('is_nav', 1)->orderBy('page_order','asc')->get()->take(5);
+
+         $navPage = Page::where('is_nav', 1)->orderBy('page_order','asc')->get()->take(5);
         View::share('navPage', $navPage);
     }
 }

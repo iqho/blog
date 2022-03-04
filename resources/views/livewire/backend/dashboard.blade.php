@@ -18,10 +18,10 @@
                 <a class="btn btn-primary" href="{{ route('admin-panel.profile') }}">Update profile Information</a>
                 @elsecan('isAuthor')
                 <h3 class="mb-2">You are Author !</h3>
-                <a class="btn btn-primary" href="{{ route('admin-panel.profile') }}">Update profile Information</a>
+                <a class="btn btn-primary" href="{{ route('author.profile') }}">Update profile Information</a>
                 @elsecan('isContributor')
                 <h3 class="mb-2">You are Contributor !</h3>
-                <a class="btn btn-primary" href="{{ route('admin-panel.profile') }}">Update profile Information</a>
+                <a class="btn btn-primary" href="{{ route('contributor.profile') }}">Update profile Information</a>
                 @else
                 <h3 class="mb-2">You are Subscribers !</h3>
                 <a class="btn btn-primary" href="{{ route('user.profile') }}">Update profile Information</a>

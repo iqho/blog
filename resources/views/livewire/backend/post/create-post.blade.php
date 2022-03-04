@@ -106,7 +106,16 @@
                 </div>
                 @endif
 
+                @canany(['isAdmin', 'isEditor'])
                 <form action="{{ route('admin-panel.post-store') }}" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
+                @endcanany
+                @can('isAuthor')
+                <form action="{{ route('author.post-store') }}" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
+                @else
+                <form action="{{ route('contributor.post-store') }}" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
+                @endcan
+                
+
                   @csrf
                   <div class="row g-0">
                     <div class="col-md-9 shadow rounded p-1">

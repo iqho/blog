@@ -94,7 +94,16 @@ for ( $i = 0; $bytes >= 1024 && $i < ( count( $label ) -1 ); $bytes /=1024, $i++
     <hr/>
         <div class="row g-0 px-1 align-items-center h-100">
             <div class="col-md-3 col-sm-3 col-12 text-md-start text-center">
-                <a class="btn btn-outline-danger" href="{{ route('admin-panel.media.list-view') }}"><i class="fa fa-bars me-1"></i> List View</a>
+
+                @canany(['isAdmin', 'isEditor'])
+                <a class="btn btn-outline-danger" href="{{ route('admin-panel.media.list-view') }}"><i class="fa fa-bars me-1"></i> List
+                    View</a>
+                @endcanany
+                @can('isAuthor')
+                <a class="btn btn-outline-danger" href="{{ route('author.media.list-view') }}"><i class="fa fa-bars me-1"></i> List
+                    View</a>
+                @endcan
+
             </div>
             <div class="col-md-5 col-sm-5 col-12 g-0 text-center">
                 <button class="filter-button active" data-filter="all">All</button>

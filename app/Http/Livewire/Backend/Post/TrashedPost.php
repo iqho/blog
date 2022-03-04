@@ -5,35 +5,72 @@ namespace App\Http\Livewire\Backend\Post;
 use Livewire\Component;
 use App\Models\Admin\Post;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
 class TrashedPost extends Component
 {
     public function restorePost($id)
     {
-        Post::onlyTrashed()->find($id)->restore();
-        //session()->flash('message', 'Post Restore Successfully.');
-        return redirect(route('admin-panel.all-post'))->with('message', 'Post Restore Successfully.');
+        if (auth()->user()->user_type == 1 || auth()->user()->user_type == 2) {
+            $post = Post::findOrFail($id);
+            $post->restore();
+        } elseif (auth()->user()->user_type == 0) {
+            return redirect(route('contributor.all-posts'))->with('message', 'You have no permission to Delete Post');
+        } elseif (auth()->user()->user_type == 4) {
+            return redirect(route('contributor.all-posts'))->with('message', 'You have no permission to Delete Post');
+        } else {
+            $post = Post::where('user_id', auth()->id())->findOrFail($id);
+            $post->restore();
+        }
+
+        if (Gate::allows('isAdmin')) {
+            return redirect(route('admin-panel.all-posts'))->with('message', 'Post Move to Trashed Successfully');
+        } elseif (Gate::allows('isEditor')) {
+            return redirect(route('admin-panel.all-posts'))->with('message', 'Post Move to Trashed Successfully');
+        } else {
+            return redirect(route('author.all-posts'))->with('message', 'Post Move to Trashed Successfully');
+        }
     }
 
     public function parmanentDelete($id)
     {
-        $post = Post::onlyTrashed()->findOrFail($id);
-        File::delete([public_path('storage/post-image/' . $post->featured_image)]);
-        $post->forceDelete();
-        //session()->flash('message', 'Post Deleted Successfully.');
-        return redirect(route('admin-panel.trashedPost'))->with('message', 'Post Parmanently Deleted !');
+
+        if (auth()->user()->user_type == 1 || auth()->user()->user_type == 2) {
+            $post = Post::findOrFail($id);
+            File::delete([public_path('storage/post-images/' . $post->featured_image)]);
+            $post->forceDelete();
+        } 
+        elseif (auth()->user()->user_type == 0) {
+            return redirect(route('contributor.all-posts'))->with('message', 'You have no permission to Delete Post');
+        } 
+        elseif (auth()->user()->user_type == 4) {
+            return redirect(route('contributor.all-posts'))->with('message', 'You have no permission to Delete Post');
+        } 
+        else {
+            $post = Post::where('user_id', auth()->id())->findOrFail($id);
+            File::delete([public_path('storage/post-images/' . $post->featured_image)]);
+            $post->forceDelete();
+        }
+
+        if (Gate::allows('isAdmin')) {
+            return redirect(route('admin-panel.all-posts'))->with('message', 'Post Parmanently Deleted');
+        } elseif (Gate::allows('isEditor')) {
+            return redirect(route('admin-panel.all-posts'))->with('message', 'Post Parmanently Deleted');
+        } else {
+            return redirect(route('author.all-posts'))->with('message', 'Post Parmanently Deleted');
+        }
+        
     }
 
     public function render()
     {
-        if (auth()->user()->user_type == 1) {
+        if (auth()->user()->user_type == 1 || auth()->user()->user_type == 2) {
             $data['posts'] = Post::onlyTrashed()->with('category')->with('user')->get();
         }
         else{
         $data['posts'] = Post::onlyTrashed()->where('user_id', auth()->id())->with('category')->with('user')->get();
         }
 
-        //$data['posts'] = Post::onlyTrashed()->with('category')->get();
         return view('livewire.backend.post.trashed-post', compact('data'));
     }
 }

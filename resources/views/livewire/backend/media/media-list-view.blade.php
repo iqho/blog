@@ -49,7 +49,14 @@
             <div class="col-12">
                 <div class="card p-1">
                     <div class="card-header border-bottom">
+
+                        @canany(['isAdmin', 'isEditor'])
                         <a class="btn btn-outline-danger" href="{{ route('admin-panel.media') }}"><i class="fa fa-th-large me-1"></i> Grid View</a>
+                        @endcanany
+                        @can('isAuthor')
+                        <a class="btn btn-outline-danger" href="{{ route('author.media') }}"><i class="fa fa-th-large me-1"></i> Grid View</a>
+                        @endcan
+                        
                         <h1 class="card-title" style="font-size: 28px">Display All Media</h1>
                             <button class="btn btn-primary btn-lg" wire:click.prevent="cancel()" data-bs-toggle="modal" data-id="1" data-bs-target="#addMediaModal">Add New Media</button>
 

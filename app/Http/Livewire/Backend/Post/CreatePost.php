@@ -10,6 +10,7 @@ use Livewire\WithFileUploads;
 use App\Models\Admin\Category;
 use App\Models\Media;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CreatePost extends Component
 {
@@ -125,7 +126,20 @@ class CreatePost extends Component
             }
             $post->tags()->sync($tags_id);
         }
+
+            if(Gate::allows('isAdmin')){
             return redirect(route('admin-panel.all-posts'))->with('message', 'Post Created Successfully');
+            }
+            elseif(Gate::allows('isEditor')){
+            return redirect(route('admin-panel.all-posts'))->with('message', 'Post Created Successfully');
+            }
+            elseif(Gate::allows('isAuthor')){
+            return redirect(route('author.all-posts'))->with('message', 'Post Created Successfully');
+            }
+            else{
+            return redirect(route('contributor.all-posts'))->with('message', 'Post Created Successfully');
+            }
+            
 
         }
 

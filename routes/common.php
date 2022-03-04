@@ -34,6 +34,7 @@ use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 Route::get('/media', AllMedia::class)->name('media');
 Route::get('/media/list-view', AllMediaList::class)->name('media.list-view');
 Route::get('/media/trashed-media', TrashedMedia::class)->name('media.trashed');
+Route::get('/media/my-media', [AllMedia::class, 'MyMedia'])->name('media.my-media');
 
 // Post
 Route::get('/all-posts', AllPost::class)->name('all-posts');
@@ -45,6 +46,8 @@ Route::get('/post/trashed-post', TrashedPost::class)->name('trashedPost');
 Route::get('/post/create', CreatePost::class)->name('post-create');
 Route::post('/post/store', [CreatePost::class, 'storePost'])->name('post-store');
 Route::post('/post/image-upload', [CreatePost::class, 'imageUpload'])->name('ck.upload');
+
+Route::get('/my-posts', [AllPost::class, 'MyPost'])->name('my-posts');
 
 // Tag
 Route::get('/tag/json', [AllTag::class, 'jsonTag'])->name('tag-json'); // Get Taglist in CreatePost Page

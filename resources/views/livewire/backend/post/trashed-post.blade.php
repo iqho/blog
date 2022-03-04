@@ -35,58 +35,43 @@
                                     <td><a href="{{ route('post.single-post', [$post->category->slug, $post->slug]) }}" target="_blank">{{ $post->title }}</a>
                                     </td>
                                     <td>{{ $post->slug }}</td>
-                                    <td>{{ $post->image }}</td>
+                                    <td>
+                                    @if ($post->featured_image)
+                                    <img src="{{ asset('storage/post-images/'.$post->featured_image) }}" alt="{{ $post->title }}"
+                                        style="width: 40px; height:35px">
+                                    @endif
+                                    </td>
                                     <td>{{ $post->category->name }}</td>
                                     <td>{{ $post->user->name }}</td>
                                     <td>
-                                        <div class="d-inline-flex">
-                                            <a class="pe-1 dropdown-toggle hide-arrow text-primary"
-                                                data-bs-toggle="dropdown">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="feather feather-more-vertical font-small-4">
-                                                    <circle cx="12" cy="12" r="1"></circle>
-                                                    <circle cx="12" cy="5" r="1"></circle>
-                                                    <circle cx="12" cy="19" r="1"></circle>
-                                                </svg>
-                                            </a>
-                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                        <a href="#" class="dropdown-item"
-                                                            onclick="confirm('Confirm Restore this Post ?') || event.stopImmediatePropagation()"
+                                        @canany(['isAdmin', 'isEditor', 'isAuthor'])
+                                            <div class="d-inline-flex">
+                                                <a class="p-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><i class="fas fa-sliders-h"></i></a>
+                                                <div class="dropdown-menu dropdown-menu-end">
+                                                        <a href="#" class="dropdown-item" onclick="confirm('Confirm Restore this Post ?') || event.stopImmediatePropagation()"
                                                             wire:click.prevent="restorePost({{ $post->id }})">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                                                 class="feather feather-archive me-50 font-small-4">
                                                                 <polyline points="21 8 21 21 3 21 3 8"></polyline>
                                                                 <rect x="1" y="3" width="22" height="5"></rect>
                                                                 <line x1="10" y1="12" x2="14" y2="12"></line>
                                                             </svg>Restore Post</a>
-
-                                                        <a href="#" class="dropdown-item delete-record"
-                                                            onclick="confirm('Confirm ! You Want to Delete This Post Parmanently ?') || event.stopImmediatePropagation()"
-                                                            wire:click.prevent="parmanentDelete({{ $post->id }})">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                                class="feather feather-trash-2 me-50 font-small-4">
-                                                                <polyline points="3 6 5 6 21 6"></polyline>
-                                                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                                                <line x1="10" y1="11" x2="10" y2="17"></line>
-                                                                <line x1="14" y1="11" x2="14" y2="17"></line>
-                                                            </svg>Parmanent Delete</a>
-                                                    </div>
-                                        </div>
-                                        <a target="_blank"href="{{ route('post.single-post', [$post->category->slug, $post->slug]) }}" class="item-edit">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-edit font-small-4">
-                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7">
-                                                </path>
-                                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
-                                                </path>
-                                            </svg>
-                                        </a>
+                                            
+                                                    <a href="#" class="dropdown-item"
+                                                        onclick="confirm('Confirm Delete This Post Parmanently ?') || event.stopImmediatePropagation()"
+                                                        wire:click.prevent="parmanentDelete({{ $post->id }})">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                            class="feather feather-trash-2 me-50 font-small-4">
+                                                            <polyline points="3 6 5 6 21 6"></polyline>
+                                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                        </svg>Parmanent Delete</a>
+                                                </div>
+                                            </div>
+                                        @endcanany
                                     </td>
                                 </tr>
                                 @endforeach

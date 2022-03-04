@@ -19,8 +19,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const ADMIN = '/backend/admin-panel/dashboard';
     public const EDITOR = '/backend/admin-panel/dashboard';
-    public const AUTHOR = '/backend/admin-panel/dashboard';
-    public const CONTRIBUTOR = '/backend/admin-panel/dashboard';
+    public const AUTHOR = '/backend/author/dashboard';
+    public const CONTRIBUTOR = '/backend/contributor/dashboard';
     public const HOME = '/backend/user/dashboard';
 
     /**
@@ -57,7 +57,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/admin.php'));
 
-            Route::middleware('web', 'auth:sanctum', 'verified', 'can:isCommon')
+            Route::middleware('web', 'auth:sanctum', 'verified', 'is_admin_editor')
                 ->prefix('backend/admin-panel')
                 ->as('admin-panel.')
                 ->namespace($this->namespace)
