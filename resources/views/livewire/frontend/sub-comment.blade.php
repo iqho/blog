@@ -14,19 +14,24 @@
                                 </div>
                                 <div class="d-flex flex-row fs-12">
                                     <div class="like p-2 cursor"><i class="fa-solid fa-thumbs-up"></i><span class="ms-1">Like</span></div>
-                                    <div class="like p-2 cursor"><a class="showreply" id="{{ $comment->id }}"><i class="fa-solid fa-reply"></i><span class="ms-1">Reply</span></a></div>
+                                    @if ($post->allow_comments == 1)
+                                    <div class="like p-2 cursor">
+                                        <a class="showreply" id="{{ $comment->id }}"><i class="fa-solid fa-reply"></i><span class="ms-1">Reply</span></a>
+                                    </div>
+                                    @endif
                                     <div style="display: none" id="copyname{{ $comment->id }}">{{ '@' }}{{ $comment->user->name }}</div>
                                 </div>
                             </div>
                         </div>
                         @auth
+                        
                         <div class="p-2 comment-reply-box{{ $comment->id }} commenter-avatar ms-5" style="display: none">
+                            @if ($post->allow_comments == 1)
                             <form method="post" action="{{ route('comments.store')}}" style="width: 100%">
                                 @csrf
                                 <div class="d-flex flex-row align-items-start">
                                 <img class="rounded-circle" title="{{ Auth::user()->name }}" src="{{ Auth::user()->profile_photo_url }}
                                 " width="40" height="35">
-
                                 <div class="comment-textarea-triangle w-100 ms-2 p-1">
                                 <textarea class="form-control ms-1 shadow-none textarea border-0 p-0" id="comment_body{{ $comment->id }}" name="comment_body" placeholder="Write Your Comment Here" rows="3"></textarea>
                                 <input type="hidden" name="post_id" value="{{ $post_id }}" />
@@ -38,6 +43,10 @@
                                     <a class="btn btn-outline-primary btn-sm ml-1 shadow-none closereply" id="{{ $comment->id }}" type="button">Cancel</a>
                                 </div>
                             </form>
+                            @else
+                            <div class="p-2 w-100">Commenting off by Author</h6></div>
+                            <a class="btn btn-outline-primary btn-sm ml-1 shadow-none closereply" id="{{ $comment->id }}" type="button">Hide</a>
+                            @endif
                         </div>
                         @else
                         <div class="p-2 comment-reply-box{{ $comment->id }} commenter-avatar ms-5" style="display: none"><h6>Please <a href="{{ url('/login') }}">Login</a> first for write a new comments</h6><a class="btn btn-outline-primary btn-sm ml-1 shadow-none closereply" id="{{ $comment->id }}" type="button">Cancel</a></div>

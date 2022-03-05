@@ -1,5 +1,6 @@
 <div>
   @section('title', $post->title)
+  @push('page-css')
   <style>
     .form-label {
       font-size: 16px;
@@ -85,8 +86,6 @@
       background-color: #428bca;
     }
   </style>
-
-  @push('page-css')
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css"
     rel="stylesheet" />
   <link rel="stylesheet" href="{{ asset('backend/assets/ckeditor/styles.css') }}">
@@ -217,7 +216,7 @@
                     <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse"
                       data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
                       aria-controls="panelsStayOpen-collapseOne">
-                      Status & visibility
+                      Status & Visibility
                     </button>
                   </h2>
                   <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show border border-gray"
@@ -249,33 +248,24 @@
 
                           @canany(['isAdmin', 'isEditor', 'isAuthor'])
                             <hr style="margin-top: 0px; margin: 8px;" />
-                            <div class="col-12">
                               Select Publish Status:
-                              <div class="row custom-options-checkable g-0" style="margin-top: 5px">
-                                <div class="col-md-6" style="margin:0px; padding: 2px">
-                                  <input class="custom-option-item-check" type="radio" name="publish_status" id="customOptionsCheckableRadios1"
+                              <div class="row g-0 btn-group w-100" role="group" style="margin-top: 5px">
+                                  <input class="btn-check" type="radio" name="publish_status" id="customOptionsCheckableRadios1"
                                     value="1" wire:model="publish_status">
-                                  <label class="custom-option-item text-center" for="customOptionsCheckableRadios1" style="padding: 6px">Publish
+                                  <label class="btn btn-outline-success text-center col-4" for="customOptionsCheckableRadios1" style="padding: 12px 0px; cursor: pointer;">Publish
                                   </label>
-                                </div>
-                                <div class="col-md-6" style="margin:0px; padding: 2px">
-                                  <input class="custom-option-item-check" type="radio" name="publish_status" id="customOptionsCheckableRadios2"
+                                  <input class="btn-check" type="radio" name="publish_status" id="customOptionsCheckableRadios2"
                                     value="2" wire:model="publish_status">
-                                  <label class="custom-option-item text-center" for="customOptionsCheckableRadios2" style="padding: 6px">
+                                  <label class="btn btn-outline-dark text-center col-3" for="customOptionsCheckableRadios2" style="padding: 12px 0px; cursor: pointer;">
                                     Draft
                                   </label>
-                                </div>
-                                <div class="col-md-6" style="margin:0px; padding: 2px">
-                                  <input class="custom-option-item-check" type="radio" name="publish_status" id="customOptionsCheckableRadios3"
+                                  <input class="btn-check" type="radio" name="publish_status" id="customOptionsCheckableRadios3"
                                     value="0" wire:model="publish_status">
-                                  <label class="custom-option-item text-center" for="customOptionsCheckableRadios3" style="padding: 6px">
+                                  <label class="btn btn-outline-danger text-center col-5" for="customOptionsCheckableRadios3" style="padding: 12px 0px; cursor: pointer;">
                                     Pending
                                   </label>
                                 </div>
-                              </div>
-                            </div>
                           @endcanany
-
                       </div>
                     </div>
                   </div>

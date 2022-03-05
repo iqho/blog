@@ -74,7 +74,7 @@ class AllPost extends Component
     public function render()
     {
         if (auth()->user()->user_type == 1 || auth()->user()->user_type == 2) {
-            $data['posts'] = Post::with('category')->with('user')->get();
+            $data['posts'] = Post::with('category')->with('user')->orderBy('id', 'desc')->get();
         }
         else{
         $data['posts'] = Post::where('user_id', auth()->id())->with('category')->with('user')->get();
@@ -86,6 +86,19 @@ class AllPost extends Component
     {
         $data['posts'] = Post::where('user_id', auth()->id())->with('category')->with('user')->get();
         return view('livewire.backend.post.my-post', compact('data'));
+    }
+
+    public function updateStatus($id)
+    {
+        $posts = Post::findOrFail($id);
+        if($posts->publish_status == 0){
+            $posts->publish_status = 1;
+        } 
+        else {
+            $posts->publish_status = 0;
+        }
+        $posts->save();
+        session()->flash('message', 'Post Publish Status Successfully Updated !');
     }
 
 }

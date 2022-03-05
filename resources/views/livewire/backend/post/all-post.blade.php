@@ -7,16 +7,15 @@
                     <div class="card-header border-bottom">
                         <div class="row w-100">
                             <div class="col-6"><h1 class="card-title" style="font-size: 28px">Display All Post</h1></div>
-
                             @canany(['isAdmin', 'isEditor'])
                             <div class="col-6"><a class="btn btn-primary" href="{{ route('admin-panel.post-create') }}">Create New Post</a></div>
                             @endcanany
                             @can('isAuthor')
                             <div class="col-6"><a class="btn btn-primary" href="{{ route('author.post-create') }}">Create New Post</a></div>
-                            @else
+                            @endcan
+                            @can('isContributor')
                             <div class="col-6"><a class="btn btn-primary" href="{{ route('contributor.post-create') }}">Create New Post</a></div>
                             @endcan
-
                         </div>
 
                     </div>
@@ -30,21 +29,21 @@
                         <table id="postsTable" class="table table-bordered table-hover dt-responsive" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th class="min-mobile">#</th>
+                                    <th class="min-mobile text-center">#</th>
                                     <th class="min-mobile">Title</th>
                                     <th class="not-mobile">Slug</th>
-                                    <th class="not-mobile no-sort">Image</th>
+                                    <th class="not-mobile no-sort text-center">Image</th>
                                     <th class="not-mobile">Category</th>
-                                    <th class="not-mobile">Author</th>
-                                    <th class="not-mobile">P_Status</th>
-                                    <th class="not-mobile no-sort">Action</th>
+                                    <th class="not-mobile text-center">Author</th>
+                                    <th class="not-mobile text-center">Publish Status</th>
+                                    <th class="not-mobile no-sort text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @php $i = 1; @endphp
+                                @php $i = $data['posts']->count(); @endphp
                                 @foreach ($data['posts'] as $post)
                                     <tr>
-                                        <td>{{ $i++ }}</td>
+                                        <td class="text-center">{{ $i-- }}</td>
                                         <td><a href="{{ route('post.single-post', [$post->category->slug, $post->slug]) }}" target="_blank">{{ $post->title }}</a></td>
                                         <td>{{ $post->slug }}</td>
                                         <td style="padding: 0px; text-align:center">
@@ -54,20 +53,30 @@
                                             @endif
                                         </td>
                                         <td>{{ $post->category->name }}</td>
-                                        <td>
+                                        <td class="text-center">
                                             @if(!empty($post->user->name))
                                             {{ $post->user->name }}
                                             @else
                                                 Post Author Not Found !
                                             @endif
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             @if ($post->publish_status == 0)
+                                            @canany(['isAdmin', 'isEditor'])
+                                            <button wire:click="updateStatus({{ $post->id }})" class="btn btn-danger">Pending</button>
+                                            @endcanany
+                                            @canany(['isAuthor', 'isContributor'])
                                             <button class="btn btn-danger">Pending</button>
+                                            @endcanany
                                             @elseif($post->publish_status == 2)
                                             <button class="btn btn-secondary">Draft</button>
                                             @else
+                                            @canany(['isAdmin', 'isEditor'])
+                                            <button wire:click="updateStatus({{ $post->id }})" class="btn btn-success">Publish</button>
+                                            @endcanany
+                                            @canany(['isAuthor', 'isContributor'])
                                             <button class="btn btn-success">Publish</button>
+                                            @endcanany
                                             @endif
                                         </td>
                                         <td>
@@ -109,7 +118,7 @@
                                                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                                                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                                                 </svg>
-                                            </a>                                           
+                                            </a>
                                             @endcan
                                             @can('isContributor')
                                             <a href="{{ route('contributor.edit-post', $post->id) }}" class="item-edit">
@@ -118,8 +127,8 @@
                                                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                                                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                                                 </svg>
-                                            </a>  
-                                           @endcan 
+                                            </a>
+                                           @endcan
 
                                         </td>
                                     </tr>
@@ -133,7 +142,7 @@
                                     <th class="not-mobile no-sort">Image</th>
                                     <th class="not-mobile">Category</th>
                                     <th class="not-mobile">Author</th>
-                                    <th class="not-mobile">P_Status</th>
+                                    <th class="not-mobile">Publish Status</th>
                                     <th class="not-mobile no-sort">Action</th>
                                 </tr>
                             </tfoot>
@@ -149,7 +158,7 @@
 <script>
     $(document).ready(function() {
     $('#postsTable').DataTable( {
-        "order": [[ 0, "desc" ]],
+        "order": [0,'desc'],
         "pageLength": 25,
         "columnDefs": [ {
         "targets" : 'no-sort',

@@ -35,6 +35,7 @@
         <div class="flex-row g-0 border-top border-gray p-2 text-left px-md-3" style="font-size:17px; font-weight: 600;">
             <div class="col mt-1 px-3">
                 @auth
+                @if ($post->allow_comments == 1)
                 <div class="col mt-3">
                     <h5 class="w-100 p-2 g-0 ps-4 ms-3">Write New Comment</h5>
                     <form method="post" action="{{ route('comments.store')}}" style="width: 100%">
@@ -52,6 +53,9 @@
                         </div>
                     </form>
                 </div>
+                @else
+                <div class="p-2 w-100 border border-danger text-center">Commenting off by Author</h6></div>
+                @endif
                 @else
                 <div class="p-2 ms-5"><h6>Please <a href="{{ url('/login') }}">Login</a> first for write a new comments</h6></div>
                 @endauth

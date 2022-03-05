@@ -33,12 +33,10 @@
     .twitter-typeahead .tt-hint {
         margin-bottom: 0;
     }
-
     .twitter-typeahead .tt-hint
     {
         display: none;
     }
-
     .tt-menu {
         position: absolute;
         top: 100%;
@@ -115,7 +113,6 @@
                 <form action="{{ route('contributor.post-store') }}" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
                 @endcan
                 
-
                   @csrf
                   <div class="row g-0">
                     <div class="col-md-9 shadow rounded p-1">
@@ -167,10 +164,8 @@
                           </div>
 
                           <div class="mb-1">
-                            <input type="submit" class="btn btn-primary" style="padding: 14px; margin-bottom:10px" value="Create New Post" />
-
+                            <input type="submit" class="btn btn-primary" style="padding: 14px; margin-bottom:10px" value="Create New Post"/>
                           </div>
-
 
                     </div>
                     <div class="col-md-3 ps-md-1">
@@ -196,7 +191,7 @@
                             <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                               <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                Status & visibility
+                                Status & Visibility
                               </button>
                             </h2>
                             <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show border border-gray" aria-labelledby="panelsStayOpen-headingOne">
@@ -218,31 +213,25 @@
                                             <div class="col-sm-12 g-0 mt-1">
                                             <label class="form-input-label" style="margin-bottom: 5px;" for="post_order">Enter Post
                                                 Order Number</label>
-                                            <input type="number" class="form-control" name="post_order" id="post_order">
+                                            <input type="number" class="form-control" name="post_order" id="post_order" value="1">
                                             </div>
                                         </div>
 
                                         @canany(['isAdmin', 'isEditor', 'isAuthor'])
                                         <hr style="margin-top: 0px; margin: 8px;"/>
-                                        <div class="col-12">
                                             Select Publish Status:
-                                            <div class="row custom-options-checkable g-0" style="margin-top: 5px">
-                                                <div class="col-md-6" style="margin:0px; padding: 2px">
-                                                  <input class="custom-option-item-check" type="radio" name="publish_status"
-                                                    id="customOptionsCheckableRadios1" value="1" checked>
-                                                  <label class="custom-option-item text-center" for="customOptionsCheckableRadios1" style="padding: 6px">Publish
-                                                  </label>
-                                                </div>
-                                                <div class="col-md-6" style="margin:0px; padding: 2px">
-                                                  <input class="custom-option-item-check" type="radio" name="publish_status"  id="customOptionsCheckableRadios2" value="2">
-                                                  <label class="custom-option-item text-center" for="customOptionsCheckableRadios2" style="padding: 6px">
-                                                    Draft
-                                                  </label>
-                                                </div>
-                                              </div>
-                                        </div>
+                                            <div class="row g-0 btn-group w-100" role="group" style="margin-top: 5px">
+                                                <input class="btn-check" type="radio" name="publish_status" id="publish_status"
+                                                  value="1" checked>
+                                                <label class="btn btn-outline-success text-center col-4" for="publish_status" style="padding: 12px 0px; cursor: pointer;">Publish
+                                                </label>
+                                                <input class="btn-check" type="radio" name="publish_status" id="publish_status2"
+                                                  value="2">
+                                                <label class="btn btn-outline-dark text-center col-3" for="publish_status2" style="padding: 12px 0px; cursor: pointer;">
+                                                  Draft
+                                                </label>
+                                            </div>
                                         @endcanany
-
                                       </div>
                                 </div>
                             </div>
