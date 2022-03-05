@@ -30,7 +30,7 @@ class EditPost extends Component
         $this->post_order = $post->post_order;
         $this->allow_comments = $post->allow_comments;
         $this->featured_image = $post->featured_image;
-       if (auth()->user()->user_type == 1) {
+       if (auth()->user()->user_type == 1 || auth()->user()->user_type == 2) {
         return $this->post = $post;
         }
        elseif(auth()->id() == $post->user->id){
@@ -74,7 +74,7 @@ class EditPost extends Component
                  'short_description' => ['required', 'string', 'min:2', 'max:500'],
                  'description' => 'required',
                  'meta_description' => ['required', 'string', 'min:2', 'max:500'],
-                 'publish_status' => ['required','boolean'],
+                // 'publish_status' => ['required','boolean'],
                  'featured_image' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
                  'category_id' => 'required|numeric',
                  'tags' => 'required',

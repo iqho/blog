@@ -23,7 +23,7 @@ class SearchPage extends Component
     public function render()
     {
         $keyword = $this->searchTerm;
-        $posts = Post::where(function ($sub_query) {
+        $posts = Post::where('publish_status', 1)->where(function ($sub_query) {
             $sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
         })->orderBy('id', 'desc')->paginate(20);
         return view('livewire.frontend.search-page', compact('posts', 'keyword'))->layout('layouts.app');

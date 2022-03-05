@@ -16,7 +16,7 @@ class MostPopular extends Component
 
     public function render()
     {
-        $posts = Post::where(function ($sub_query) {$sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
+        $posts = Post::where('publish_status', 1)->where(function ($sub_query) {$sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
         })->orderBy('views', 'desc')->paginate(25);
         return view('livewire.frontend.most-popular', compact('posts'))->layout('layouts.app');
     }

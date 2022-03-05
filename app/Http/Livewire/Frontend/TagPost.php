@@ -29,7 +29,7 @@ class TagPost extends Component
         if($tag){
             $tag_name = $tag->title;
         // $get_post_id = PostTag::where('tag_id', $tag->id)->get();
-            $posts = Post::whereHas('tags', function($query) use ($tag_name) {$query->whereTitle($tag_name);})->where(function ($sub_query) {
+            $posts = Post::where('publish_status', 1)->whereHas('tags', function($query) use ($tag_name) {$query->whereTitle($tag_name);})->where(function ($sub_query) {
                 $sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
             })->orderBy('id', 'desc')->paginate(10);  
         }else{

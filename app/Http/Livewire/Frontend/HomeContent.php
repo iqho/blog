@@ -16,10 +16,10 @@ class HomeContent extends Component
 
     public function render()
     {
-        $posts = Post::where(function ($sub_query) {$sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
+        $posts = Post::where('publish_status', 1)->where(function ($sub_query) {$sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
         })->orderBy('id', 'desc')->paginate(25);
-        $recentPost = Post::latest()->get()->take(10);
-        $stickyPost = Post::orderBy('id','DESC')->where('is_sticky','1')->get()->take(5);
+        $recentPost = Post::where('publish_status', 1)->latest()->get()->take(10);
+        $stickyPost = Post::where('publish_status', 1)->orderBy('id','DESC')->where('is_sticky','1')->get()->take(5);
         return view('livewire.frontend.home-content', compact('posts', 'recentPost', 'stickyPost',))->layout('layouts.app');
     }
 

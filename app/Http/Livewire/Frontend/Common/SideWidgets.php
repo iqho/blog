@@ -15,8 +15,8 @@ class SideWidgets extends Component
 
        $rightWidgets = SideWidget::orderBy('reorder', 'asc')->where('position','right')->get();
 
-       $recentPost = Post::orderBy('id', 'desc')->get()->take(20);
-       $mostView = Post::orderBy('views', 'desc')->get()->take(20);
+       $recentPost = Post::where('publish_status', 1)->orderBy('id', 'desc')->get()->take(20);
+       $mostView = Post::where('publish_status', 1)->orderBy('views', 'desc')->get()->take(20);
        $categories = Category::where('parent_id', null)->with('posts')->orderBy('id', 'desc')->get();
 
     //    $popular_author = User::with('posts')->withCount('posts')->has('posts', '>=', 5)->orderByDesc('posts_count')

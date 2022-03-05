@@ -28,7 +28,7 @@ class AuthorPost extends Component
     $author = User::where('id', $this->newid)->first();
     if($author){
     $author_name = $author->name;
-    $posts = Post::where('user_id', $this->newid)->where(function ($sub_query) {
+    $posts = Post::where('publish_status', 1)->where('user_id', $this->newid)->where(function ($sub_query) {
                  $sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
             })->orderBy('id', 'desc')->paginate(10);
     }

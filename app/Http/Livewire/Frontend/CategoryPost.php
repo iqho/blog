@@ -32,7 +32,7 @@ class CategoryPost extends Component
         if($check_category){
             $this->pageMode = false;
             $cat_name = $check_category->name;
-            $posts = Post::where('category_id', $check_category->id)->where(function ($sub_query) {
+            $posts = Post::where('publish_status', 1)->where('category_id', $check_category->id)->where(function ($sub_query) {
                 $sub_query->where('title', 'like', '%' . $this->searchTerm . '%');
             })->orderBy('id', 'desc')->paginate(10);
         return view('livewire.frontend.category-post', compact('posts', 'cat_name'))->layout('layouts.app');

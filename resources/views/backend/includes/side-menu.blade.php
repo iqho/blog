@@ -155,7 +155,7 @@
                 
                 <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fas fa-icons"></i><span
                             class="menu-title text-truncate" data-i18n="Page Layouts">Media</span><span
-                            class="badge badge-light-danger rounded-pill ms-auto me-1">2</span></a>
+                            class="badge badge-light-danger rounded-pill ms-auto me-1">3</span></a>
                     <ul class="menu-content">
                         @if(Route::is('admin-panel.media.list-view') )
                         <li class="@if(Route::is('admin-panel.media.list-view') ) active @endif nav-item">

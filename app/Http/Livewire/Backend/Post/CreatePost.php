@@ -75,7 +75,7 @@ class CreatePost extends Component
                  'short_description' => ['required', 'string', 'min:2', 'max:500'],
                  'description' => 'required',
                  'meta_description' => ['required', 'string', 'min:2', 'max:500'],
-                 'publish_status' => ['required','boolean'],
+                 //'publish_status' => ['required','boolean'],
                  'featured_image' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
                  'category_id' => 'required|numeric',
                  'tags' => 'required',
@@ -101,8 +101,16 @@ class CreatePost extends Component
             $post->description = $request->description;
             $post->meta_description = $request->meta_description;
             $post->category_id = $request->category_id;
-            $post->publish_status = $request->publish_status;
+        
+            if (auth()->user()->user_type == 1 || auth()->user()->user_type == 2 || auth()->user()->user_type == 3) {
+            $post->publish_status = $request->publish_status ? $request->publish_status : 2;
             $post->is_sticky = $request->is_sticky ? $request->is_sticky : 0;
+            }
+            else{
+            $post->publish_status = 0;
+            $post->is_sticky =  0;
+            }
+
             $post->post_order = $request->post_order ? $request->post_order : 0;
             $post->allow_comments = $request->allow_comments ? $request->allow_comments : 0;
             $post->featured_image = $newImageName;

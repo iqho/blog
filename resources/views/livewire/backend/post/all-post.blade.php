@@ -36,6 +36,7 @@
                                     <th class="not-mobile no-sort">Image</th>
                                     <th class="not-mobile">Category</th>
                                     <th class="not-mobile">Author</th>
+                                    <th class="not-mobile">P_Status</th>
                                     <th class="not-mobile no-sort">Action</th>
                                 </tr>
                             </thead>
@@ -59,7 +60,16 @@
                                             @else
                                                 Post Author Not Found !
                                             @endif
-                                            </td>
+                                        </td>
+                                        <td>
+                                            @if ($post->publish_status == 0)
+                                            <button class="btn btn-danger">Pending</button>
+                                            @elseif($post->publish_status == 2)
+                                            <button class="btn btn-secondary">Draft</button>
+                                            @else
+                                            <button class="btn btn-success">Publish</button>
+                                            @endif
+                                        </td>
                                         <td>
                                             @canany(['isAdmin', 'isEditor', 'isAuthor'])
                                             <div class="d-inline-flex">
@@ -100,7 +110,8 @@
                                                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                                                 </svg>
                                             </a>                                           
-                                            @else
+                                            @endcan
+                                            @can('isContributor')
                                             <a href="{{ route('contributor.edit-post', $post->id) }}" class="item-edit">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4">
@@ -108,7 +119,7 @@
                                                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                                                 </svg>
                                             </a>  
-                                            @endcan
+                                           @endcan 
 
                                         </td>
                                     </tr>
@@ -122,6 +133,7 @@
                                     <th class="not-mobile no-sort">Image</th>
                                     <th class="not-mobile">Category</th>
                                     <th class="not-mobile">Author</th>
+                                    <th class="not-mobile">P_Status</th>
                                     <th class="not-mobile no-sort">Action</th>
                                 </tr>
                             </tfoot>

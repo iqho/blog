@@ -12,15 +12,13 @@ class TrashedPost extends Component
     public function restorePost($id)
     {
         if (auth()->user()->user_type == 1 || auth()->user()->user_type == 2) {
-            $post = Post::findOrFail($id);
-            $post->restore();
+            Post::onlyTrashed()->findOrFail($id)->restore();
         } elseif (auth()->user()->user_type == 0) {
             return redirect(route('contributor.all-posts'))->with('message', 'You have no permission to Delete Post');
         } elseif (auth()->user()->user_type == 4) {
             return redirect(route('contributor.all-posts'))->with('message', 'You have no permission to Delete Post');
         } else {
-            $post = Post::where('user_id', auth()->id())->findOrFail($id);
-            $post->restore();
+            Post::onlyTrashed()->where('user_id', auth()->id())->findOrFail($id)->restore();
         }
 
         if (Gate::allows('isAdmin')) {
@@ -36,7 +34,7 @@ class TrashedPost extends Component
     {
 
         if (auth()->user()->user_type == 1 || auth()->user()->user_type == 2) {
-            $post = Post::findOrFail($id);
+            $post = Post::onlyTrashed()->findOrFail($id);
             File::delete([public_path('storage/post-images/' . $post->featured_image)]);
             $post->forceDelete();
         } 
@@ -47,7 +45,7 @@ class TrashedPost extends Component
             return redirect(route('contributor.all-posts'))->with('message', 'You have no permission to Delete Post');
         } 
         else {
-            $post = Post::where('user_id', auth()->id())->findOrFail($id);
+            $post = Post::onlyTrashed()->where('user_id', auth()->id())->findOrFail($id);
             File::delete([public_path('storage/post-images/' . $post->featured_image)]);
             $post->forceDelete();
         }

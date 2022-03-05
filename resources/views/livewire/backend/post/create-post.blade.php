@@ -203,10 +203,14 @@
                                 <div class="accordion-body">
                                       <div class="form-group">
                                         <div class="row g-0 mt-1">
+
+                                          @canany(['isAdmin', 'isEditor'])
                                             <div class="form-check form-check-success col-sm-12 g-0">
                                             <input type="checkbox" class="form-check-input" name="is_sticky" value="1" id="is_sticky">
                                             <label class="form-check-label" for="isStiky">Is Stiky</label>
                                             </div>
+                                          @endcanany
+
                                             <div class="form-check form-check-danger col-sm-12 mt-1 g-0" style="margin-bottom: 5px">
                                             <input type="checkbox" class="form-check-input" name="allow_comments" value="1" id="allow_comments" checked>
                                             <label class="form-check-label" for="allow_comments">Allow Comments</label>
@@ -217,6 +221,8 @@
                                             <input type="number" class="form-control" name="post_order" id="post_order">
                                             </div>
                                         </div>
+
+                                        @canany(['isAdmin', 'isEditor', 'isAuthor'])
                                         <hr style="margin-top: 0px; margin: 8px;"/>
                                         <div class="col-12">
                                             Select Publish Status:
@@ -228,13 +234,14 @@
                                                   </label>
                                                 </div>
                                                 <div class="col-md-6" style="margin:0px; padding: 2px">
-                                                  <input class="custom-option-item-check" type="radio" name="publish_status"  id="customOptionsCheckableRadios2" value="0">
+                                                  <input class="custom-option-item-check" type="radio" name="publish_status"  id="customOptionsCheckableRadios2" value="2">
                                                   <label class="custom-option-item text-center" for="customOptionsCheckableRadios2" style="padding: 6px">
                                                     Draft
                                                   </label>
                                                 </div>
                                               </div>
                                         </div>
+                                        @endcanany
 
                                       </div>
                                 </div>

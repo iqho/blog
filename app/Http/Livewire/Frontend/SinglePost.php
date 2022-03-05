@@ -16,17 +16,18 @@ class SinglePost extends Component
 
     public function mount($slug)
     {
-        $post_slug_exist = Post::where('slug', $slug)->first();
-        if (!$post_slug_exist) {
-            return abort(404);
-        } else {
+        $post_slug_exist = Post::where('slug', $slug)->where('publish_status', 1)->first();
+        if ($post_slug_exist) {
             $pid = $post_slug_exist->id;
             if (!(Session::get('id') == $pid)) {
                 Post::where('id', $pid)->increment('views');
                 Session::put('id', $pid);
             }
-            return [$this->post = Post::where('slug', $slug)->with('comments')->with('category')->first(), $this->post_id = $pid];
-        }
+            return [$this->post = Post::where('slug', $slug)->where('publish_status', 1)->with('comments')->with('category')->first(), $this->post_id = $pid];           
+        } 
+        else {   
+        return abort(404);   
+    }
 
     }
 
