@@ -262,7 +262,7 @@
                     <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse"
                       data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
                       aria-controls="panelsStayOpen-collapseThree">
-                      Post Tags and Meta Tags
+                      Post Tags
                     </button>
                   </h2>
                   <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show border border-gray"

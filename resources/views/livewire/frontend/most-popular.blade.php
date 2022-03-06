@@ -8,6 +8,9 @@
     </nav>
     <!-- Nested row for all blog posts-->
     <div class="row g-0">
+        <div class="col-12 mb-2">
+            <h3 class="w-100 text-center g-0">All Most Popular Post</h3>
+            </div>
         <div class="col-12 mb-4">
             <input class="form-control form-control-lg" type="text" wire:model="searchTerm"
                 placeholder="Enter Post Title for Live Search" />

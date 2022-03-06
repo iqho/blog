@@ -32,7 +32,6 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultstringLength(191);
         Paginator::useBootstrap();
 
-
         Gate::define('isAdmin', function($user) {
             return $user->user_type == '1';
          });
@@ -52,8 +51,6 @@ class AppServiceProvider extends ServiceProvider
          Gate::define('isCommon', function($user) {
             return $user->user_type != '0';
          });
-
-
 
          $navPage = Page::where('is_nav', 1)->orderBy('page_order','asc')->get()->take(5);
         View::share('navPage', $navPage);

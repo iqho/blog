@@ -14,7 +14,7 @@
     height: 10px!important;
     border-radius: 50%;
   }
-.carousel-caption {
+/* .carousel-caption {
       background:linear-gradient(0deg,rgba(0,0,0,0.8) 0%,rgba(0,0,0,.2) 100%);
       left:0;
       right:0;
@@ -22,7 +22,7 @@
       padding:10px;
       text-align:center;
       border-radius: 5%;
-    }
+    } */
 
 .side-widget-cat ul {
   columns: 2;

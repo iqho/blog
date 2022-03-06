@@ -153,7 +153,7 @@
                               </div>
 
                               <div class="mb-1">
-                                <input type="submit" class="btn btn-primary" style="padding: 14px; margin-bottom:10px" value="Create New Post" />
+                                <input type="submit" class="btn btn-primary" style="padding: 14px; margin-bottom:10px" value="Create New Page" />
 
                               </div>
 
@@ -209,19 +209,16 @@
                                             <hr style="margin-top: 0px; margin: 8px;"/>
                                             <div class="col-12">
                                                 Select Publish Status:
-                                                <div class="row custom-options-checkable g-0" style="margin-top: 5px">
-                                                    <div class="col-md-6" style="margin:0px; padding: 2px">
-                                                      <input class="custom-option-item-check" type="radio" name="publish_status"
-                                                        id="customOptionsCheckableRadios1" value="1" checked>
-                                                      <label class="custom-option-item text-center" for="customOptionsCheckableRadios1" style="padding: 6px">Publish
-                                                      </label>
-                                                    </div>
-                                                    <div class="col-md-6" style="margin:0px; padding: 2px">
-                                                      <input class="custom-option-item-check" type="radio" name="publish_status"  id="customOptionsCheckableRadios2" value="0">
-                                                      <label class="custom-option-item text-center" for="customOptionsCheckableRadios2" style="padding: 6px">
-                                                        Draft
-                                                      </label>
-                                                    </div>
+                                                <div class="row g-0 btn-group w-100" role="group" style="margin-top: 5px">
+                                                        <input class="btn-check" type="radio" name="publish_status" id="publish_status"
+                                                        value="1" checked>
+                                                        <label class="btn btn-outline-success text-center col-4" for="publish_status" style="padding: 12px 0px; cursor: pointer;">Publish
+                                                        </label>
+                                                      <input class="btn-check" type="radio" name="publish_status" id="publish_status2"
+                                                      value="0">
+                                                    <label class="btn btn-outline-dark text-center col-3" for="publish_status2" style="padding: 12px 0px; cursor: pointer;">
+                                                      Draft
+                                                    </label>
                                                   </div>
                                             </div>
 
@@ -235,7 +232,7 @@
                                   <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
                                     aria-controls="panelsStayOpen-collapseThree">
-                                    Post Tags and Meta Tags
+                                    Post Tags
                                   </button>
                                 </h2>
                                 <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show border border-gray"
